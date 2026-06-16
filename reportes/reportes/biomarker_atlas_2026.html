@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biomarker Atlas | Rocío del Río</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,600&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #0a0b10;
+            --neon-lime: #d4ff3a;
+            --neon-teal: #3defd6;
+            --neon-violet: #b794ff;
+            --neon-coral: #ff6b5b;
+            --neon-amber: #ffb547;
+        }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: #e2e8f0;
+            font-family: 'Inter Tight', sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+        }
+
+        .font-display { font-family: 'Fraunces', serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Auroras */
+        .aurora {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.4;
+            z-index: -1;
+            animation: aurora-drift 20s ease-in-out infinite alternate;
+        }
+        .aurora-1 { width: 600px; height: 600px; background: var(--neon-lime); top: -10%; left: -10%; }
+        .aurora-2 { width: 500px; height: 500px; background: var(--neon-teal); bottom: 10%; right: -5%; animation-delay: -5s; }
+        .aurora-3 { width: 400px; height: 400px; background: var(--neon-violet); top: 40%; left: 30%; animation-delay: -10s; }
+
+        @keyframes aurora-drift {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, 40px) scale(1.1); }
+        }
+
+        /* Particles */
+        .particle {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            animation: float-up linear infinite;
+        }
+        @keyframes float-up {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
+
+        /* Grain Overlay */
+        .grain {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            mix-blend-mode: overlay;
+        }
+
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Molecule Animations */
+        .mol-rotate { animation: mol-rotate 40s linear infinite; }
+        .mol-rotate-slow { animation: mol-rotate 80s linear infinite; }
+        .mol-pulse { animation: mol-pulse 3s ease-in-out infinite; }
+        .mol-wiggle { animation: mol-wiggle 6s ease-in-out infinite; }
+        
+        @keyframes mol-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes mol-pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.05); opacity: 1; } }
+        @keyframes mol-wiggle { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--neon-teal); }
+
+        .gauge-circle { transition: stroke-dashoffset 1.5s ease-out; }
+        .check-item:checked + label { text-decoration: line-through; color: #64748b; }
+        .check-item:checked + label::before { background-color: var(--neon-lime); border-color: var(--neon-lime); }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="grain"></div>
+    <div class="aurora aurora-1"></div>
+    <div class="aurora aurora-2"></div>
+    <div class="aurora aurora-3"></div>
+    <div id="particles-container"></div>
+
+    <!-- 1. HERO -->
+    <section class="min-h-screen flex flex-col justify-center px-6 md:px-20 relative reveal active">
+        <div class="font-mono text-xs tracking-[0.3em] text-gray-400 mb-4">REPORTE CLÍNICO // 09 JUN 2026</div>
+        <h1 class="font-display text-6xl md:text-8xl lg:text-9xl leading-[0.9] text-white mb-6">
+            TU MAPA<br>
+            <span class="italic" style="color: var(--neon-lime);">METABÓLICO</span><br>
+            Y CELULAR
+        </h1>
+        <div class="flex flex-wrap gap-8 mt-8 font-mono text-sm text-gray-300">
+            <div><span class="text-gray-500 block text-xs">SUJETO</span>MARIA DEL ROCIO DEL RIO</div>
+            <div><span class="text-gray-500 block text-xs">EDAD / SEXO</span>55 AÑOS / F</div>
+            <div><span class="text-gray-500 block text-xs">SCORE GLOBAL</span><span style="color: var(--neon-amber);">62 / 100</span></div>
+        </div>
+    </section>
+
+    <!-- 2. VITAL -->
+    <section class="py-20 px-6 md:px-20 border-t border-gray-800 reveal">
+        <div class="grid md:grid-cols-2 gap-16 items-center">
+            <div>
+                <h2 class="font-display text-4xl md:text-5xl mb-6">Tu cuerpo está en <em class="italic" style="color: var(--neon-coral);">alerta metabólica</em>.</h2>
+                <p class="text-gray-400 text-lg leading-relaxed mb-8">
+                    No es un fallo, es una señal. Tu perfil lipídico y tus marcadores de glucosa están conversando entre sí, indicando un patrón de resistencia a la insulina e inflamación sistémica de bajo grado. El score de 62 refleja un terreno fértil para la corrección inmediata.
+                </p>
+                <div class="flex gap-6 font-mono text-sm">
+                    <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-[#d4ff3a]"></div> 23 Óptimos</div>
+                    <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-[#ffb547]"></div> 3 Borderline</div>
+                    <div class="flex items-center gap-2"><div class="w-3 h-3 rounded-full bg-[#ff6b5b]"></div> 9 Fuera de rango</div>
+                </div>
+            </div>
+            <div class="flex justify-center">
+                <svg viewBox="0 0 200 200" class="w-64 h-64 mol-rotate-slow">
+                    <circle cx="100" cy="100" r="90" fill="none" stroke="#1e293b" stroke-width="8"/>
+                    <circle cx="100" cy="100" r="90" fill="none" stroke="url(#gradient)" stroke-width="8" stroke-dasharray="565" stroke-dashoffset="215" stroke-linecap="round" class="gauge-circle" transform="rotate(-90 100 100)"/>
+                    <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#ff6b5b"/>
+                            <stop offset="50%" stop-color="#ffb547"/>
+                            <stop offset="100%" stop-color="#d4ff3a"/>
+                        </linearGradient>
+                    </defs>
+                    <text x="100" y="90" text-anchor="middle" class="font-display text-6xl fill-white">62</text>
+                    <text x="100" y="120" text-anchor="middle" class="font-mono text-xs fill-gray-400 tracking-widest">PUNTOS</text>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. 01 SIGNALS -->
+    <section class="py-20 px-6 md:px-20 reveal">
+        <h3 class="font-mono text-xs tracking-[0.3em] text-gray-500 mb-12">01 // SEÑALES CRÍTICAS</h3>
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="bg-gray-900/50 border border-gray-800 p-8 rounded-sm border-t-4 border-t-[#ff6b5b]">
+                <div class="font-mono text-[#ff6b5b] text-xs mb-2">SEÑAL 01</div>
+                <h4 class="font-display text-2xl mb-3">Prediabetes Establecida</h4>
+                <p class="text-gray-400 text-sm leading-relaxed">Tu <strong>HbA1c está en 6.2%</strong> y la glucosa en ayunas en 110.2 mg/dL. Tu cuerpo está nadando en azúcar. El HOMA de 2.70 confirma que tu páncreas está trabajando horas extra.</p>
+            </div>
+            <div class="bg-gray-900/50 border border-gray-800 p-8 rounded-sm border-t-4 border-t-[#ffb547]">
+                <div class="font-mono text-[#ffb547] text-xs mb-2">SEÑAL 02</div>
+                <h4 class="font-display text-2xl mb-3">Dislipidemia Aterogénica</h4>
+                <p class="text-gray-400 text-sm leading-relaxed">Triglicéridos altos (229) y HDL bajo (38). Tu <strong>Índice Aterogénico es 6.0</strong>. Las partículas de LDL son pequeñas y densas, las que se adhieren a las arterias.</p>
+            </div>
+            <div class="bg-gray-900/50 border border-gray-800 p-8 rounded-sm border-t-4 border-t-[#ff6b5b]">
+                <div class="font-mono text-[#ff6b5b] text-xs mb-2">SEÑAL 03</div>
+                <h4 class="font-display text-2xl mb-3">Inflamación y Estrés Hepático</h4>
+                <p class="text-gray-400 text-sm leading-relaxed">PCR en 5.10, ALT en 50 y GGT en 48. Hay fuego de bajo grado en tu sistema. Esto, sumado a los lípidos, sugiere fuertemente un <strong>hígado graso metabólico</strong> incipiente.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. 02 VISUALIZATION -->
+    <section class="py-20 px-6 md:px-20 bg-gray-900/30 reveal">
+        <h3 class="font-mono text-xs tracking-[0.3em] text-gray-500 mb-12">02 // VISUALIZACIÓN DE DATOS</h3>
+        <div class="grid md:grid-cols-2 gap-12">
+            <div class="bg-[#0a0b10] p-6 rounded-lg border border-gray-800">
+                <h4 class="font-display text-xl mb-4 text-center">Perfil Lipídico</h4>
+                <canvas id="lipidChart"></canvas>
+            </div>
+            <div class="bg-[#0a0b10] p-6 rounded-lg border border-gray-800">
+                <h4 class="font-display text-xl mb-4 text-center">Metabolismo e Inflamación</h4>
+                <canvas id="metabolicChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. 03 BIOMARKER ATLAS -->
+    <section class="py-20 px-6 md:px-20 reveal">
+        <h3 class="font-mono text-xs tracking-[0.3em] text-gray-500 mb-12">03 // BIOMARKER ATLAS</h3>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <!-- Glucosa -->
+            <div class="bg-gray-900/40 p-6 rounded border border-gray-800 hover:border-[#ff6b5b] transition-colors">
+                <div class="font-mono text-xs text-gray-500 mb-4">GLUCOSA / HbA1c</div>
+                <div class="h-[120px] flex items-center justify-center mb-4">
+                    <svg viewBox="0 0 200 110" class="w-full h-full mol-wiggle">
+                        <path d="M60,55 L80,35 L120,35 L140,55 L120,75 L80,75 Z" fill="none" stroke="#ff6b5b" stroke-width="2"/>
+                        <circle cx="60" cy="55" r="4" fill="#ff6b5b"/>
+                        <circle cx="80" cy="35" r="4" fill="#ff6b5b"/>
+                        <circle cx="120" cy="35" r="4" fill="#ff6b5b"/>
+                        <circle cx="140" cy="55" r="4" fill="#ff6b5b"/>
+                        <circle cx="120" cy="75" r="4" fill="#ff6b5b"/>
+                        <circle cx="80" cy="75" r="4" fill="#ff6b5b"/>
+                        <text x="100" y="60" text-anchor="middle" fill="#ff6b5b" font-size="12" font-family="JetBrains Mono">O</text>
+                    </svg>
+                </div>
+                <div class="font-display text-3xl text-white mb-1">110.2 <span class="text-sm text-gray-500 font-mono">mg/dL</span></div>
+                <div class="w-full bg-gray-800 h-2 rounded-full mt-3 relative overflow-hidden">
+                    <div class="absolute inset-0 flex">
+                        <div class="w-[20%] bg-[#ff6b5b]"></div>
+                        <div class="w-[20%] bg-[#ffb547]"></div>
+                        <div class="w-[20%] bg-[#d4ff3a]"></div>
+                        <div class="w-[20%] bg-[#d4ff3a]"></div>
+                        <div class="w-[20%] bg-[#ffb547]"></div>
+                    </div>
+                    <div class="absolute top-0 bottom-0 w-1 bg-white shadow-[0_0_10px_white] animate-pulse" style="left: 65%"></div>
+                </div>
+                <p class="font-display italic text-gray-400 text-sm mt-3">Tu glucosa en ayunas ya cruza el umbral de la normalidad.</p>
+            </div>
+
+            <!-- LDL / Colesterol -->
+            <div class="bg-gray-900/40 p-6 rounded border border-gray-800 hover:border-[#ffb547] transition-colors">
+                <div class="font-mono text-xs text-gray-500 mb-4">COLESTEROL LDL</div>
+                <div class="h-[120px] flex items-center justify-center mb-4">
+                    <svg viewBox="0 0 200 110" class="w-full h-full mol-pulse">
+                        <circle cx="100" cy="55" r="35" fill="none" stroke="#ffb547" stroke-width="2" stroke-dasharray="4 4"/>
+                        <circle cx="100" cy="55" r="25" fill="rgba(255,181,71,0.2)"/>
+                        <path d="M70,55 Q100,20 130,55 Q100,90 70,55" fill="none" stroke="#ffb547" stroke-width="1.5"/>
+                    </svg>
+                </div>
+                <div class="font-display text-3xl text-white mb-1">148 <span class="text-sm text-gray-500 font-mono">mg/dL</span></div>
+                <div class="w-full bg-gray-800 h-2 rounded-full mt-3 relative overflow-hidden">
+                    <div class="absolute inset-0 flex">
+                        <div class="w-[20%] bg-[#d4ff3a]"></div>
+                        <div class="w-[20%] bg-[#d4ff3a]"></div>
+                        <div class="w-[20%] bg-[#ffb547]"></div>
+                        <div class="w-[20%] bg-[#ff6b5b]"></div>
+                        <div class="w-[20%] bg-[#ff6b5b]"></div>
+                    </div>
+                    <div class="absolute top-0 bottom-0 w-1 bg-white shadow-[0_0_10px_white] animate-pulse" style="left: 55%"></div>
+                </div>
+                <p class="font-display italic text-gray-400 text-sm mt-3">Limítrofe alto. El objetivo funcional es menor a 100.</p>
+            </div>
+
+            <!-- Triglicéridos -->
+            <div class="bg-gray-900/40 p-6 rounded border border-gray-800 hover:border-[#ff6b5b] transition-colors">
+                <div class="font-mono text-xs text-gray-500 mb-4">TRIGLICÉRIDOS</div>
+                <div class="h-[120px] flex items-center justify-center mb-4">
+                    <svg viewBox="0 0 200 110" class="w-full h-full mol-rotate-slow">
+                        <path d="M60,55 L80,45 L100,55 L80,65 Z" fill="none" stroke="#ff6b5b" stroke-width="2"/>
+                        <path d="M100,55 L130,35 L160,40" fill="none" stroke="#ff6b5b" stroke-width="1.5"/>
+                        <path d="M80,65 L110,85 L140,80" fill="none" stroke="#ff6b5b" stroke-width="1.5"/>
+                        <path d="M60,55 L50,25 L70,15" fill="none" stroke="#ff6b5b" stroke-width="1.5"/>
+                    </svg>
+                </div>
+                <div class="font-display text-3xl text-white mb-1">229 <span class="text-sm text-gray-500 font-mono">mg/dL</span></div>
+                <div class="w-full bg-gray-800 h-2 rounded-full mt-3 relative overflow-hidden">
+                    <div class="absolute inset-0 flex">
+                        <div class="w-[20%] bg-[#d4ff3a]"></div>
+                        <div class="w-[20%] bg-[#ffb547]"></div>
+                        <div class="w-[20%] bg-[#ff6b5b]"></div>
+                        <div class="w-[20%] bg-[#ff6b5b]"></div>
+                        <div class="w-[20%] bg-[#ff6b5b]"></div>
+                    </div>
+                    <div class="absolute top-0 bottom-0 w-1 bg-white shadow-[0_0_10px_white] animate-pulse" style="left: 75%"></div>
+                </div>
+                <p class="font-display italic text-gray-400 text-sm mt-3">Alto. Reflejo directo del exceso de carbohidratos refinados.</p>
+            </div>
+
+            <!-- Vitamina D -->
+            <div class="bg-gray-900/40 p-6 rounded border border-gray-800 hover:border-[#3defd6] transition-colors">
+                <div class="font-mono text-xs text-gray-500 mb-4">VITAMINA D (25-OH)</div>
+                <div class="h-[120px] flex items-center justify-center mb-4">
+                    <svg viewBox="0 0 200 110" class="w-full h-full mol-wiggle">
+                        <path d="M50,60 Q70,30 100,40 Q130,50 140,30" fill="none" stroke="#3defd6" stroke-width="2"/>
+                        <path d="M100,40 L100,80" fill="none" stroke="#3defd6" stroke-width="2"/>
+                        <circle cx="140" cy="30" r="5" fill="#3defd6" class="mol-pulse"/>
+                    </svg>
+                </div>
+                <div class="font-display text-3xl text-white mb-1">31.02 <span class="text-sm text-gray-500 font-mono">ng/mL</span></div>
+                <div class="w-full bg-gray-800 h-2 rounded-full mt-3 relative overflow-hidden">
+                    <div class="absolute inset-0 flex">
+                        <div class="w-[20%] bg-[#ff6b5b]"></div>
+                        <div class="w-[20%] bg-[#ffb547]"></div>
+                        <div class="w-[20%] bg-[#d4ff3a]"></div>
+                        <div class="w-[20%] bg-[#d4ff3a]"></div>
+                        <div class="w-[20%] bg-[#ffb547]"></div>
+                    </div>
+                    <div class="absolute top-0 bottom-0 w-1 bg-white shadow-[0_0_10px_white] animate-pulse" style="left: 45%"></div>
+                </div>
+                <p class="font-display italic text-gray-400 text-sm mt-3">Suficiente para el lab, subóptima para tu inmunidad y huesos.</p>
+            </div>
+
+            <!-- ALT / AST -->
+            <div class="bg-gray-900/40 p-6 rounded border border-gray-800 hover:border-[#ff6b5b] transition-colors">
+                <div class="font-mono text-xs text-gray-500 mb-4">ALT (TGP)</div>
+                <div class="h-[120px] flex items-center justify-center mb-4">
+                    <svg viewBox="0 0 200 110" class="w-full h-full mol-pulse">
+                        <ellipse cx="100" cy="55" rx="40" ry="30" fill="none" stroke="#ff6b5b" stroke-width="2"/>
+                        <circle cx="110" cy="50" r="6" fill="#ffb547"/>
+                        <text x="110" y="54" text-anchor="middle" fill="#0a0b10" font-size="8" font-weight="bold">PLP</text>
+                    </svg>
+                </div>
+                <div class="font-display text-3xl text-white mb-1">50 <span class="text-sm text-gray-500 font-mono">U/L</span></div>
+                <div class="w-full bg-gray-800 h-2 rounded-full mt-3 relative overflow-hidden">
+                    <div class="absolute inset-0 flex">
+                        <div class="w-[20%] bg-[#d4ff3a]"></div>
+                        <div class="w-[20%] bg-[#d4ff3a]"></div>
+                        <div class="w-[20%] bg-[#d4ff3a]"></div>
+                        <div class="w-[20%] bg-[#ffb547]"></div>
+                        <div class="w-[20%] bg-[#ff6b5b]"></div>
+                    </div>
+                    <div class="absolute top-0 bottom-0 w-1 bg-white shadow-[0_0_10px_white] animate-pulse" style="left: 85%"></div>
+                </div>
+                <p class="font-display italic text-gray-400 text-sm mt-3">Ligeramente elevada. Tu hígado está procesando exceso de grasa.</p>
+            </div>
+
+            <!-- PCR -->
+            <div class="bg-gray-900/40 p-6 rounded border border-gray-800 hover:border-[#ff6b5b] transition-colors">
+                <div class="font-mono text-xs text-gray-500 mb-4">PROTEÍNA C REACTIVA</div>
+                <div class="h-[120px] flex items-center justify-center mb-4">
+                    <svg viewBox="0 0 200 110" class="w-full h-full mol-rotate">
+                        <polygon points="100,30 120,70 80,70" fill="none" stroke="#ff6b5b" stroke-width="2"/>
+                        <polygon points="100,40 115,65 85,65" fill="rgba(255,107,91,0.3)"/>
+                    </svg>
+                </div>
+                <div class="font-display text-3xl text-white mb-1">5.10 <span class="text-sm text-gray-500 font-mono">mg/L</span></div>
+                <div class="w-full bg-gray-800 h-2 rounded-full mt-3 relative overflow-hidden">
+                    <div class="absolute inset-0 flex">
+                        <div class="w-[20%] bg-[#d4ff3a]"></div>
+                        <div class="w-[20%] bg-[#ffb547]"></div>
+                        <div class="w-[20%] bg-[#ff6b5b]"></div>
+                        <div class="w-[20%] bg-[#ff6b5b]"></div>
+                        <div class="w-[20%] bg-[#ff6b5b]"></div>
+                    </div>
+                    <div class="absolute top-0 bottom-0 w-1 bg-white shadow-[0_0_10px_white] animate-pulse" style="left: 70%"></div>
+                </div>
+                <p class="font-display italic text-gray-400 text-sm mt-3">Inflamación sistémica activa. El fuego debe apagarse.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 6. 04 PROTOCOL -->
+    <section class="py-20 px-6 md:px-20 bg-gray-900/30 reveal">
+        <h3 class="font-mono text-xs tracking-[0.3em] text-gray-500 mb-12">04 // PROTOCOLO DE INTERVENCIÓN</h3>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="group relative p-8 border border-gray-800 rounded-sm hover:bg-gray-800/50 transition-all cursor-default">
+                <div class="font-display text-[140px] leading-none italic absolute -top-10 -left-4 text-[#d4ff3a] opacity-20 group-hover:opacity-40 transition-opacity">1</div>
+                <h4 class="font-display text-2xl text-white mb-4 relative z-10">Ayuno de Carbohidratos Refinados</h4>
+                <p class="text-gray-400 text-sm relative z-10">Elimina harinas blancas, azúcares y jugos. Tu HbA1c de 6.2% no negocia. Cada gramo de azúcar añadido es leña para el fuego inflamatorio de tu hígado.</p>
+            </div>
+            <div class="group relative p-8 border border-gray-800 rounded-sm hover:bg-gray-800/50 transition-all cursor-default">
+                <div class="font-display text-[140px] leading-none italic absolute -top-10 -left-4 text-[#d4ff3a] opacity-20 group-hover:opacity-40 transition-opacity">2</div>
+                <h4 class="font-display text-2xl text-white mb-4 relative z-10">La Regla de los 15 Minutos</h4>
+                <p class="text-gray-400 text-sm relative z-10">Caminata obligatoria de 15 minutos después de comer. Esto activa la captación de glucosa independiente de la insulina, bajando tu pico post-prandial y protegiendo tus arterias.</p>
+            </div>
+            <div class="group relative p-8 border border-gray-800 rounded-sm hover:bg-gray-800/50 transition-all cursor-default">
+                <div class="font-display text-[140px] leading-none italic absolute -top-10 -left-4 text-[#d4ff3a] opacity-20 group-hover:opacity-40 transition-opacity">3</div>
+                <h4 class="font-display text-2xl text-white mb-4 relative z-10">Apoyo Hepático y Antiinflamatorio</h4>
+                <p class="text-gray-400 text-sm relative z-10">Omega-3 de alta pureza (2g/día) para bajar triglicéridos y PCR. Magnesio Glicinato por la noche para mejorar la sensibilidad a la insulina y el sueño.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. 05 PLAN -->
+    <section class="py-20 px-6 md:px-20 reveal">
+        <h3 class="font-mono text-xs tracking-[0.3em] text-gray-500 mb-12">05 // PLAN DE ACCIÓN INTEGRAL</h3>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-gray-900/50 p-6 rounded border border-gray-800">
+                <div class="w-10 h-10 rounded-full bg-[#d4ff3a]/20 flex items-center justify-center mb-4 text-[#d4ff3a]">🥑</div>
+                <h4 class="font-display text-xl mb-3">ALIMENTACIÓN</h4>
+                <ul class="font-mono text-xs text-gray-400 space-y-2 list-decimal list-inside">
+                    <li>Proteína en cada comida (30g mínimo).</li>
+                    <li>Fibra: 2 tazas de vegetales verdes al día.</li>
+                    <li>Grasas: Aguacate, aceite de oliva, nueces.</li>
+                    <li>Cero bebidas azucaradas o alcohol entre semana.</li>
+                </ul>
+            </div>
+            <div class="bg-gray-900/50 p-6 rounded border border-gray-800">
+                <div class="w-10 h-10 rounded-full bg-[#3defd6]/20 flex items-center justify-center mb-4 text-[#3defd6]">🏃‍♀️</div>
+                <h4 class="font-display text-xl mb-3">MOVIMIENTO</h4>
+                <ul class="font-mono text-xs text-gray-400 space-y-2 list-decimal list-inside">
+                    <li>Caminata post-prandial (15 min).</li>
+                    <li>Fuerza: 3x/semana (pesas o bandas).</li>
+                    <li>NEAT: 8,000 pasos diarios como piso, no techo.</li>
+                </ul>
+            </div>
+            <div class="bg-gray-900/50 p-6 rounded border border-gray-800">
+                <div class="w-10 h-10 rounded-full bg-[#b794ff]/20 flex items-center justify-center mb-4 text-[#b794ff]">🌙</div>
+                <h4 class="font-display text-xl mb-3">SUEÑO Y RECUPERACIÓN</h4>
+                <ul class="font-mono text-xs text-gray-400 space-y-2 list-decimal list-inside">
+                    <li>7-8 horas de sueño ininterrumpido.</li>
+                    <li>Pantallas fuera 1 hora antes de dormir.</li>
+                    <li>Habitación fresca (18-20°C) y oscura.</li>
+                </ul>
+            </div>
+            <div class="bg-gray-900/50 p-6 rounded border border-gray-800">
+                <div class="w-10 h-10 rounded-full bg-[#ff6b5b]/20 flex items-center justify-center mb-4 text-[#ff6b5b]">💊</div>
+                <h4 class="font-display text-xl mb-3">SUPLEMENTACIÓN</h4>
+                <ul class="font-mono text-xs text-gray-400 space-y-2 list-decimal list-inside">
+                    <li>Vitamina D3 + K2: 2000-4000 UI/día.</li>
+                    <li>Omega-3 (EPA/DHA): 2000 mg/día.</li>
+                    <li>Magnesio Glicinato: 200-400 mg antes de dormir.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. 06 WEEKLY RITUAL -->
+    <section class="py-20 px-6 md:px-20 bg-gray-900/30 reveal">
+        <h3 class="font-mono text-xs tracking-[0.3em] text-gray-500 mb-12">06 // RITUAL SEMANAL</h3>
+        <div class="grid grid-cols-2 md:grid-cols-7 gap-4 font-mono text-xs">
+            <div class="bg-gray-900 p-4 rounded border border-gray-800">
+                <div class="text-[#d4ff3a] mb-2">LUN</div>
+                <div class="text-gray-400">Fuerza 30m<br>Caminata post-comida</div>
+            </div>
+            <div class="bg-gray-900 p-4 rounded border border-gray-800">
+                <div class="text-[#d4ff3a] mb-2">MAR</div>
+                <div class="text-gray-400">Caminata 45m<br>Omega-3 + D3</div>
+            </div>
+            <div class="bg-gray-900 p-4 rounded border border-gray-800">
+                <div class="text-[#d4ff3a] mb-2">MIÉ</div>
+                <div class="text-gray-400">Fuerza 30m<br>Caminata post-comida</div>
+            </div>
+            <div class="bg-gray-900 p-4 rounded border border-gray-800">
+                <div class="text-[#d4ff3a] mb-2">JUE</div>
+                <div class="text-gray-400">Movilidad/Yoga 20m<br>Preparación de comidas</div>
+            </div>
+            <div class="bg-gray-900 p-4 rounded border border-gray-800">
+                <div class="text-[#d4ff3a] mb-2">VIE</div>
+                <div class="text-gray-400">Fuerza 30m<br>Caminata post-comida</div>
+            </div>
+            <div class="bg-gray-900 p-4 rounded border border-gray-800">
+                <div class="text-[#3defd6] mb-2">SÁB</div>
+                <div class="text-gray-400">Actividad al aire libre<br>Comida social consciente</div>
+            </div>
+            <div class="bg-gray-900 p-4 rounded border border-gray-800">
+                <div class="text-[#3defd6] mb-2">DOM</div>
+                <div class="text-gray-400">Descanso activo<br>Preparación semanal (Meal prep)</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. 07 EXECUTION -->
+    <section class="py-20 px-6 md:px-20 reveal">
+        <h3 class="font-mono text-xs tracking-[0.3em] text-gray-500 mb-12">07 // CHECKLIST DE EJECUCIÓN</h3>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div>
+                <h4 class="font-display text-xl mb-4 text-[#d4ff3a]">7 DÍAS</h4>
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3"><input type="checkbox" class="check-item w-4 h-4 rounded border-gray-600 bg-gray-800 text-[#d4ff3a] focus:ring-0"><label class="text-sm text-gray-300 cursor-pointer">Eliminar azúcar añadida y harinas blancas.</label></div>
+                    <div class="flex items-center gap-3"><input type="checkbox" class="check-item w-4 h-4 rounded border-gray-600 bg-gray-800 text-[#d4ff3a] focus:ring-0"><label class="text-sm text-gray-300 cursor-pointer">Caminar 15 min después de cada comida.</label></div>
+                    <div class="flex items-center gap-3"><input type="checkbox" class="check-item w-4 h-4 rounded border-gray-600 bg-gray-800 text-[#d4ff3a] focus:ring-0"><label class="text-sm text-gray-300 cursor-pointer">Comprar Omega-3 y Magnesio.</label></div>
+                </div>
+            </div>
+            <div>
+                <h4 class="font-display text-xl mb-4 text-[#3defd6]">30 DÍAS</h4>
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3"><input type="checkbox" class="check-item w-4 h-4 rounded border-gray-600 bg-gray-800 text-[#3defd6] focus:ring-0"><label class="text-sm text-gray-300 cursor-pointer">Establecer rutina de 3 días de fuerza.</label></div>
+                    <div class="flex items-center gap-3"><input type="checkbox" class="check-item w-4 h-4 rounded border-gray-600 bg-gray-800 text-[#3defd6] focus:ring-0"><label class="text-sm text-gray-300 cursor-pointer">Alcanzar 8,000 pasos diarios consistentemente.</label></div>
+                    <div class="flex items-center gap-3"><input type="checkbox" class="check-item w-4 h-4 rounded border-gray-600 bg-gray-800 text-[#3defd6] focus:ring-0"><label class="text-sm text-gray-300 cursor-pointer">Revisar síntomas de energía y digestión.</label></div>
+                </div>
+            </div>
+            <div>
+                <h4 class="font-display text-xl mb-4 text-[#b794ff]">90 DÍAS</h4>
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3"><input type="checkbox" class="check-item w-4 h-4 rounded border-gray-600 bg-gray-800 text-[#b794ff] focus:ring-0"><label class="text-sm text-gray-300 cursor-pointer">Repetir panel: HbA1c, Perfil Lipídico, PCR.</label></div>
+                    <div class="flex items-center gap-3"><input type="checkbox" class="check-item w-4 h-4 rounded border-gray-600 bg-gray-800 text-[#b794ff] focus:ring-0"><label class="text-sm text-gray-300 cursor-pointer">Objetivo: HbA1c < 5.7%, Triglicéridos < 150.</label></div>
+                    <div class="flex items-center gap-3"><input type="checkbox" class="check-item w-4 h-4 rounded border-gray-600 bg-gray-800 text-[#b794ff] focus:ring-0"><label class="text-sm text-gray-300 cursor-pointer">Ajustar suplementación con médico.</label></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. 08 NEXT PANEL -->
+    <section class="py-20 px-6 md:px-20 bg-gray-900/30 reveal">
+        <h3 class="font-mono text-xs tracking-[0.3em] text-gray-500 mb-12">08 // PRÓXIMO PANEL (90 DÍAS)</h3>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-sm">
+            <div class="p-4 border border-gray-800 rounded text-gray-300">TSH y T4 Libre (Descartar hipotiroidismo subclínico)</div>
+            <div class="p-4 border border-gray-800 rounded text-gray-300">Ferritina y Hierro (Reserva real, no solo saturación)</div>
+            <div class="p-4 border border-gray-800 rounded text-gray-300">Ultrasonido Hepático (Evaluar esteatosis / hígado graso)</div>
+            <div class="p-4 border border-gray-800 rounded text-gray-300">Insulina Post-prandial (Ver respuesta real a la comida)</div>
+        </div>
+    </section>
+
+    <!-- 11. FOOTER -->
+    <footer class="py-12 px-6 md:px-20 border-t border-gray-800 text-center reveal">
+        <p class="font-display italic text-2xl text-gray-500 mb-4">"Los datos no son el destino. Son el mapa."</p>
+        <p class="font-mono text-xs text-[#ffb547] max-w-2xl mx-auto leading-relaxed">
+            DISCLAIMER: Este dashboard es una herramienta educativa y de visualización basada en los datos proporcionados. No sustituye el consejo, diagnóstico o tratamiento médico profesional. Consulta a tu médico tratante antes de iniciar cualquier protocolo de suplementación o cambio drástico en tu estilo de vida, especialmente ante marcadores inflamatorios y metabólicos alterados.
+        </p>
+    </footer>
+
+    <script>
+        // Particles Generation
+        const particlesContainer = document.getElementById('particles-container');
+        for (let i = 0; i < 30; i++) {
+            const p = document.createElement('div');
+            p.classList.add('particle');
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.width = p.style.height = Math.random() * 4 + 1 + 'px';
+            p.style.animationDuration = Math.random() * 10 + 10 + 's';
+            p.style.animationDelay = Math.random() * 5 + 's';
+            particlesContainer.appendChild(p);
+        }
+
+        // Scroll Reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Chart.js Configurations
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.font.family = 'JetBrains Mono';
+
+        // Lipid Chart
+        const ctxLipid = document.getElementById('lipidChart').getContext('2d');
+        new Chart(ctxLipid, {
+            type: 'bar',
+            data: {
+                labels: ['C. Total', 'Triglicéridos', 'HDL', 'LDL', 'No-HDL'],
+                datasets: [{
+                    label: 'Valor Actual',
+                    data: [225, 229, 38, 148, 187],
+                    backgroundColor: ['#ffb547', '#ff6b5b', '#ff6b5b', '#ffb547', '#ff6b5b'],
+                    borderRadius: 4
+                }, {
+                    label: 'Límite Óptimo',
+                    data: [200, 150, 40, 100, 130],
+                    type: 'line',
+                    borderColor: '#d4ff3a',
+                    borderDash: [5, 5],
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { grid: { color: '#1e293b' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        // Metabolic Chart
+        const ctxMetabolic = document.getElementById('metabolicChart').getContext('2d');
+        new Chart(ctxMetabolic, {
+            type: 'radar',
+            data: {
+                labels: ['Glucosa', 'HbA1c', 'PCR', 'ALT', 'Vit D'],
+                datasets: [{
+                    label: 'Perfil',
+                    data: [65, 70, 80, 60, 45], // Normalized risk score (higher = worse, except Vit D)
+                    backgroundColor: 'rgba(255, 107, 91, 0.2)',
+                    borderColor: '#ff6b5b',
+                    pointBackgroundColor: '#ff6b5b'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    r: {
+                        grid: { color: '#1e293b' },
+                        angleLines: { color: '#1e293b' },
+                        suggestedMin: 0,
+                        suggestedMax: 100
+                    }
+                },
+                plugins: { legend: { display: false } }
+            }
+        });
+    </script>
+</body>
+</html>
