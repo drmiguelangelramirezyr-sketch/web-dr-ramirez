@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Médico Mujer 360 — Laura Gutierrez Acar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #F5F1E8 0%, #E8E4D9 100%);
+            color: #3D3D3D;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #9CAF88 0%, #B8C5A6 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .header h2 {
+            font-size: 1.1em;
+            font-weight: 400;
+            opacity: 0.95;
+            margin-bottom: 20px;
+        }
+
+        .header .quote {
+            font-style: italic;
+            font-size: 1em;
+            max-width: 700px;
+            margin: 20px auto 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 10px;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 1.6em;
+            color: #9CAF88;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #D4A574;
+            font-weight: 600;
+        }
+
+        .clinical-data {
+            background: #FAF8F3;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border-left: 5px solid #D4A574;
+        }
+
+        .clinical-data h3 {
+            color: #9CAF88;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .clinical-data ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .clinical-data li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .clinical-data li:before {
+            content: "•";
+            color: #D4A574;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            font-size: 1.5em;
+            line-height: 1;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: white;
+            border: 2px solid #E8E4D9;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+
+        .card-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .card h4 {
+            color: #9CAF88;
+            font-size: 1.2em;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: #5A5A5A;
+            font-size: 0.95em;
+            line-height: 1.7;
+        }
+
+        .semaphore {
+            background: #FAF8F3;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .semaphore-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: white;
+            border-radius: 10px;
+            border-left: 5px solid;
+        }
+
+        .semaphore-green {
+            border-left-color: #7CB342;
+        }
+
+        .semaphore-yellow {
+            border-left-color: #FFB300;
+        }
+
+        .semaphore-red {
+            border-left-color: #E57373;
+        }
+
+        .semaphore-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .indicator-green {
+            background: #7CB342;
+        }
+
+        .indicator-yellow {
+            background: #FFB300;
+        }
+
+        .indicator-red {
+            background: #E57373;
+        }
+
+        .semaphore-content {
+            flex: 1;
+        }
+
+        .semaphore-content strong {
+            display: block;
+            color: #3D3D3D;
+            margin-bottom: 3px;
+        }
+
+        .semaphore-content span {
+            font-size: 0.9em;
+            color: #6A6A6A;
+        }
+
+        .lab-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .lab-card {
+            background: white;
+            border: 2px solid #E8E4D9;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .lab-card h4 {
+            color: #9CAF88;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #E8E4D9;
+        }
+
+        .lab-value {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #F5F1E8;
+        }
+
+        .lab-value:last-child {
+            border-bottom: none;
+        }
+
+        .lab-value strong {
+            color: #3D3D3D;
+        }
+
+        .lab-value span {
+            color: #6A6A6A;
+        }
+
+        .interpretation {
+            background: #E8F5E9;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-size: 0.9em;
+            color: #2E7D32;
+            border-left: 4px solid #7CB342;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border-left: 5px solid #D4A574;
+            font-size: 1.1em;
+            color: #5D4037;
+            font-style: italic;
+        }
+
+        .treatment-card {
+            background: white;
+            border: 2px solid #E8E4D9;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .treatment-card h4 {
+            color: #9CAF88;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .treatment-card h4:before {
+            content: "💊";
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        .treatment-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .treatment-card li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            border-bottom: 1px solid #F5F1E8;
+        }
+
+        .treatment-card li:last-child {
+            border-bottom: none;
+        }
+
+        .treatment-card li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #7CB342;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .action-plan {
+            background: #FAF8F3;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .timeline-item {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #9CAF88;
+        }
+
+        .timeline-item h5 {
+            color: #D4A574;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .timeline-item ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .timeline-item li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+            font-size: 0.95em;
+        }
+
+        .timeline-item li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #9CAF88;
+        }
+
+        .alert-box {
+            background: #FFEBEE;
+            border: 2px solid #E57373;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .alert-box h4 {
+            color: #C62828;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .alert-box h4:before {
+            content: "⚠️";
+            margin-right: 10px;
+            font-size: 1.3em;
+        }
+
+        .alert-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .alert-box li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #5A5A5A;
+        }
+
+        .alert-box li:before {
+            content: "•";
+            color: #E57373;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            font-size: 1.5em;
+            line-height: 1;
+        }
+
+        .closing {
+            background: linear-gradient(135deg, #9CAF88 0%, #B8C5A6 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            border-radius: 15px;
+            margin-top: 40px;
+        }
+
+        .closing .quote {
+            font-size: 1.2em;
+            font-style: italic;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            line-height: 1.8;
+        }
+
+        .signature {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .signature strong {
+            display: block;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .signature span {
+            display: block;
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+
+        .progress-bar {
+            background: #E8E4D9;
+            border-radius: 10px;
+            height: 25px;
+            margin: 10px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #9CAF88 0%, #7CB342 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-box {
+            background: white;
+            border: 2px solid #E8E4D9;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-box .value {
+            font-size: 2em;
+            color: #9CAF88;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-box .label {
+            font-size: 0.9em;
+            color: #6A6A6A;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 1.6em;
+            }
+
+            .header h2 {
+                font-size: 1em;
+            }
+
+            .content {
+                padding: 20px 15px;
+            }
+
+            .section-title {
+                font-size: 1.3em;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .lab-results {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+            }
+
+            .card:hover {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Mapa Médico Mujer 360 — Laura</h1>
+            <h2>Transición hormonal + mioma sintomático + metabolismo en reajuste</h2>
+            <div class="quote">
+                "Tu cuerpo no está fallando; está enviando señales. Vamos a ordenarlas para recuperar energía, estabilidad y bienestar."
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- Datos Clínicos Principales -->
+            <div class="section">
+                <h2 class="section-title">Datos Clínicos Principales</h2>
+                
+                <div class="clinical-data">
+                    <h3>Paciente</h3>
+                    <p><strong>Laura
+                        
+                    Gutiérrez Acar</strong> — Femenina, 49 años</p>
+                </div>
+
+                <div class="clinical-data">
+                    <h3>Motivo de Consulta</h3>
+                    <p>Dolor en fosa ilíaca izquierda de una semana de evolución, inicialmente intenso (8-10/10), con mejoría parcial a 3/10 después de ibuprofeno, aunque persiste.</p>
+                </div>
+
+                <div class="clinical-data">
+                    <h3>Síntomas Asociados</h3>
+                    <ul>
+                        <li>Estreñimiento</li>
+                        <li>Dolor lumbar</li>
+                        <li>Cansancio de varios meses</li>
+                        <li>Sensación de no descanso al despertar</li>
+                        <li>Sueño no reparador</li>
+                        <li>Resequedad vaginal</li>
+                        <li>Llanto fácil</li>
+                        <li>Irritabilidad</li>
+                        <li>Resequedad ocular</li>
+                        <li>Migraña ocasional cada 3 a 4 meses</li>
+                    </ul>
+                </div>
+
+                <div class="clinical-data">
+                    <h3>Antecedente Menstrual</h3>
+                    <ul>
+                        <li>FUR: 15 de mayo</li>
+                        <li>Amenorrea previa de aproximadamente 8 meses</li>
+                        <li>Irregularidad menstrual desde hace aproximadamente 2 años</li>
+                        <li>Uso previo de hormonales por 8 días, posterior a lo cual presentó sangrado abundante durante 8 días</li>
+                        <li>Posteriormente nuevamente amenorrea hasta el 15 de mayo</li>
+                    </ul>
+                </div>
+
+                <div class="clinical-data">
+                    <h3>Hallazgos Ginecológicos</h3>
+                    <ul>
+                        <li>Útero aumentado de tamaño y deformado</li>
+                        <li>Imagen compatible con mioma hacia fosa ilíaca izquierda</li>
+                        <li>Mioma doloroso a la palpación, coincidente con el sitio referido por la paciente</li>
+                        <li>Endometrio aproximado de 5 mm</li>
+                        <li>Anexos sin alteraciones evidentes al momento de la valoración</li>
+                        <li>Se realizó toma de Papanicolaou</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Estudios de Laboratorio -->
+            <div class="section">
+                <h2 class="section-title">Estudios de Laboratorio</h2>
+                
+                <div class="lab-results">
+                    <div class="lab-card">
+                        <h4>Biometría Hemática</h4>
+                        <div class="lab-value">
+                            <strong>Hemoglobina</strong>
+                            <span>14.9 g/dL</span>
+                        </div>
+                        <div class="lab-value">
+                            <strong>Hematocrito</strong>
+                            <span>42.4%</span>
+                        </div>
+                        <div class="lab-value">
+                            <strong>Plaquetas</strong>
+                            <span>376 mil</span>
+                        </div>
+                        <div class="lab-value">
+                            <strong>VSG</strong>
+                            <span>1 mm/h</span>
+                        </div>
+                        <div class="interpretation">
+                            No hay anemia. No hay datos de inflamación sistémica importante. El cansancio no se explica por anemia.
+                        </div>
+                    </div>
+
+                    <div class="lab-card">
+                        <h4>Tiroides</h4>
+                        <div class="lab-value">
+                            <strong>TSH</strong>
+                            <span>1.358</span>
+                        </div>
+                        <div class="lab-value">
+                            <strong>T4 libre</strong>
+                            <span>1.24</span>
+                        </div>
+                        <div class="lab-value">
+                            <strong>T3 libre</strong>
+                            <span>3.02</span>
+                        </div>
+                        <div class="lab-value">
+                            <strong>Anticuerpos antitiroideos</strong>
+                            <span>Negativos</span>
+                        </div>
+                        <div class="interpretation">
+                            La tiroides está funcionando adecuadamente. No hay hipotiroidismo que explique cansancio, estreñimiento o ánimo bajo.
+                        </div>
+                    </div>
+
+                    <div class="lab-card">
+                        <h4>Hormonas</h4>
+                        <div class="lab-value">
+                            <strong>FSH</strong>
+                            <span>2.08</span>
+                        </div>
+                        <div class="lab-value">
+                            <strong>LH</strong>
+                            <span>3.13</span>
+                        </div>
+                        <div class="lab-value">
+                            <strong>Estradiol</strong>
+                            <span>155.7 pg/mL</span>
+                        </div>
+                        <div class="interpretation">
+                            No hay menopausia establecida en este momento. Todavía existe actividad ovárica. Sin embargo, por la historia de ciclos irregulares, amenorrea prolongada y síntomas, el cuadro es compatible con transición menopáusica/perimenopausia tardía.
+                        </div>
+                    </div>
+
+                    <div class="lab-card">
+                        <h4>Metabolismo</h4>
+                        <div class="lab-value">
+                            <strong>Glucosa</strong>
+                            <span>95.9 mg/dL</span>
+                        </div>
+                        <div class="lab-value">
+                            <strong>Hemoglobina glucosilada</strong>
+                            <span>5.8%</span>
+                        </div>
+                        <div class="lab-value">
+                            <strong>Colesterol total</strong>
+                            <span>224 mg/dL</span>
+                        </div>
+                        <div class="lab-value">
+                            <strong>LDL</strong>
+                            <span>153 mg/dL</span>
+                        </div>
+                        <div class="lab-value">
+                            <strong>Triglicéridos</strong>
+                            <span>169 mg/dL</span>
+                        </div>
+                        <div class="lab-value">
+                            <strong>No-HDL</strong>
+                            <span>180 mg/dL</span>
+                        </div>
+                        <div class="lab-value">
+                            <strong>Índice aterogénico</strong>
+                            <span>5.1</span>
+                        </div>
+                        <div class="interpretation">
+                            Existe desregulación metabólica inicial: prediabetes leve y colesterol elevado. No es una emergencia, pero sí es una señal de que el cuerpo necesita intervención temprana.
+                        </div>
+                    </div>
+
+                    <div class="lab-card">
+                        <h4>Vitamina D</h4>
+                        <div class="lab-value">
+                            <strong>Vitamina D</strong>
+                            <span>18.22 ng/mL</span>
+                        </div>
+                        <div class="interpretation">
+                            Deficiencia de vitamina D. Puede contribuir a cansancio, dolor muscular, baja energía, recuperación deficiente y sensación de inflamación.
+                        </div>
+                    </div>
+
+                    <div class="lab-card">
+                        <h4>Orina</h4>
+                        <div class="interpretation">
+                            Examen general de orina sin datos claros de infección urinaria.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ultrasonido Pélvico -->
+            <div class="section">
+                <h2 class="section-title">Ultrasonido Pélvico</h2>
+                
+                <div class="clinical-data">
+                    <h3>Hallazgos</h3>
+                    <ul>
+                        <li>Útero en anteversión</li>
+                        <li>Medidas uterinas aproximadas: 4.5 cm AP × 6.0 cm transverso × 11.1 cm longitud</li>
+                        <li>Miometrio heterogéneo</li>
+                        <li>Imágenes compatibles con leiomiomas intramurales y subseroso probablemente pediculado</li>
+                        <li>Algunos miomas probablemente calcificados</li>
+                        <li>Zonas de fibrosis</li>
+                        <li>Endometrio 4.8 mm, trayecto regular</li>
+                        <li>Ovarios con imágenes anecoicas compatibles con folículos</li>
+                        <li>Sin líquido libre en cavidad pélvica</li>
+                        <li>Se sugiere resonancia magnética para adecuada caracterización</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    "El ultrasonido muestra miomas. Uno parece estar hacia el lado izquierdo y probablemente es el que está generando el dolor. Como ya dio una señal importante, necesitamos verlo con más precisión mediante resonancia magnética y planear manejo a corto plazo."
+                </div>
+            </div>
+
+            <!-- Composición Corporal -->
+            <div class="section">
+                <h2 class="section-title">Composición Corporal Accuniq</h2>
+                <p style="margin-bottom: 20px; color: #6A6A6A;">Datos del 01/06/2026</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="value">62.7</div>
+                        <div class="label">Peso (kg)</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="value">26.4</div>
+                        <div class="label">IMC</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="value">35.1%</div>
+                        <div class="label">Grasa Corporal</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="value">22.0</div>
+                        <div class="label">Grasa (kg)</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="value">22.5</div>
+                        <div class="label">Masa Muscular (kg)</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="value">81.8</div>
+                        <div class="label">Cintura (cm)</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="value">1250</div>
+                        <div class="label">BMR (kcal)</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="value">1925</div>
+                        <div class="label">Gasto Diario (kcal)</div>
+                    </div>
+                </div>
+
+                <div class="highlight-box" style="margin-top: 25px;">
+                    "Tu meta no es pesar menos; es tener mejor composición corporal."
+                </div>
+
+                <div class="clinical-data">
+                    <h3>Interpretación</h3>
+                    <p>Por IMC está en sobrepeso leve. Sin embargo, el dato más importante es que el porcentaje de grasa corporal está elevado. La masa muscular está conservada, por lo que el objetivo no es bajar peso rápidamente, sino perder grasa, conservar músculo y mejorar metabolismo.</p>
+                </div>
+            </div>
+
+            <!-- Sección 1: ¿Qué está pasando en tu cuerpo? -->
+            <div class="section">
+                <h2 class="section-title">¿Qué está pasando en tu cuerpo?</h2>
+                
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon">🌊</div>
+                        <h4>Hormonas en transición</h4>
+                        <p>Tus ovarios aún producen estradiol, pero tus ciclos ya son irregulares. Esto indica transición hormonal. Las fluctuaciones pueden alterar sueño, ánimo, energía, resequedad vaginal e irritabilidad.</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">⚡</div>
+                        <h4>Mioma doloroso</h4>
+                        <p>El dolor izquierdo coincide con un mioma que parece estar hacia esa zona. Como produjo dolor intenso, necesitamos caracterizarlo mejor y planear manejo a corto plazo.</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">⚖️</div>
+                        <h4>Metabolismo en reajuste</h4>
+                        <p>La hemoglobina glucosilada de 5.8 indica prediabetes inicial. Además, el colesterol LDL, triglicéridos y colesterol no-HDL están elevados. Esto requiere intervención temprana con alimentación, ejercicio, sueño y apoyo farmacológico temporal si se considera necesario.</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">🔋</div>
+                        <h4>Energía baja</h4>
+                        <p>No hay anemia ni hipotiroidismo. El cansancio probablemente viene de una combinación de sueño no reparador, fluctuación hormonal, vitamina D baja, dolor pélvico, estreñimiento y desregulación metabólica inicial.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección 2: Semáforo de Salud -->
+            <div class="section">
+                <h2 class="section-title">Semáforo de Salud</h2>
+                
+                <div class="semaphore">
+                    <div class="semaphore-item semaphore-green">
+                        <div class="semaphore-indicator indicator-green"></div>
+                        <div class="semaphore-content">
+                            <strong>Anemia</strong>
+                            <span>Hemoglobina normal — No requiere hierro por anemia</span>
+                        </div>
+                    </div>
+
+                    <div class="semaphore-item semaphore-green">
+                        <div class="semaphore-indicator indicator-green"></div>
+                        <div class="semaphore-content">
+                            <strong>Tiroides</strong>
+                            <span>TSH y T4 libre normales — No requiere tratamiento tiroideo</span>
+                        </div>
+                    </div>
+
+                    <div class="semaphore-item semaphore-yellow">
+                        <div class="semaphore-indicator indicator-yellow"></div>
+                        <div class="semaphore-content">
+                            <strong>Hormonas</strong>
+                            <span>Transición hormonal fluctuante — Vigilar síntomas y ciclos</span>
+                        </div>
+                    </div>
+
+                    <div class="semaphore-item semaphore-yellow">
+                        <div class="semaphore-indicator indicator-yellow"></div>
+                        <div class="semaphore-content">
+                            <strong>Vitamina D</strong>
+                            <span>Deficiencia — Corregir con vitamina D3</span>
+                        </div>
+                    </div>
+
+                    <div class="semaphore-item semaphore-yellow">
+                        <div class="semaphore-indicator indicator-yellow"></div>
+                        <div class="semaphore-content">
+                            <strong>Glucosa/HbA1c</strong>
+                            <span>Prediabetes inicial — Estilo de vida + metformina temporal</span>
+                        </div>
+                    </div>
+
+                    <div class="semaphore-item semaphore-yellow">
+                        <div class="semaphore-indicator indicator-yellow"></div>
+                        <div class="semaphore-content">
+                            <strong>Colesterol</strong>
+                            <span>LDL y triglicéridos elevados — Alimentación, ejercicio y control</span>
+                        </div>
+                    </div>
+
+                    <div class="semaphore-item semaphore-red">
+                        <div class="semaphore-indicator indicator-red"></div>
+                        <div class="semaphore-content">
+                            <strong>Mioma</strong>
+                            <span>Doloroso, probable pediculado — RM y plan quirúrgico</span>
+                        </div>
+                    </div>
+
+                    <div class="semaphore-item semaphore-yellow">
+                        <div class="semaphore-indicator indicator-yellow"></div>
+                        <div class="semaphore-content">
+                            <strong>Sueño/ánimo</strong>
+                            <span>Alteración neuroemocional — Sueño, magnesio, melatonina, seguimiento</span>
+                        </div>
+                    </div>
+
+                    <div class="semaphore-item semaphore-yellow">
+                        <div class="semaphore-indicator indicator-yellow"></div>
+                        <div class="semaphore-content">
+                            <strong>Composición corporal</strong>
+                            <span>Grasa elevada con músculo conservado — Perder grasa sin perder músculo</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección 3: Mapa Hormonal -->
+            <div class="section">
+                <h2 class="section-title">Mapa Hormonal</h2>
+                
+                <div class="highlight-box">
+                    "No estás en menopausia definitiva: estás en transición"
+                </div>
+
+                <div class="clinical-data">
+                    <h3>Lo que muestran tus análisis</h3>
+                    <ul>
+                        <li>Tus análisis muestran estradiol presente</li>
+                        <li>FSH y LH no están elevadas</li>
+                        <li>Esto significa que todavía hay actividad ovárica</li>
+                        <li>Pero tu historia menstrual muestra ciclos irregulares y amenorrea prolongada</li>
+                        <li>En esta etapa las hormonas no bajan de forma lineal: fluctúan</li>
+                        <li>Esa fluctuación puede sentirse como cambios de ánimo, cansancio, irritabilidad, resequedad vaginal y sueño superficial</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box" style="background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%); border-left-color: #7CB342; color: #2E7D32;">
+                    Estrógeno variable → sueño irregular → irritabilidad → cansancio → más sensibilidad al dolor
+                </div>
+            </div>
+
+            <!-- Sección 4: Mioma Doloroso -->
+            <div class="section">
+                <h2 class="section-title">Mioma Doloroso y Decisión Quirúrgica</h2>
+                
+                <div class="highlight-box">
+                    "El mioma ya está dando señales"
+                </div>
+
+                <div class="clinical-data">
+                    <h3>Explicación</h3>
+                    <p>El mioma probablemente pediculado hacia el lado izquierdo coincide con el sitio del dolor. Al mejorar con ibuprofeno, puede existir un componente inflamatorio. Sin embargo, por la intensidad del dolor, se debe descartar degeneración, torsión parcial o compromiso del pedículo.</p>
+                </div>
+
+                <div class="clinical-data">
+                    <h3>Acción</h3>
+                    <ul>
+                        <li>Solicitar resonancia magnética pélvica con contraste, protocolo ginecológico</li>
+                        <li>Valorar miomectomía o histerectomía según resultado, deseo reproductivo, persistencia del dolor y características anatómicas</li>
+                        <li>No iniciar terapia hormonal sistémica hasta aclarar sangrado, mioma y actualizar mastografía</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    "No significa que haya algo maligno. Significa que el mioma dejó de ser silencioso y ahora está pidiendo una decisión."
+                </div>
+            </div>
+
+            <!-- Sección 5: Evolución de Masa Corporal -->
+            <div class="section">
+                <h2 class="section-title">Peso, Grasa y Músculo: La Lectura Real</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="value">62.7 kg</div>
+                        <div class="label">Peso actual</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="value">26.4</div>
+                        <div class="label">IMC</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="value">35.1%</div>
+                        <div class="label">Porcentaje de grasa</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="value">22.5 kg</div>
+                        <div class="label">Masa muscular</div>
+                    </div>
+                </div>
+
+                <div class="highlight-box" style="margin-top: 25px;">
+                    "El objetivo no es castigar al cuerpo: es enseñarle a usar mejor la energía."
+                </div>
+
+                <div class="clinical-data">
+                    <h3>Meta inicial de 8 semanas</h3>
+                    <ul>
+                        <li>Bajar 2.5 a 3 kg de grasa</li>
+                        <li>Mantener masa muscular</li>
+                        <li>Mejorar sueño</li>
+                        <li>Mejorar energía</li>
+                        <li>Reducir inflamación</li>
+                        <li>Mejorar HbA1c y lípidos</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Sección 6: Tratamiento Inicial -->
+            <div class="section">
+                <h2 class="section-title">Tratamiento Inicial Propuesto</h2>
+                
+                <div class="treatment-card">
+                    <h4>Vitamina D</h4>
+                    <ul>
+                        <li>Vitamina D3 4000 UI al día por 8 a 12 semanas</li>
+                        <li>Después ajustar mantenimiento según nuevo nivel</li>
+                        <li>Repetir vitamina D en 3 meses</li>
+                    </ul>
+                </div>
+
+                <div class="treatment-card">
+                    <h4>Metformina</h4>
+                    <ul>
+                        <li>Metformina XR 500 mg con la cena por 2 meses</li>
+                        <li>Objetivo: mejorar sensibilidad a la insulina y ayudar a corregir desregulación metabólica inicial</li>
+                        <li>Vigilar tolerancia digestiva</li>
+                        <li>No es tratamiento "para bajar de peso" como tal; es apoyo metabólico temporal</li>
+                    </ul>
+                </div>
+
+                <div class="treatment-card">
+                    <h4>Sueño</h4>
+                    <ul>
+                        <li>Magnesio glicinato 200–300 mg por la noche</li>
+                        <li>Melatonina 0.5–1 mg, 60–90 minutos antes de dormir</li>
+                        <li>Evitar dosis altas inicialmente</li>
+                    </ul>
+                </div>
+
+                <div class="treatment-card">
+                    <h4>Dolor</h4>
+                    <ul>
+                        <li>AINE por pocos días si no hay contraindicación</li>
+                        <li>Tomar con alimento</li>
+                        <li>No automedicar de forma prolongada</li>
+                    </ul>
+                </div>
+
+                <div class="treatment-card">
+                    <h4>Resequedad Vaginal</h4>
+                    <ul>
+                        <li>Hidratante vaginal no hormonal 2–3 veces por semana</li>
+                        <li>Lubricante en relaciones</li>
+                        <li>Valorar terapia local después de aclarar sangrado y actualizar estudios</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Sección 7: Plan de Estilo de Vida -->
+            <div class="section">
+                <h2 class="section-title">Plan de Estilo de Vida</h2>
+                
+                <div class="clinical-data">
+                    <h3>Alimentación — Método Plato</h3>
+                    <p style="margin-bottom: 15px;">½ plato: verduras | ¼ plato: proteína | ¼ plato: carbohidrato inteligente</p>
+                    
+                    <p><strong>Priorizar:</strong></p>
+                    <ul>
+                        <li>Huevo, pescado, pollo</li>
+                        <li>Yogur griego sin azúcar</li>
+                        <li>Leguminosas</li>
+                        <li>Verduras y fruta entera</li>
+                        <li>Aguacate y aceite de oliva</li>
+                        <li>Nueces y semillas</li>
+                    </ul>
+
+                    <p style="margin-top: 15px;"><strong>Reducir:</strong></p>
+                    <ul>
+                        <li>Pan dulce, galletas, postres</li>
+                        <li>Jugos y refrescos</li>
+                        <li>Alcohol</li>
+                        <li>Harinas refinadas</li>
+                        <li>Cenas pesadas</li>
+                    </ul>
+
+                    <p style="margin-top: 15px;"><strong>Objetivo nutricional inicial:</strong></p>
+                    <ul>
+                        <li>1400–1600 kcal/día aproximadamente</li>
+                        <li>Proteína 90–100 g/día</li>
+                        <li>Fibra 25–30 g/día</li>
+                        <li>Agua 1.8–2.2 L/día</li>
+                    </ul>
+                </div>
+
+                <div class="clinical-data">
+                    <h3>Ejercicio</h3>
+                    <p><strong>Mientras persista dolor pélvico:</strong></p>
+                    <ul>
+                        <li>Caminar 20–30 minutos al día si tolera</li>
+                        <li>Evitar impacto</li>
+                        <li>Evitar abdominales intensos</li>
+                        <li>Evitar cargas pesadas o maniobras de Valsalva</li>
+                    </ul>
+
+                    <p style="margin-top: 15px;"><strong>Después de controlar dolor y definir imagen:</strong></p>
+                    <ul>
+                        <li>Fuerza 3 veces por semana</li>
+                        <li>Cardio zona 2: 150 minutos por semana</li>
+                    </ul>
+                </div>
+
+                <div class="clinical-data">
+                    <h3>Sueño</h3>
+                    <ul>
+                        <li>Luz solar por la mañana</li>
+                        <li>Café solo antes del mediodía</li>
+                        <li>Cena ligera</li>
+                        <li>Pantallas fuera 60 minutos antes de dormir</li>
+                        <li>Respiración lenta 5 minutos antes de dormir</li>
+                        <li>Horario regular para dormir y despertar</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Sección 8: Plan de Acción -->
+            <div class="section">
+                <h2 class="section-title">Plan de Acción de 8 Semanas</h2>
+                
+                <div class="action-plan">
+                    <div class="timeline-item">
+                        <h5>Semana 1–2</h5>
+                        <ul>
+                            <li>Realizar resonancia magnética pélvica con contraste</li>
+                            <li>Actualizar mastografía</li>
+                            <li>Iniciar vitamina D3</li>
+                            <li>Iniciar metformina XR 500 mg con cena</li>
+                            <li>Iniciar magnesio glicinato nocturno</li>
+                            <li>Melatonina dosis baja</li>
+                            <li>Manejo de estreñimiento</li>
+                            <li>Vigilar dolor</li>
+                        </ul>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h5>Semana 3–4</h5>
+                        <ul>
+                            <li>Revisar resultado de resonancia</li>
+                            <li>Revisar tolerancia a metformina</li>
+                            <li>Revisar evolución del dolor</li>
+                            <li>Definir si requiere cirugía a corto plazo</li>
+                            <li>Reforzar plan de alimentación y sueño</li>
+                        </ul>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h5>Semana 5–8</h5>
+                        <ul>
+                            <li>Plan quirúrgico si el mioma confirma datos de degeneración, torsión, crecimiento o dolor persistente</li>
+                            <li>Intensificar ejercicio de fuerza si el dolor lo permite</li>
+                            <li>Revalorar sueño, ánimo, energía y resequedad vaginal</li>
+                            <li>Valorar terapia hormonal local o sistémica solo si ya se aclaró sangrado, mama y miomatosis</li>
+                        </ul>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h5>Semana 8–12</h5>
+                        <ul>
+                            <li>Repetir vitamina D</li>
+                            <li>Repetir HbA1c si se considera conveniente en seguimiento</li>
+                            <li>Repetir perfil lipídico en 3 meses</li>
+                            <li>Revisar composición corporal nuevamente</li>
+                            <li>Ajustar plan metabólico</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección 9: Datos de Alarma -->
+            <div class="section">
+                <h2 class="section-title">Datos de Alarma</h2>
+                
+                <div class="alert-box">
+                    <h4>Acudir a urgencias si aparece:</h4>
+                    <ul>
+                        <li>Dolor pélvico intenso que no cede</li>
+                        <li>Dolor que vuelve a 8–10/10</li>
+                        <li>Fiebre</li>
+                        <li>Vómito persistente</li>
+                        <li>Mareo o desmayo</li>
+                        <li>Sangrado abundante</li>
+                        <li>Abdomen rígido</li>
+                        <li>Dolor que empeora rápidamente</li>
+                        <li>Debilidad intensa o deterioro general</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Sección 10: Cierre -->
+            <div class="closing">
+                <div class="quote">
+                    "Tu cuerpo no está fallando. Está pidiendo orden. Vamos a resolver primero el dolor y el mioma, corregir vitamina D, mejorar metabolismo y recuperar sueño, energía y estabilidad emocional."
+                </div>
+
+                <div class="signature">
+                    <strong>Dr. Miguel Ángel Ramírez y Ramírez</strong>
+                    <span>Ginecología, Climaterio y Menopausia</span>
+                    <span>Hospital Ángeles Puebla</span>
+                    <span style="margin-top: 10px; display: block;">Medicina integral de la mujer en transición hormonal, metabólica y emocional</span>
+                    <span style="margin-top: 15px; display: block; font-style: italic; opacity: 0.9;">Mujer 360 — Medicina clara, visual y accionable</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
