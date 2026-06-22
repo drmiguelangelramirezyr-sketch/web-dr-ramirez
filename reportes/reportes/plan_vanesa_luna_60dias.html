@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan de Recuperación · Vanesa Luna · Dr. Ramírez</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0b10;--surface:#10121a;--lime:#d4ff3a;--teal:#3defd6;--violet:#b794ff;--coral:#ff6b5b;--amber:#ffb547;--rose:#f472b6;--white:#f7f4ee;--muted:rgba(247,244,238,0.45);--border:rgba(247,244,238,0.08);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--white);font-family:"Inter Tight",sans-serif;overflow-x:hidden;position:relative;}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:999;mix-blend-mode:overlay;opacity:.35;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");}
+.aw{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.au{position:absolute;border-radius:50%;filter:blur(100px);opacity:.15;animation:drift 22s ease-in-out infinite;}
+.a1{width:600px;height:600px;background:#b794ff;top:-180px;left:-120px;}
+.a2{width:700px;height:500px;background:#f472b6;top:35%;right:-200px;animation-delay:-8s;}
+.a3{width:500px;height:600px;background:#3defd6;bottom:-80px;left:25%;animation-delay:-15s;}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(35px,-25px) scale(1.04);}66%{transform:translate(-28px,35px) scale(.96);}}
+.pts{position:fixed;inset:0;pointer-events:none;z-index:1;}
+.pt{position:absolute;border-radius:50%;opacity:0;animation:rise linear infinite;}
+@keyframes rise{0%{opacity:0;transform:translateY(0) scale(0);}10%{opacity:.5;}90%{opacity:.15;}100%{opacity:0;transform:translateY(-100vh) scale(1.5);}}
+.wrap{max-width:1160px;margin:0 auto;padding:0 32px;position:relative;z-index:10;}
+section{padding:80px 0;}
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .8s ease,transform .8s ease;}
+.reveal.visible{opacity:1;transform:none;}
+.sep{height:1px;background:var(--border);}
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:110px 0 80px;border-bottom:1px solid var(--border);}
+.eyebrow{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--rose);margin-bottom:30px;display:flex;align-items:center;gap:14px;}
+.eyebrow::before{content:"";display:inline-block;width:30px;height:1px;background:var(--rose);}
+.hero-title{font-family:"Fraunces",serif;font-size:clamp(52px,7.5vw,108px);font-weight:900;line-height:.95;letter-spacing:-.03em;margin-bottom:40px;}
+.acc{color:var(--rose);font-style:italic;}
+.acc2{color:var(--violet);}
+.acc3{color:var(--teal);}
+.hero-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;max-width:660px;}
+.hml{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:3px;}
+.hmv{font-family:"JetBrains Mono",monospace;font-size:13px;}
+/* VITAL */
+.vital-s{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.vital-inner{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
+.vital-h{font-family:"Fraunces",serif;font-size:clamp(26px,3vw,44px);font-weight:700;line-height:1.1;margin-bottom:16px;}
+.vital-h em{color:var(--rose);font-style:italic;}
+.area-pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;}
+.pill{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:7px 14px;border-radius:20px;border:1px solid;display:flex;align-items:center;gap:8px;}
+.pill-v{border-color:var(--violet);color:var(--violet);background:rgba(183,148,255,.08);}
+.pill-r{border-color:var(--rose);color:var(--rose);background:rgba(244,114,182,.08);}
+.pill-a{border-color:var(--amber);color:var(--amber);background:rgba(255,181,71,.08);}
+.pill-t{border-color:var(--teal);color:var(--teal);background:rgba(61,239,214,.08);}
+.pill-c{border-color:var(--coral);color:var(--coral);background:rgba(255,107,91,.08);}
+/* EY */
+.ey{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin-bottom:44px;display:flex;align-items:center;gap:16px;}
+.ey::after{content:"";flex:1;height:1px;background:var(--border);}
+/* HALLAZGOS CARDS */
+.hall-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;}
+.hcard{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:28px;position:relative;overflow:hidden;transition:transform .3s,border-color .3s;}
+.hcard:hover{transform:translateY(-4px);}
+.hcard::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;}
+.hv::before{background:var(--violet);}
+.hr::before{background:var(--rose);}
+.ha::before{background:var(--amber);}
+.ht::before{background:var(--teal);}
+.hco::before{background:var(--coral);}
+.hcard:hover{border-color:rgba(183,148,255,.25);}
+.hv:hover{border-color:rgba(183,148,255,.35);}
+.hr:hover{border-color:rgba(244,114,182,.35);}
+.ha:hover{border-color:rgba(255,181,71,.35);}
+.ht:hover{border-color:rgba(61,239,214,.35);}
+.hco:hover{border-color:rgba(255,107,91,.35);}
+.hicon{font-size:32px;margin-bottom:14px;display:block;}
+.htit{font-family:"Fraunces",serif;font-size:20px;font-weight:700;margin-bottom:6px;}
+.hsub{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:12px;}
+.hv .hsub{color:var(--violet);}.hr .hsub{color:var(--rose);}.ha .hsub{color:var(--amber);}.ht .hsub{color:var(--teal);}.hco .hsub{color:var(--coral);}
+.hbod{font-size:13px;line-height:1.7;color:var(--muted);}
+.hbod strong{color:var(--white);}
+/* TRATAMIENTOS */
+.trat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+.tcard{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:28px;display:flex;flex-direction:column;gap:16px;transition:transform .3s;}
+.tcard:hover{transform:translateY(-3px);}
+.tcard-head{display:flex;align-items:center;gap:14px;}
+.ticon{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.ti1{background:rgba(183,148,255,.12);}
+.ti2{background:rgba(212,255,58,.1);}
+.ti3{background:rgba(255,181,71,.1);}
+.ti4{background:rgba(244,114,182,.1);}
+.ti5{background:rgba(61,239,214,.1);}
+.tcard-title{font-family:"Fraunces",serif;font-size:19px;font-weight:700;}
+.tcard-label{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);}
+.tlist{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.tlist li{font-family:"JetBrains Mono",monospace;font-size:11px;line-height:1.6;color:var(--muted);display:flex;gap:9px;align-items:flex-start;}
+.tlist li::before{content:"→";color:var(--lime);flex-shrink:0;}
+.tlist li span{color:var(--white);}
+.warn-box{background:rgba(255,181,71,.06);border:1px solid rgba(255,181,71,.2);border-radius:10px;padding:14px 16px;margin-top:4px;}
+.warn-box p{font-size:12px;line-height:1.6;color:rgba(247,244,238,.65);}
+.warn-box strong{color:var(--amber);}
+/* LEVOTIROXINA SPECIAL */
+.levo-section{background:var(--surface);}
+.levo-inner{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
+.levo-title{font-family:"Fraunces",serif;font-size:clamp(28px,3.5vw,48px);font-weight:900;line-height:1.05;margin-bottom:20px;}
+.levo-title em{color:var(--violet);font-style:italic;}
+.levo-body{font-size:14px;line-height:1.8;color:var(--muted);margin-bottom:20px;}
+.levo-body strong{color:var(--white);}
+.levo-list{list-style:none;display:flex;flex-direction:column;gap:12px;margin-top:8px;}
+.levo-list li{display:flex;gap:12px;align-items:flex-start;font-size:13px;line-height:1.6;color:rgba(247,244,238,.75);}
+.levo-list li::before{content:"✓";color:var(--teal);font-weight:700;flex-shrink:0;margin-top:1px;}
+.levo-svg-wrap{display:flex;flex-direction:column;align-items:center;gap:20px;}
+/* TIMELINE 60 DÍAS */
+.timeline{display:flex;flex-direction:column;gap:0;}
+.tl-item{display:grid;grid-template-columns:80px 1fr;gap:24px;align-items:start;padding:28px 0;border-bottom:1px solid var(--border);}
+.tl-item:last-child{border-bottom:none;}
+.tl-num{font-family:"Fraunces",serif;font-size:52px;font-weight:900;font-style:italic;line-height:1;}
+.tl-1 .tl-num{color:var(--rose);}
+.tl-2 .tl-num{color:var(--violet);}
+.tl-3 .tl-num{color:var(--amber);}
+.tl-4 .tl-num{color:var(--teal);}
+.tl-5 .tl-num{color:var(--lime);}
+.tl-6 .tl-num{color:var(--coral);}
+.tl-title{font-family:"Fraunces",serif;font-size:20px;font-weight:700;margin-bottom:8px;}
+.tl-body{font-size:13px;line-height:1.7;color:var(--muted);}
+.tl-body strong{color:var(--white);}
+/* MONICA SECTION */
+.monica-card{background:var(--surface);border:1px solid rgba(61,239,214,.2);border-radius:20px;padding:48px;display:grid;grid-template-columns:1fr 280px;gap:48px;align-items:center;}
+.monica-title{font-family:"Fraunces",serif;font-size:clamp(28px,3.5vw,46px);font-weight:900;line-height:1.05;margin-bottom:18px;}
+.monica-title em{color:var(--teal);font-style:italic;}
+.monica-body{font-size:14px;line-height:1.8;color:var(--muted);margin-bottom:24px;}
+.monica-body strong{color:var(--white);}
+.monica-tags{display:flex;flex-wrap:wrap;gap:9px;}
+.mtag{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;border-radius:16px;background:rgba(61,239,214,.08);border:1px solid rgba(61,239,214,.25);color:var(--teal);}
+.monica-visual{display:flex;flex-direction:column;align-items:center;gap:16px;}
+/* PRÓXIMOS ESTUDIOS */
+.estudios-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+.ecard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;transition:border-color .3s;}
+.ecard:hover{border-color:rgba(183,148,255,.35);}
+.en{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--violet);margin-bottom:7px;}
+.er{font-size:12px;line-height:1.5;color:var(--muted);}
+/* QUOTE SECTION */
+.quote-section{text-align:center;padding:100px 0;}
+.big-quote{font-family:"Fraunces",serif;font-size:clamp(28px,4vw,56px);font-weight:300;font-style:italic;line-height:1.3;color:rgba(247,244,238,.75);max-width:860px;margin:0 auto 32px;}
+.big-quote em{color:var(--rose);font-style:italic;}
+.quote-attr{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:54px 0 72px;text-align:center;}
+.fb{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--rose);margin-bottom:18px;}
+.fd{max-width:580px;margin:0 auto;font-size:11px;line-height:1.7;color:rgba(247,244,238,.28);padding:13px;border:1px solid rgba(255,181,71,.18);border-radius:8px;background:rgba(255,181,71,.025);}
+.fdl{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);display:block;margin-bottom:6px;}
+/* ANIMS */
+.mr{animation:mrot 40s linear infinite;transform-origin:center;}
+.mrs{animation:mrot 80s linear infinite;transform-origin:center;}
+.mp{animation:mpls 3s ease-in-out infinite;}
+.mw{animation:mwgl 6s ease-in-out infinite;}
+@keyframes mrot{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+@keyframes mpls{0%,100%{opacity:.5;transform:scale(1);}50%{opacity:1;transform:scale(1.1);}}
+@keyframes mwgl{0%,100%{transform:translateX(0);}25%{transform:translateX(-4px);}75%{transform:translateX(4px);}}
+@media(max-width:768px){.vital-inner,.levo-inner,.monica-card{grid-template-columns:1fr;}.hero-meta{grid-template-columns:repeat(2,1fr);}}</style>
+</head>
+<body>
+<div class="aw"><div class="au a1"></div><div class="au a2"></div><div class="au a3"></div></div>
+<div class="pts" id="pts"></div>
+<!-- HERO -->
+<section class="hero">
+<div class="wrap">
+<div style="display:grid;grid-template-columns:1fr auto;gap:36px;align-items:center;">
+<div>
+<div class="eyebrow reveal">Dr. Miguel Ángel Ramírez y Ramírez · MUJER 360° · Plan 60 días</div>
+<h1 class="hero-title reveal">Tu cuerpo<br>no está<br><span class="acc">fallando.</span><br><span class="acc2">Está</span> <span class="acc3">pidiendo</span><br><span style="color:var(--white)">dirección.</span></h1>
+<div class="hero-meta reveal">
+<div><span class="hml">Paciente</span><span class="hmv">Vanesa Luna</span></div>
+<div><span class="hml">Edad</span><span class="hmv">50 años</span></div>
+<div><span class="hml">Programa</span><span class="hmv">60 días</span></div>
+<div><span class="hml">Áreas activas</span><span class="hmv" style="color:var(--rose);font-size:16px;font-weight:700;">5 frentes</span></div>
+</div>
+</div>
+<div style="opacity:.45;flex-shrink:0;">
+<svg width="180" height="180" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+<circle cx="100" cy="100" r="88" fill="none" stroke="rgba(183,148,255,.18)" stroke-width="1"/>
+<circle class="mrs" cx="100" cy="100" r="83" fill="none" stroke="rgba(244,114,182,.45)" stroke-width="1" stroke-dasharray="7 15"/>
+<circle class="mr" cx="100" cy="100" r="60" fill="none" stroke="rgba(61,239,214,.2)" stroke-width="1" stroke-dasharray="4 8"/>
+<text x="100" y="95" text-anchor="middle" font-family="Fraunces,serif" font-size="16" font-weight="900" fill="rgba(244,114,182,.7)" font-style="italic">MUJER</text>
+<text x="100" y="116" text-anchor="middle" font-family="Fraunces,serif" font-size="32" font-weight="900" fill="rgba(183,148,255,.85)" font-style="italic">360°</text>
+</svg>
+</div>
+</div>
+</div>
+</section>
+
+<!-- VITAL OVERVIEW -->
+<section class="vital-s">
+<div class="wrap">
+<div class="vital-inner">
+<div class="reveal">
+<h2 class="vital-h">La estrategia no es<br>apagar síntomas.<br>Es <em>reconstruir la base.</em></h2>
+<p style="font-size:14px;line-height:1.8;color:var(--muted);max-width:480px;">Tiroides, vitamina D, colesterol, tejido vaginal, sistema nervioso. Cinco frentes simultáneos. Un solo objetivo: que recuperes energía, claridad y confianza en ti misma.</p>
+<div class="area-pills" style="margin-top:24px;">
+<div class="pill pill-v">🦋 Tiroides</div>
+<div class="pill pill-r">🌸 Menopausia</div>
+<div class="pill pill-a">💛 Colesterol</div>
+<div class="pill pill-t">✨ Vitamina D</div>
+<div class="pill pill-c">🧠 Sistema nervioso</div>
+</div>
+</div>
+<div class="reveal" style="display:flex;flex-direction:column;gap:16px;">
+<!-- SVG decorativa: 5 esferas interconectadas -->
+<svg viewBox="0 0 320 320" width="320" height="320" xmlns="http://www.w3.org/2000/svg">
+<g class="mrs">
+<circle cx="160" cy="160" r="140" fill="none" stroke="rgba(183,148,255,.06)" stroke-width="1"/>
+<circle cx="160" cy="160" r="100" fill="none" stroke="rgba(244,114,182,.06)" stroke-width="1"/>
+</g>
+<!-- Connections -->
+<line x1="160" y1="50" x2="252" y2="116" stroke="rgba(183,148,255,.15)" stroke-width="1"/>
+<line x1="252" y1="116" x2="218" y2="228" stroke="rgba(244,114,182,.15)" stroke-width="1"/>
+<line x1="218" y1="228" x2="102" y2="228" stroke="rgba(255,181,71,.15)" stroke-width="1"/>
+<line x1="102" y1="228" x2="68" y2="116" stroke="rgba(61,239,214,.15)" stroke-width="1"/>
+<line x1="68" y1="116" x2="160" y2="50" stroke="rgba(255,107,91,.15)" stroke-width="1"/>
+<!-- Node: Tiroides -->
+<circle cx="160" cy="50" r="28" fill="rgba(183,148,255,.15)" stroke="var(--violet)" stroke-width="1.5" class="mp"/>
+<text x="160" y="46" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="var(--violet)">TIROIDES</text>
+<text x="160" y="58" text-anchor="middle" font-family="Fraunces,serif" font-size="10" fill="var(--white)">TSH↑</text>
+<!-- Node: Menopausia -->
+<circle cx="252" cy="116" r="28" fill="rgba(244,114,182,.12)" stroke="var(--rose)" stroke-width="1.5" class="mp" style="animation-delay:.6s"/>
+<text x="252" y="112" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="var(--rose)">MENOPAUSIA</text>
+<text x="252" y="124" text-anchor="middle" font-family="Fraunces,serif" font-size="9" fill="var(--white)">Confirmada</text>
+<!-- Node: Colesterol -->
+<circle cx="218" cy="228" r="28" fill="rgba(255,181,71,.1)" stroke="var(--amber)" stroke-width="1.5" class="mp" style="animation-delay:1.2s"/>
+<text x="218" y="224" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="var(--amber)">COLESTEROL</text>
+<text x="218" y="236" text-anchor="middle" font-family="Fraunces,serif" font-size="9" fill="var(--white)">Elevado</text>
+<!-- Node: Vit D -->
+<circle cx="102" cy="228" r="28" fill="rgba(212,255,58,.08)" stroke="var(--lime)" stroke-width="1.5" class="mp" style="animation-delay:1.8s"/>
+<text x="102" y="224" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="var(--lime)">VIT. D</text>
+<text x="102" y="236" text-anchor="middle" font-family="Fraunces,serif" font-size="9" fill="var(--white)">Baja</text>
+<!-- Node: SN -->
+<circle cx="68" cy="116" r="28" fill="rgba(61,239,214,.1)" stroke="var(--teal)" stroke-width="1.5" class="mp" style="animation-delay:2.4s"/>
+<text x="68" y="112" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="var(--teal)">SIS. NERV.</text>
+<text x="68" y="124" text-anchor="middle" font-family="Fraunces,serif" font-size="9" fill="var(--white)">Ansiedad</text>
+<!-- Center -->
+<circle cx="160" cy="160" r="22" fill="rgba(244,114,182,.12)" stroke="var(--rose)" stroke-width="1.5" class="mp" style="animation-delay:3s"/>
+<text x="160" y="156" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="var(--rose)">VANESA</text>
+<text x="160" y="168" text-anchor="middle" font-family="Fraunces,serif" font-size="8" fill="var(--white)">50 años</text>
+</svg>
+</div>
+</div>
+</div>
+</section>
+<!-- 01 HALLAZGOS -->
+<section>
+<div class="wrap">
+<div class="ey reveal">01 · Mapa de Hallazgos</div>
+<div class="hall-grid">
+
+<div class="hcard hv reveal">
+<span class="hicon">🦋</span>
+<div class="htit">Tiroides lenta</div>
+<div class="hsub">TSH elevada · Hipotiroidismo</div>
+<div class="hbod">Tu tiroides está trabajando por debajo de lo que tu cuerpo necesita. Esto puede estar detrás del <strong>cansancio, baja energía, ánimo caído, dificultad para bajar peso</strong> y esa sensación de "cuerpo apagado" que quizás conoces bien. No es falta de voluntad. Es bioquímica que se puede ordenar.</div>
+</div>
+
+<div class="hcard hr reveal">
+<span class="hicon">🌸</span>
+<div class="htit">Menopausia confirmada</div>
+<div class="hsub">Transición hormonal · Estrógeno bajo</div>
+<div class="hbod">La menopausia explica una parte importante de los cambios que estás experimentando: <strong>sueño alterado, cambios de ánimo, composición corporal diferente, resequedad y sexualidad</strong>. No es que estés fallando — es que el contexto hormonal cambió. Y con la estrategia correcta, el cuerpo responde.</div>
+</div>
+
+<div class="hcard ha reveal">
+<span class="hicon">💛</span>
+<div class="htit">Colesterol elevado</div>
+<div class="hsub">Riesgo cardiovascular · Prevención activa</div>
+<div class="hbod">El colesterol elevado no duele ni avisa. Por eso tratarlo ahora es <strong>prevención inteligente</strong> — cuidar tus arterias hoy para que tu futuro no te cobre intereses. Y esos intereses, créeme, no vienen en mensualidades cómodas.</div>
+</div>
+
+<div class="hcard ht reveal">
+<span class="hicon">☀️</span>
+<div class="htit">Vitamina D baja</div>
+<div class="hsub">Insuficiencia · Múltiples sistemas</div>
+<div class="hbod">La vitamina D no es solo para huesos. Afecta <strong>músculo, energía, sistema inmune, ánimo y equilibrio metabólico</strong>. Su deficiencia es más común de lo que parece y fácilmente corregible con suplementación dirigida.</div>
+</div>
+
+<div class="hcard hr reveal">
+<span class="hicon">🌺</span>
+<div class="htit">Atrofia vaginal moderada</div>
+<div class="hsub">Zona genitourinaria · Tratamiento local</div>
+<div class="hbod">La resequedad y adelgazamiento del tejido vaginal por menopausia pueden provocar <strong>dolor con relaciones, ardor, irritación e incomodidad</strong>. Es una consecuencia directa de la caída estrogénica — no un tema de "así es" ni algo que tengas que aguantar.</div>
+</div>
+
+<div class="hcard hco reveal">
+<span class="hicon">⚡</span>
+<div class="htit">Sistema nervioso activado</div>
+<div class="hsub">Ansiedad · Voltaje interno elevado</div>
+<div class="hbod">Tu cuerpo parece estar viviendo con demasiado "voltaje interno". No significa que seas débil — significa que tu sistema nervioso lleva demasiado tiempo trabajando como si hubiera un incendio… <strong>aunque ya no haya humo.</strong> Se puede regular. Se puede entrenar.</div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- LEVOTIROXINA SPECIAL SECTION -->
+<div class="sep"></div>
+<section class="levo-section">
+<div class="wrap">
+<div class="ey reveal">02 · Sobre la Levotiroxina</div>
+<div class="levo-inner">
+<div class="reveal">
+<h2 class="levo-title">La duda que<br>merece una respuesta <em>clara.</em></h2>
+<p class="levo-body">Sé que tenías temor de tomarla porque consultaste que podía "descalcificar". La respuesta honesta es esta: <strong>la levotiroxina bien indicada, en dosis adecuada y vigilada con análisis, no descalcifica.</strong></p>
+<p class="levo-body">El riesgo aparece cuando se toma de <em>más</em> y se acelera artificialmente la tiroides. Por eso vamos con dosis médica, seguimiento y análisis. No es una pastilla para siempre sin pensar — es un tratamiento que se evalúa, se ajusta y se vigila.</p>
+<div style="margin-top:20px;">
+<p style="font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--violet);margin-bottom:14px;">¿Por qué sí conviene tomarla?</p>
+<ul class="levo-list">
+<li>Cansancio que no cede con descanso</li>
+<li>Falta de energía a pesar de dormir</li>
+<li>Ánimo bajo sin causa aparente</li>
+<li>Sensación de pesadez corporal</li>
+<li>Dificultad para bajar peso</li>
+<li>Niebla mental y concentración difícil</li>
+<li>Mayor vulnerabilidad emocional</li>
+</ul>
+</div>
+<div class="warn-box" style="margin-top:24px;">
+<p><strong>Cómo tomarla:</strong> En ayuno · Con agua sola · Esperar 30–60 min antes de desayunar o tomar café · Separarla de calcio, hierro, magnesio, fibra y multivitamínicos por al menos <strong>4 horas.</strong></p>
+</div>
+</div>
+<div class="levo-svg-wrap reveal">
+<!-- TSH SVG - glándula tiroides estilizada -->
+<svg viewBox="0 0 280 320" width="260" height="300" xmlns="http://www.w3.org/2000/svg">
+<defs><radialGradient id="tg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(183,148,255,0.25)"/><stop offset="100%" stop-color="rgba(183,148,255,0.02)"/></radialGradient></defs>
+<!-- Thyroid lobes -->
+<g transform="translate(140,160)">
+<g class="mw">
+<!-- Left lobe -->
+<ellipse cx="-40" cy="0" rx="38" ry="55" fill="url(#tg)" stroke="var(--violet)" stroke-width="1.5"/>
+<!-- Right lobe -->
+<ellipse cx="40" cy="0" rx="38" ry="55" fill="url(#tg)" stroke="var(--violet)" stroke-width="1.5"/>
+<!-- Isthmus -->
+<rect x="-14" y="10" width="28" height="14" rx="7" fill="rgba(183,148,255,.2)" stroke="var(--violet)" stroke-width="1"/>
+<!-- Follicles left -->
+<circle cx="-40" cy="-20" r="10" fill="rgba(183,148,255,.1)" stroke="rgba(183,148,255,.4)" stroke-width="1" class="mp"/>
+<circle cx="-40" cy="10" r="8" fill="rgba(183,148,255,.1)" stroke="rgba(183,148,255,.35)" stroke-width="1" class="mp" style="animation-delay:.8s"/>
+<circle cx="-40" cy="36" r="9" fill="rgba(183,148,255,.1)" stroke="rgba(183,148,255,.35)" stroke-width="1" class="mp" style="animation-delay:1.6s"/>
+<!-- Follicles right -->
+<circle cx="40" cy="-20" r="10" fill="rgba(183,148,255,.1)" stroke="rgba(183,148,255,.4)" stroke-width="1" class="mp" style="animation-delay:.4s"/>
+<circle cx="40" cy="10" r="8" fill="rgba(183,148,255,.1)" stroke="rgba(183,148,255,.35)" stroke-width="1" class="mp" style="animation-delay:1.2s"/>
+<circle cx="40" cy="36" r="9" fill="rgba(183,148,255,.1)" stroke="rgba(183,148,255,.35)" stroke-width="1" class="mp" style="animation-delay:2s"/>
+<!-- TSH arrows from brain -->
+<line x1="0" y1="-95" x2="0" y2="-65" stroke="var(--rose)" stroke-width="2" stroke-dasharray="4 3"/>
+<circle cx="0" cy="-95" r="14" fill="rgba(244,114,182,.12)" stroke="var(--rose)" stroke-width="1" class="mp"/>
+<text x="0" y="-91" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="var(--rose)">TSH</text>
+<text x="0" y="-100" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="var(--rose)">↑</text>
+<!-- T4/T3 labels -->
+<text x="-40" y="-50" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(183,148,255,.5)">T4↓</text>
+<text x="40" y="-50" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(183,148,255,.5)">T3↓</text>
+</g>
+</g>
+<text x="140" y="290" text-anchor="middle" font-family="Fraunces,serif" font-size="13" font-style="italic" fill="rgba(183,148,255,.5)">Tiroides · Hipotiroidismo</text>
+</svg>
+<div style="background:rgba(183,148,255,.06);border:1px solid rgba(183,148,255,.2);border-radius:12px;padding:20px;max-width:240px;text-align:center;">
+<p style="font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--violet);margin-bottom:8px;">Seguimiento a 2 meses</p>
+<p style="font-size:13px;line-height:1.6;color:var(--muted);">Control de <strong style="color:var(--white)">TSH + T4 libre</strong> para ajustar dosis con precisión.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 03 TRATAMIENTOS -->
+<div class="sep"></div>
+<section>
+<div class="wrap">
+<div class="ey reveal">03 · Tratamientos Indicados</div>
+<div class="trat-grid">
+
+<div class="tcard reveal">
+<div class="tcard-head"><div class="ticon ti1">🦋</div><div><div class="tcard-label">Área A</div><div class="tcard-title">Tiroides</div></div></div>
+<ul class="tlist">
+<li><span>Iniciar levotiroxina según indicación médica</span></li>
+<li><span>En ayuno, con agua sola, antes de desayunar</span></li>
+<li><span>Esperar 30–60 min antes de café o alimentos</span></li>
+<li><span>Separar 4h de calcio, hierro, magnesio, fibra</span></li>
+</ul>
+<div class="warn-box"><p>Control con <strong>TSH + T4 libre</strong> a los 2 meses para ajuste de dosis.</p></div>
+</div>
+
+<div class="tcard reveal">
+<div class="tcard-head"><div class="ticon ti2">☀️</div><div><div class="tcard-label">Área B</div><div class="tcard-title">Vitamina D</div></div></div>
+<ul class="tlist">
+<li><span>Iniciar suplemento de vitamina D3</span></li>
+<li><span>Mejorar salud ósea y densidad mineral</span></li>
+<li><span>Apoyar músculo, energía y bienestar</span></li>
+<li><span>Fortalecer sistema inmune</span></li>
+<li><span>Contribuir al equilibrio metabólico general</span></li>
+</ul>
+<div class="warn-box"><p>Control de <strong>25-OH Vitamina D</strong> a 2 meses. Meta funcional: 40–60 ng/mL.</p></div>
+</div>
+
+<div class="tcard reveal">
+<div class="tcard-head"><div class="ticon ti3">💛</div><div><div class="tcard-label">Área C</div><div class="tcard-title">Colesterol</div></div></div>
+<ul class="tlist">
+<li><span>Iniciar medicamento para colesterol según indicación</span></li>
+<li><span>Proteger arterias, corazón y cerebro a largo plazo</span></li>
+<li><span>No es urgencia — es prevención inteligente</span></li>
+<li><span>Control de perfil lipídico + función hepática a 2 meses</span></li>
+</ul>
+<div class="warn-box"><p>La menopausia acelera el riesgo cardiovascular. Tratar el colesterol ahora es <strong>la mejor inversión a futuro.</strong></p></div>
+</div>
+
+<div class="tcard reveal">
+<div class="tcard-head"><div class="ticon ti4">🌺</div><div><div class="tcard-label">Área D</div><div class="tcard-title">Zona Vaginal</div></div></div>
+<ul class="tlist">
+<li><span>Iniciar tratamiento local para tejido vaginal</span></li>
+<li><span>Recuperar lubricación y elasticidad del tejido</span></li>
+<li><span>Reducir dolor en relaciones sexuales</span></li>
+<li><span>Aliviar ardor, irritación e incomodidad</span></li>
+<li><span>Mejorar calidad de vida sexual y comodidad diaria</span></li>
+</ul>
+<div class="warn-box"><p>La atrofia vaginal por menopausia es tratable. <strong>No hay razón para aguantarla.</strong></p></div>
+</div>
+
+<div class="tcard reveal" style="grid-column:span 1;">
+<div class="tcard-head"><div class="ticon ti5">🧠</div><div><div class="tcard-label">Área E · Ver sección especial</div><div class="tcard-title">Sistema Nervioso</div></div></div>
+<ul class="tlist">
+<li><span>Entrenamiento con Psic. Mónica Cuevas Sánchez</span></li>
+<li><span>Regular ansiedad y respuesta al estrés</span></li>
+<li><span>Mejorar calidad y arquitectura del sueño</span></li>
+<li><span>Respiración y coherencia cardíaca (HRV)</span></li>
+<li><span>Manejo de pensamientos repetitivos</span></li>
+</ul>
+<div class="warn-box"><p>Los medicamentos ayudan. Pero si el sistema nervioso sigue en <strong>modo alarma</strong>, el cuerpo sigue interpretando la vida como amenaza.</p></div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- MONICA SECTION -->
+<div class="sep"></div>
+<section>
+<div class="wrap">
+<div class="ey reveal">04 · Entrenamiento del Sistema Nervioso</div>
+<div class="monica-card reveal">
+<div>
+<h2 class="monica-title">La calma no es<br>ausencia de tensión.<br>Es una <em>habilidad</em> que<br>se entrena.</h2>
+<p class="monica-body">La ansiedad no significa que seas débil. Significa que tu sistema nervioso lleva demasiado tiempo trabajando como si hubiera un incendio… <strong>aunque ya no haya humo.</strong></p>
+<p class="monica-body">Con <strong>Psic. Mónica Cuevas Sánchez</strong> trabajarás las herramientas concretas para salir del modo alarma y recuperar la sensación de calma y seguridad interna.</p>
+<div class="monica-tags">
+<div class="mtag">Regulación de ansiedad</div>
+<div class="mtag">Calidad del sueño</div>
+<div class="mtag">Respiración consciente</div>
+<div class="mtag">Coherencia cardíaca</div>
+<div class="mtag">Pensamientos repetitivos</div>
+<div class="mtag">Tensión interna</div>
+<div class="mtag">Sensación de calma</div>
+<div class="mtag">Seguridad emocional</div>
+</div>
+</div>
+<div class="monica-visual reveal">
+<!-- Brain/nervous system SVG stylized -->
+<svg viewBox="0 0 240 260" width="240" height="260" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(120,120)">
+<!-- Brain outline -->
+<g class="mw">
+<path d="M 0,-70 Q 40,-75 55,-45 Q 70,-15 60,20 Q 55,50 30,60 Q 10,68 0,65 Q -10,68 -30,60 Q -55,50 -60,20 Q -70,-15 -55,-45 Q -40,-75 0,-70 Z" fill="rgba(61,239,214,.07)" stroke="var(--teal)" stroke-width="1.5"/>
+<!-- Brain folds -->
+<path d="M -20,-50 Q 0,-30 20,-50" fill="none" stroke="rgba(61,239,214,.35)" stroke-width="1"/>
+<path d="M -35,-20 Q -15,0 -35,20" fill="none" stroke="rgba(61,239,214,.35)" stroke-width="1"/>
+<path d="M 35,-20 Q 15,0 35,20" fill="none" stroke="rgba(61,239,214,.35)" stroke-width="1"/>
+<path d="M -15,30 Q 0,45 15,30" fill="none" stroke="rgba(61,239,214,.35)" stroke-width="1"/>
+</g>
+<!-- Neurons pulsing -->
+<circle cx="-20" cy="-30" r="5" fill="rgba(61,239,214,.35)" stroke="var(--teal)" stroke-width="1" class="mp"/>
+<circle cx="20" cy="-30" r="5" fill="rgba(61,239,214,.35)" stroke="var(--teal)" stroke-width="1" class="mp" style="animation-delay:.5s"/>
+<circle cx="0" cy="10" r="5" fill="rgba(61,239,214,.35)" stroke="var(--teal)" stroke-width="1" class="mp" style="animation-delay:1s"/>
+<circle cx="-30" cy="10" r="4" fill="rgba(61,239,214,.25)" stroke="var(--teal)" stroke-width="1" class="mp" style="animation-delay:1.5s"/>
+<circle cx="30" cy="10" r="4" fill="rgba(61,239,214,.25)" stroke="var(--teal)" stroke-width="1" class="mp" style="animation-delay:2s"/>
+<!-- Synaptic connections -->
+<line x1="-20" y1="-30" x2="0" y2="10" stroke="rgba(61,239,214,.2)" stroke-width="1"/>
+<line x1="20" y1="-30" x2="0" y2="10" stroke="rgba(61,239,214,.2)" stroke-width="1"/>
+<line x1="-30" y1="10" x2="0" y2="10" stroke="rgba(61,239,214,.2)" stroke-width="1"/>
+<line x1="30" y1="10" x2="0" y2="10" stroke="rgba(61,239,214,.2)" stroke-width="1"/>
+<!-- HRV wave below -->
+<path d="M -70,100 L -50,100 L -40,75 L -30,125 L -20,88 L -10,100 L 0,100 L 10,100 L 20,78 L 30,122 L 40,90 L 50,100 L 70,100" fill="none" stroke="var(--rose)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mw"/>
+</g>
+<text x="120" y="248" text-anchor="middle" font-family="Fraunces,serif" font-size="12" font-style="italic" fill="rgba(61,239,214,.45)">Coherencia · HRV · Calma</text>
+</svg>
+<div style="background:rgba(61,239,214,.06);border:1px solid rgba(61,239,214,.2);border-radius:12px;padding:18px;max-width:220px;text-align:center;">
+<p style="font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);margin-bottom:7px;">Psic. Mónica Cuevas S.</p>
+<p style="font-size:12px;line-height:1.6;color:var(--muted);">Especialista en regulación emocional y sistema nervioso autónomo.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 05 TIMELINE 60 DÍAS -->
+<div class="sep"></div>
+<section style="background:var(--surface)">
+<div class="wrap">
+<div class="ey reveal">05 · Plan de 60 Días</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;">
+<div class="timeline reveal">
+<div class="tl-item tl-1">
+<div class="tl-num">01</div>
+<div><div class="tl-title">Regular tiroides</div><div class="tl-body">Iniciar levotiroxina y establecer la rutina de administración. En 4–6 semanas el cuerpo comienza a responder: <strong>más energía, menos niebla mental.</strong></div></div>
+</div>
+<div class="tl-item tl-2">
+<div class="tl-num">02</div>
+<div><div class="tl-title">Subir Vitamina D</div><div class="tl-body">Suplementación diaria para llevar el nivel a rango funcional óptimo. Impacto en <strong>hueso, músculo, ánimo e inmunidad.</strong></div></div>
+</div>
+<div class="tl-item tl-3">
+<div class="tl-num">03</div>
+<div><div class="tl-title">Bajar riesgo cardiovascular</div><div class="tl-body">Tratamiento de colesterol elevado. <strong>Prevención activa</strong> — cuidar arterias hoy para que el futuro no cobre intereses.</div></div>
+</div>
+</div>
+<div class="timeline reveal">
+<div class="tl-item tl-4">
+<div class="tl-num">04</div>
+<div><div class="tl-title">Recuperar tejido vaginal</div><div class="tl-body">Tratamiento local para <strong>revertir la atrofia, recuperar lubricación</strong> y eliminar el dolor o incomodidad en relaciones sexuales.</div></div>
+</div>
+<div class="tl-item tl-5">
+<div class="tl-num">05</div>
+<div><div class="tl-title">Entrenar regulación emocional</div><div class="tl-body">Trabajo con Mónica Cuevas para <strong>salir del modo alarma</strong>, mejorar sueño y recuperar sensación de calma y seguridad interna.</div></div>
+</div>
+<div class="tl-item tl-6">
+<div class="tl-num">06</div>
+<div><div class="tl-title">Análisis de control</div><div class="tl-body">A los 2 meses: <strong>TSH, T4 libre, lípidos, función hepática, Vitamina D</strong> y glucosa/HbA1c según evolución. Ajustes con evidencia.</div></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 06 PRÓXIMOS ESTUDIOS -->
+<div class="sep"></div>
+<section>
+<div class="wrap">
+<div class="ey reveal">06 · Análisis de Control a 2 Meses</div>
+<p class="reveal" style="font-size:14px;color:var(--muted);margin-bottom:28px;max-width:660px;line-height:1.7;">Estos estudios nos permitirán ver si la dosis está bien o si hay que hacer ajustes. No es revisión rutinaria — es verificación con propósito.</p>
+<div class="estudios-grid">
+<div class="ecard reveal"><div class="en">TSH</div><div class="er">Verificar respuesta a levotiroxina y ajustar dosis si es necesario</div></div>
+<div class="ecard reveal"><div class="en">T4 Libre</div><div class="er">Evaluar conversión hormonal y confirmar que la terapia está funcionando</div></div>
+<div class="ecard reveal"><div class="en">Perfil de Lípidos</div><div class="er">Control de colesterol total, HDL, LDL y triglicéridos tras tratamiento</div></div>
+<div class="ecard reveal"><div class="en">Función Hepática</div><div class="er">Monitoreo de hígado con el tratamiento de colesterol en curso</div></div>
+<div class="ecard reveal"><div class="en">Vitamina D (25-OH)</div><div class="er">Confirmar que el nivel llegó a rango óptimo (meta: 40–60 ng/mL)</div></div>
+<div class="ecard reveal"><div class="en">Glucosa / HbA1c</div><div class="er">Completar evaluación metabólica si se requiere según evolución clínica</div></div>
+</div>
+</div>
+</section>
+
+<!-- QUOTE -->
+<section class="quote-section">
+<div class="wrap">
+<div class="big-quote reveal">"Tu cuerpo no está fallando.<br>Está pidiendo orden, calma<br>y <em>dirección.</em>"</div>
+<div class="quote-attr reveal">Dr. Miguel Ángel Ramírez y Ramírez · MUJER 360°</div>
+</div>
+</section>
+
+<footer>
+<div class="wrap">
+<div class="fb">Dr. Miguel Ángel Ramírez y Ramírez · MUJER 360° · Hospital Ángeles Puebla · Torre 1, Piso 10, Consultorio 1086</div>
+<div class="fd"><span class="fdl">⚠️ Aviso Educativo</span>Este documento es un recurso educativo y de acompañamiento clínico. Las indicaciones y recomendaciones contenidas en él son personalizadas y deben ser seguidas bajo supervisión médica. No sustituye la consulta presencial ni el criterio clínico del médico tratante.</div>
+</div>
+</footer>
+
+<script>
+const c=document.getElementById("pts");
+for(let i=0;i<30;i++){const p=document.createElement("div");p.classList.add("pt");p.style.cssText="position:absolute;border-radius:50%;width:"+(1+Math.random()*2)+"px;height:"+(1+Math.random()*2)+"px;left:"+Math.random()*100+"vw;bottom:-10px;animation-duration:"+(9+Math.random()*16)+"s;animation-delay:"+(Math.random()*22)+"s;animation-name:rise;animation-timing-function:linear;animation-iteration-count:infinite;";const cols=["#b794ff","#f472b6","#3defd6","rgba(183,148,255,0.4)","rgba(244,114,182,0.3)"];p.style.background=cols[Math.floor(Math.random()*cols.length)];c.appendChild(p);}
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add("visible");obs.unobserve(x.target);}});},{threshold:.08,rootMargin:"0px 0px -40px 0px"});
+document.querySelectorAll(".reveal").forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
