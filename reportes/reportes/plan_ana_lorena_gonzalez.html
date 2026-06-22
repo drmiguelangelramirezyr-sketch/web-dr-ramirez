@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan Clínico · Ana Lorena González · Dr. Ramírez</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0b10;--surface:#10121a;--lime:#d4ff3a;--teal:#3defd6;--violet:#b794ff;--coral:#ff6b5b;--amber:#ffb547;--rose:#f472b6;--white:#f7f4ee;--muted:rgba(247,244,238,0.45);--border:rgba(247,244,238,0.08);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--white);font-family:"Inter Tight",sans-serif;overflow-x:hidden;position:relative;}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:999;mix-blend-mode:overlay;opacity:.35;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");}
+.aw{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.au{position:absolute;border-radius:50%;filter:blur(100px);opacity:.16;animation:drift 20s ease-in-out infinite;}
+.a1{width:600px;height:600px;background:#d4ff3a;top:-200px;left:-100px;}
+.a2{width:700px;height:500px;background:#3defd6;top:30%;right:-200px;animation-delay:-7s;}
+.a3{width:500px;height:600px;background:#b794ff;bottom:-100px;left:30%;animation-delay:-13s;}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(40px,-30px) scale(1.05);}66%{transform:translate(-30px,40px) scale(.96);}}
+.pts{position:fixed;inset:0;pointer-events:none;z-index:1;}
+.pt{position:absolute;border-radius:50%;opacity:0;animation:rise linear infinite;}
+@keyframes rise{0%{opacity:0;transform:translateY(0) scale(0);}10%{opacity:.6;}90%{opacity:.15;}100%{opacity:0;transform:translateY(-100vh) scale(1.5);}}
+.wrap{max-width:1160px;margin:0 auto;padding:0 32px;position:relative;z-index:10;}
+section{padding:80px 0;}
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .8s ease,transform .8s ease;}
+.reveal.visible{opacity:1;transform:none;}
+.sep{height:1px;background:var(--border);}
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:110px 0 80px;border-bottom:1px solid var(--border);}
+.eyebrow{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--lime);margin-bottom:30px;display:flex;align-items:center;gap:14px;}
+.eyebrow::before{content:"";display:inline-block;width:30px;height:1px;background:var(--lime);}
+.hero-title{font-family:"Fraunces",serif;font-size:clamp(48px,7vw,105px);font-weight:900;line-height:.95;letter-spacing:-.03em;margin-bottom:40px;}
+.acc{color:var(--lime);font-style:italic;}
+.acc2{color:var(--teal);}
+.hero-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;max-width:660px;}
+.hml{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:3px;}
+.hmv{font-family:"JetBrains Mono",monospace;font-size:13px;}
+/* VITAL */
+.vital-s{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.vital-inner{display:grid;grid-template-columns:320px 1fr;gap:72px;align-items:center;}
+.gauge-wrap{position:relative;display:flex;flex-direction:column;align-items:center;}
+.gauge-score{position:absolute;top:44%;left:50%;transform:translate(-50%,-50%);text-align:center;}
+.gnum{font-family:"Fraunces",serif;font-size:62px;font-weight:900;line-height:1;color:var(--amber);}
+.glbl{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
+.vital-h{font-family:"Fraunces",serif;font-size:clamp(24px,3vw,42px);font-weight:700;line-height:1.1;margin-bottom:16px;}
+.vital-h em{color:var(--amber);font-style:italic;}
+.vital-counts{display:flex;gap:28px;margin-top:32px;}
+.cnt{display:flex;flex-direction:column;gap:4px;}
+.cnum{font-family:"Fraunces",serif;font-size:44px;font-weight:900;line-height:1;}
+.clbl{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);}
+.cg .cnum{color:var(--teal);}.ca .cnum{color:var(--amber);}.cr .cnum{color:var(--coral);}
+/* EY */
+.ey{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin-bottom:44px;display:flex;align-items:center;gap:16px;}
+.ey::after{content:"";flex:1;height:1px;background:var(--border);}
+/* SIGNALS */
+.sig-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px;}
+.sig{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:26px;position:relative;overflow:hidden;transition:transform .3s;}
+.sig:hover{transform:translateY(-4px);}
+.sig::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;}
+.sa::before{background:var(--amber);}.sc::before{background:var(--coral);}.st::before{background:var(--teal);}.sv::before{background:var(--violet);}.sr::before{background:var(--rose);}
+.sn{font-family:"JetBrains Mono",monospace;font-size:26px;font-weight:500;margin-bottom:7px;}
+.sa .sn{color:var(--amber);}.sc .sn{color:var(--coral);}.st .sn{color:var(--teal);}.sv .sn{color:var(--violet);}.sr .sn{color:var(--rose);}
+.stit{font-family:"Fraunces",serif;font-size:18px;font-weight:700;margin-bottom:9px;}
+.sbod{font-size:13px;line-height:1.6;color:var(--muted);}
+.sbod strong{color:var(--white);}
+/* BIO CARDS */
+.cat-t{font-family:"Fraunces",serif;font-size:24px;font-weight:700;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+.cat-t em{color:var(--violet);font-style:italic;}
+.bg{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-bottom:56px;}
+.bc{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;transition:border-color .3s,transform .3s;overflow:hidden;}
+.bc:hover{transform:translateY(-3px);border-color:rgba(247,244,238,.2);}
+.bl{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;}
+.bm{height:108px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;}
+.bm svg{width:100%;height:102px;}
+.bvr{display:flex;align-items:baseline;gap:5px;margin-bottom:9px;}
+.bv{font-family:"Fraunces",serif;font-size:38px;font-weight:900;line-height:1;}
+.bu{font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--muted);}
+.rb{height:6px;border-radius:3px;background:linear-gradient(to right,#ff6b5b 0%,#ff6b5b 10%,#ffb547 10%,#ffb547 20%,#3defd6 20%,#3defd6 45%,#d4ff3a 45%,#d4ff3a 55%,#3defd6 55%,#3defd6 80%,#ffb547 80%,#ffb547 90%,#ff6b5b 90%);position:relative;}
+.rm{position:absolute;top:-4px;width:13px;height:13px;border-radius:50%;background:white;transform:translateX(-50%);animation:pmk 2s ease-in-out infinite;}
+@keyframes pmk{0%,100%{box-shadow:0 0 6px rgba(255,255,255,.5);}50%{box-shadow:0 0 14px rgba(255,255,255,.9),0 0 22px rgba(255,255,255,.3);}}
+.rl{display:flex;justify-content:space-between;margin-top:5px;font-family:"JetBrains Mono",monospace;font-size:8px;color:var(--muted);}
+.bn{font-family:"Fraunces",serif;font-style:italic;font-size:12px;color:var(--muted);line-height:1.5;border-top:1px solid var(--border);padding-top:9px;margin-top:4px;}
+.sd{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:4px;vertical-align:middle;}
+.dg{background:var(--teal);}.da{background:var(--amber);}.dr{background:var(--coral);}
+/* PROTOCOLO */
+.pg{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+.pc{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:34px 24px;position:relative;overflow:hidden;transition:border-color .3s;}
+.pc::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(212,255,58,.08) 0%,transparent 70%);opacity:0;transition:opacity .4s;}
+.pc:hover::after{opacity:1;}
+.pc:hover{border-color:rgba(212,255,58,.3);}
+.pn{font-family:"Fraunces",serif;font-size:120px;font-weight:900;font-style:italic;color:var(--lime);line-height:1;opacity:.1;position:absolute;top:-20px;right:10px;pointer-events:none;}
+.ptit{font-family:"Fraunces",serif;font-size:18px;font-weight:700;margin-bottom:10px;position:relative;z-index:1;}
+.pbod{font-size:13px;line-height:1.7;color:rgba(247,244,238,.75);position:relative;z-index:1;}
+.pbod strong{color:var(--white);}
+.ptag{display:inline-block;margin-top:13px;font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;padding:4px 10px;border-radius:20px;border:1px solid var(--lime);color:var(--lime);position:relative;z-index:1;}
+/* PLAN */
+.plg{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;}
+.plc{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:26px;display:flex;flex-direction:column;gap:16px;}
+.plic{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.ic1{background:rgba(212,255,58,.1);}.ic2{background:rgba(61,239,214,.1);}.ic3{background:rgba(183,148,255,.1);}.ic4{background:rgba(255,181,71,.1);}.ic5{background:rgba(255,107,91,.1);}.ic6{background:rgba(244,114,182,.1);}
+.plct{font-family:"Fraunces",serif;font-size:19px;font-weight:700;}
+.pll{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.pll li{font-family:"JetBrains Mono",monospace;font-size:11px;line-height:1.6;color:var(--muted);display:flex;gap:9px;align-items:flex-start;}
+.pll li::before{content:"→";color:var(--lime);flex-shrink:0;}
+.pll li span{color:var(--white);}
+.warn-box{background:rgba(255,181,71,.05);border:1px solid rgba(255,181,71,.2);border-radius:10px;padding:13px 15px;}
+.warn-box p{font-size:12px;line-height:1.6;color:rgba(247,244,238,.65);}
+.warn-box strong{color:var(--amber);}
+.alert-box{background:rgba(255,107,91,.05);border:1px solid rgba(255,107,91,.2);border-radius:10px;padding:13px 15px;margin-top:10px;}
+.alert-box p{font-size:12px;line-height:1.6;color:rgba(247,244,238,.65);}
+.alert-box strong{color:var(--coral);}
+/* WEEK */
+.wg{display:grid;grid-template-columns:repeat(7,1fr);gap:9px;}
+.dc{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:13px 9px;display:flex;flex-direction:column;gap:8px;}
+.dn{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--lime);margin-bottom:2px;}
+.de{font-size:10px;line-height:1.4;color:rgba(247,244,238,.7);}
+.dt{font-family:"JetBrains Mono",monospace;font-size:9px;color:var(--muted);}
+.dtg{display:inline-block;padding:2px 5px;border-radius:4px;font-size:8px;font-family:"JetBrains Mono",monospace;margin-bottom:2px;}
+.tm{background:rgba(61,239,214,.15);color:var(--teal);}.tf{background:rgba(212,255,58,.12);color:var(--lime);}.ts{background:rgba(244,114,182,.12);color:var(--rose);}.tr{background:rgba(183,148,255,.12);color:var(--violet);}
+/* CHECKLIST */
+.ckg{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+.ckh{font-family:"Fraunces",serif;font-size:24px;font-weight:700;margin-bottom:18px;}
+.cki{display:flex;align-items:flex-start;gap:12px;margin-bottom:13px;cursor:pointer;}
+.ckc{width:21px;height:21px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;margin-top:2px;transition:all .3s;display:flex;align-items:center;justify-content:center;}
+.cki.checked .ckc{background:var(--lime);border-color:var(--lime);}
+.cki.checked .ckc::after{content:"✓";font-size:11px;color:var(--bg);font-weight:700;}
+.ckt{font-size:13px;line-height:1.5;color:rgba(247,244,238,.75);transition:color .3s;}
+.cki.checked .ckt{color:var(--muted);text-decoration:line-through;}
+/* NEXT */
+.ng{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:11px;}
+.nc{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:17px;transition:border-color .3s;}
+.nc:hover{border-color:rgba(183,148,255,.4);}
+.nn{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--violet);margin-bottom:7px;}
+.nr{font-size:12px;line-height:1.5;color:var(--muted);}
+/* ALARMA */
+.alarm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;}
+.alarm-card{background:rgba(255,107,91,.05);border:1px solid rgba(255,107,91,.2);border-radius:12px;padding:18px;transition:border-color .3s;}
+.alarm-card:hover{border-color:rgba(255,107,91,.4);}
+.alarm-icon{font-size:22px;margin-bottom:8px;display:block;}
+.alarm-text{font-size:13px;line-height:1.5;color:rgba(247,244,238,.7);}
+.alarm-text strong{color:var(--coral);}
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:54px 0 72px;text-align:center;}
+.fq{font-family:"Fraunces",serif;font-size:25px;font-style:italic;font-weight:300;color:rgba(247,244,238,.6);max-width:640px;margin:0 auto 30px;line-height:1.4;}
+.fb{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--lime);margin-bottom:18px;}
+.fd{max-width:580px;margin:0 auto;font-size:11px;line-height:1.7;color:rgba(247,244,238,.28);padding:13px;border:1px solid rgba(255,181,71,.18);border-radius:8px;background:rgba(255,181,71,.025);}
+.fdl{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);display:block;margin-bottom:6px;}
+/* ANIMS */
+.mr{animation:mrot 40s linear infinite;transform-origin:center;}
+.mrs{animation:mrot 80s linear infinite;transform-origin:center;}
+.mp{animation:mpls 3s ease-in-out infinite;}
+.mw{animation:mwgl 6s ease-in-out infinite;}
+@keyframes mrot{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+@keyframes mpls{0%,100%{opacity:.5;transform:scale(1);}50%{opacity:1;transform:scale(1.08);}}
+@keyframes mwgl{0%,100%{transform:translateX(0);}25%{transform:translateX(-4px);}75%{transform:translateX(4px);}}
+@media(max-width:768px){.vital-inner,.pg,.plg,.ckg{grid-template-columns:1fr;}.wg{grid-template-columns:repeat(4,1fr);}.hero-meta{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+<div class="aw"><div class="au a1"></div><div class="au a2"></div><div class="au a3"></div></div>
+<div class="pts" id="pts"></div>
+<!-- HERO -->
+<section class="hero">
+<div class="wrap">
+<div style="display:grid;grid-template-columns:1fr auto;gap:36px;align-items:center;">
+<div>
+<div class="eyebrow reveal">Dr. Miguel Ángel Ramírez y Ramírez · MUJER 360° · Plan Integral</div>
+<h1 class="hero-title reveal">Cada síntoma<br>tiene <span class="acc">nombre.</span><br>Cada nombre<br><span class="acc2">tiene</span> <span style="color:var(--white)">plan.</span></h1>
+<div class="hero-meta reveal">
+<div><span class="hml">Paciente</span><span class="hmv">A.L. González D.</span></div>
+<div><span class="hml">Edad</span><span class="hmv">45 años</span></div>
+<div><span class="hml">Diagnósticos</span><span class="hmv" style="color:var(--coral);font-size:16px;font-weight:700;">8 activos</span></div>
+<div><span class="hml">Seguimiento</span><span class="hmv" style="color:var(--amber);font-size:14px;font-weight:700;">2–3 semanas</span></div>
+</div>
+</div>
+<div style="opacity:.45;flex-shrink:0;">
+<svg width="180" height="180" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+<circle cx="100" cy="100" r="88" fill="none" stroke="rgba(212,255,58,.15)" stroke-width="1"/>
+<circle class="mrs" cx="100" cy="100" r="83" fill="none" stroke="rgba(212,255,58,.4)" stroke-width="1" stroke-dasharray="7 15"/>
+<circle class="mr" cx="100" cy="100" r="60" fill="none" stroke="rgba(61,239,214,.2)" stroke-width="1" stroke-dasharray="4 8"/>
+<text x="100" y="95" text-anchor="middle" font-family="Fraunces,serif" font-size="14" font-weight="900" fill="rgba(212,255,58,.7)" font-style="italic">MUJER</text>
+<text x="100" y="116" text-anchor="middle" font-family="Fraunces,serif" font-size="30" font-weight="900" fill="rgba(61,239,214,.85)" font-style="italic">360°</text>
+</svg>
+</div>
+</div>
+</div>
+</section>
+
+<!-- VITAL -->
+<section class="vital-s">
+<div class="wrap">
+<div class="vital-inner">
+<div class="gauge-wrap reveal">
+<svg viewBox="0 0 280 185" width="280" height="185" xmlns="http://www.w3.org/2000/svg">
+<path d="M 30 160 A 110 110 0 0 1 250 160" fill="none" stroke="rgba(247,244,238,.06)" stroke-width="18" stroke-linecap="round"/>
+<path d="M 30 160 A 110 110 0 0 1 145 52" fill="none" stroke="var(--amber)" stroke-width="18" stroke-linecap="round"/>
+<line x1="140" y1="160" x2="145" y2="52" stroke="var(--white)" stroke-width="2" opacity=".5"/>
+<circle cx="140" cy="160" r="6" fill="var(--amber)"/>
+<text x="22" y="176" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(247,244,238,.3)">0</text>
+<text x="252" y="176" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(247,244,238,.3)">100</text>
+</svg>
+<div class="gauge-score"><div class="gnum">48</div><div class="glbl">Score Vital</div></div>
+</div>
+<div class="reveal">
+<h2 class="vital-h">Varios frentes abiertos.<br><em>Todos manejables.</em><br>Uno por uno.</h2>
+<p style="font-size:14px;line-height:1.8;color:var(--muted);max-width:460px;">Hay hallazgos ginecológicos, hematológicos y emocionales reales que se están tratando. La estrategia no es apagar síntomas — es entender el mapa y ordenar la respuesta.</p>
+<div class="vital-counts">
+<div class="cnt cg"><span class="cnum">3</span><span class="clbl">En tratamiento</span></div>
+<div class="cnt ca"><span class="cnum">3</span><span class="clbl">En vigilancia</span></div>
+<div class="cnt cr"><span class="cnum">2</span><span class="clbl">Pendientes</span></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 01 SEÑALES -->
+<section>
+<div class="wrap">
+<div class="ey reveal">01 · Señales de Alerta Clínica</div>
+<div class="sig-grid">
+<div class="sig sc reveal"><div class="sn">🩸 Menorragia</div><div class="stit">Sangrado abundante mensual</div><div class="sbod">Probable disfunción ovulatoria perimenopáusica. El sangrado abundante es la fuente más probable de la <strong>ferropenia y anemia leve</strong> documentadas. No es solo molestia — es pérdida activa de hierro cada mes.</div></div>
+<div class="sig sa reveal"><div class="sn">Hb 12.0 g/dL</div><div class="stit">Ferropenia / Anemia leve</div><div class="sbod">Hemoglobina 12.0, hematocrito 33.6%, <strong>RDW elevado, anisocitosis, hierro sérico bajo y saturación de transferrina baja</strong>. El patrón completo confirma ferropenia. La fuente más probable: la menorragia.</div></div>
+<div class="sig sc reveal"><div class="sn">🔥 Ardor vulvar</div><div class="stit">Vulvitis irritativa + disuria</div><div class="sbod">Ardor de varios meses de evolución, dolor hipogástrico y molestia cuando la orina toca la vulva. <strong>No es infección de transmisión sexual</strong> — baja probabilidad dado el historial sexual. Es un cuadro irritativo que tiene tratamiento local.</div></div>
+<div class="sig sv reveal"><div class="sn">📋 Cérvix</div><div class="stit">Ectropión con hiperemia y friabilidad</div><div class="sbod">Cérvix con ectropión, hiperemia y friabilidad al tacto. Se tomó <strong>Papanicolaou</strong> — resultado pendiente. Seguimiento obligatorio. No es urgente pero sí requiere atención.</div></div>
+<div class="sig sa reveal"><div class="sn">5×3 cm</div><div class="stit">Quistes simples anexo derecho</div><div class="sbod">Dos quistes simples en conjunto de ~5×3 cm. <strong>Probablemente funcionales</strong> dado el contexto perimenopáusico. Control ecográfico en 6–8 semanas para confirmar resolución o persistencia.</div></div>
+<div class="sig st reveal"><div class="sn">2×2 cm</div><div class="stit">Mioma fúndico estable</div><div class="sbod">Mioma fúndico pequeño, <strong>sin cambios ni síntomas directos</strong>. No requiere intervención por ahora. Vigilancia periódica integrada al seguimiento general.</div></div>
+</div>
+</div>
+</section>
+<!-- 02 HALLAZGOS HEMATOLÓGICOS -->
+<div class="sep"></div>
+<section>
+<div class="wrap">
+<div class="ey reveal">02 · Atlas de Biomarcadores</div>
+
+<div class="cat-t reveal">Hematología · <em>Ferropenia &amp; Serie Roja</em></div>
+<div class="bg">
+
+<div class="bc reveal"><div class="bl"><span class="sd da"></span>HEMOGLOBINA</div>
+<div class="bm"><svg viewBox="0 0 200 102" xmlns="http://www.w3.org/2000/svg"><g transform="translate(100,51)"><g class="mrs"><polygon points="0,-29 8,-24 8,-14 0,-9 -8,-14 -8,-24" fill="none" stroke="rgba(255,181,71,.6)" stroke-width="1.5"/><polygon points="29,0 24,8 14,8 9,0 14,-8 24,-8" fill="none" stroke="rgba(255,181,71,.6)" stroke-width="1.5"/><polygon points="0,29 -8,24 -8,14 0,9 8,14 8,24" fill="none" stroke="rgba(255,181,71,.6)" stroke-width="1.5"/><polygon points="-29,0 -24,-8 -14,-8 -9,0 -14,8 -24,8" fill="none" stroke="rgba(255,181,71,.6)" stroke-width="1.5"/><line x1="8" y1="-19" x2="19" y2="-8" stroke="rgba(255,181,71,.35)" stroke-width="1"/><line x1="19" y1="8" x2="8" y2="19" stroke="rgba(255,181,71,.35)" stroke-width="1"/><line x1="-8" y1="19" x2="-19" y2="8" stroke="rgba(255,181,71,.35)" stroke-width="1"/><line x1="-19" y1="-8" x2="-8" y2="-19" stroke="rgba(255,181,71,.35)" stroke-width="1"/></g><circle r="9" fill="var(--coral)" opacity=".85" class="mp"/><text y="3" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="white">Fe</text></g></svg></div>
+<div class="bvr"><span class="bv" style="color:var(--amber)">12.0</span><span class="bu">g/dL</span></div>
+<div><div class="rb"><div class="rm" style="left:32%"></div></div><div class="rl"><span>11.0</span><span>Óptimo 13–15</span><span>16.6</span></div></div>
+<div class="bn">Anemia leve. El hierro comprometido se traduce directo en cansancio y palidez.</div></div>
+
+<div class="bc reveal"><div class="bl"><span class="sd dr"></span>HEMATOCRITO</div>
+<div class="bm"><svg viewBox="0 0 200 102" xmlns="http://www.w3.org/2000/svg"><g class="mw"><ellipse cx="48" cy="51" rx="27" ry="16" fill="rgba(255,107,91,.2)" stroke="var(--coral)" stroke-width="1.5"/><ellipse cx="48" cy="51" rx="13" ry="5" fill="rgba(10,11,16,.6)" stroke="var(--coral)" stroke-width=".5" opacity=".7"/><ellipse cx="104" cy="37" rx="27" ry="16" fill="rgba(255,107,91,.2)" stroke="var(--coral)" stroke-width="1.5"/><ellipse cx="104" cy="37" rx="13" ry="5" fill="rgba(10,11,16,.6)" stroke="var(--coral)" stroke-width=".5" opacity=".7"/><ellipse cx="156" cy="63" rx="25" ry="15" fill="rgba(255,107,91,.2)" stroke="var(--coral)" stroke-width="1.5"/><ellipse cx="156" cy="63" rx="12" ry="5" fill="rgba(10,11,16,.6)" stroke="var(--coral)" stroke-width=".5" opacity=".7"/></g></svg></div>
+<div class="bvr"><span class="bv" style="color:var(--coral)">33.6</span><span class="bu">%</span></div>
+<div><div class="rb"><div class="rm" style="left:28%"></div></div><div class="rl"><span>36</span><span>Ref 36–47%</span><span>47</span></div></div>
+<div class="bn">Por debajo del rango normal. Glóbulos rojos insuficientes en volumen.</div></div>
+
+<div class="bc reveal"><div class="bl"><span class="sd dr"></span>RDW ELEVADO</div>
+<div class="bm"><svg viewBox="0 0 200 102" xmlns="http://www.w3.org/2000/svg"><g transform="translate(100,51)"><g class="mw"><ellipse cx="-30" cy="0" rx="26" ry="16" fill="rgba(255,107,91,.18)" stroke="var(--coral)" stroke-width="1.5"/><ellipse cx="15" cy="-10" rx="18" ry="11" fill="rgba(255,181,71,.18)" stroke="var(--amber)" stroke-width="1.5"/><ellipse cx="35" cy="15" rx="14" ry="8" fill="rgba(255,181,71,.15)" stroke="var(--amber)" stroke-width="1"/><text x="-30" y="4" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="var(--coral)">grande</text><text x="15" y="-6" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6" fill="var(--amber)">normal</text><text x="35" y="19" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="5" fill="var(--amber)">pequeño</text></g></g></svg></div>
+<div class="bvr"><span class="bv" style="color:var(--coral)">↑</span><span class="bu">Elevado</span></div>
+<div><div class="rb"><div class="rm" style="left:82%"></div></div><div class="rl"><span>11%</span><span>Ref 11–14.5%</span><span>14.5%</span></div></div>
+<div class="bn">Anisocitosis: glóbulos rojos de tamaño desigual. Sello clásico de ferropenia activa.</div></div>
+
+<div class="bc reveal"><div class="bl"><span class="sd dr"></span>HIERRO SÉRICO</div>
+<div class="bm"><svg viewBox="0 0 200 102" xmlns="http://www.w3.org/2000/svg"><g transform="translate(100,51)"><g class="mr" style="animation-duration:25s"><ellipse rx="38" ry="19" fill="rgba(255,107,91,.05)" stroke="rgba(255,107,91,.2)" stroke-width="1"/><circle cx="-13" cy="0" r="9" fill="rgba(255,107,91,.15)" stroke="var(--coral)" stroke-width="1.5"/><text x="-13" y="4" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="var(--coral)">Fe³⁺</text><circle cx="13" cy="0" r="9" fill="rgba(255,107,91,.05)" stroke="rgba(255,107,91,.18)" stroke-width="1"/><text x="13" y="4" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(255,107,91,.3)">Fe³⁺</text></g><text x="0" y="-30" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(247,244,238,.25)">Transferrina</text></g></svg></div>
+<div class="bvr"><span class="bv" style="color:var(--coral)">↓</span><span class="bu">Bajo</span></div>
+<div><div class="rb"><div class="rm" style="left:15%"></div></div><div class="rl"><span>50</span><span>Sat. Transf. baja</span><span>170 μg/dL</span></div></div>
+<div class="bn">Reservas de hierro agotadas. La transferrina busca hierro que no está disponible.</div></div>
+
+</div>
+
+<div class="cat-t reveal">Ginecológico · <em>Hallazgos Estructurales</em></div>
+<div class="bg">
+
+<div class="bc reveal"><div class="bl"><span class="sd da"></span>ENDOMETRIO</div>
+<div class="bm"><svg viewBox="0 0 200 102" xmlns="http://www.w3.org/2000/svg"><g transform="translate(100,51)"><g class="mw"><ellipse rx="55" ry="32" fill="rgba(255,181,71,.07)" stroke="var(--amber)" stroke-width="1.5"/><ellipse rx="38" ry="20" fill="rgba(255,181,71,.1)" stroke="rgba(255,181,71,.5)" stroke-width="1"/><ellipse rx="20" ry="10" fill="rgba(255,181,71,.15)" stroke="rgba(255,181,71,.6)" stroke-width="1.5"/></g><text y="4" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="var(--amber)">10 mm</text></g></svg></div>
+<div class="bvr"><span class="bv" style="color:var(--amber)">10</span><span class="bu">mm</span></div>
+<div><div class="rb"><div class="rm" style="left:62%"></div></div><div class="rl"><span>4</span><span>Vigilancia &gt;8mm</span><span>16</span></div></div>
+<div class="bn">A vigilar. En contexto de menorragia: control ecográfico y seguimiento estrecho.</div></div>
+
+<div class="bc reveal"><div class="bl"><span class="sd da"></span>QUISTES ANEXO DERECHO</div>
+<div class="bm"><svg viewBox="0 0 200 102" xmlns="http://www.w3.org/2000/svg"><g transform="translate(100,51)"><circle cx="-18" cy="-8" r="22" fill="rgba(183,148,255,.1)" stroke="var(--violet)" stroke-width="1.5" class="mp"/><circle cx="22" cy="10" r="16" fill="rgba(183,148,255,.08)" stroke="rgba(183,148,255,.5)" stroke-width="1" class="mp" style="animation-delay:1s"/><text x="-18" y="-4" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="var(--violet)">Simple</text><text x="22" y="14" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6" fill="rgba(183,148,255,.6)">Simple</text></g></svg></div>
+<div class="bvr"><span class="bv" style="color:var(--violet)">5×3</span><span class="bu">cm</span></div>
+<div><div class="rb"><div class="rm" style="left:50%"></div></div><div class="rl"><span>Simple</span><span>Control 6–8 sem</span><span>Quirúrgico</span></div></div>
+<div class="bn">Probablemente funcionales. Sin tabiques ni componentes sólidos. Vigilancia ecográfica.</div></div>
+
+<div class="bc reveal"><div class="bl"><span class="sd dg"></span>MIOMA FÚNDICO</div>
+<div class="bm"><svg viewBox="0 0 200 102" xmlns="http://www.w3.org/2000/svg"><g transform="translate(100,51)" class="mw"><ellipse rx="50" ry="28" fill="rgba(61,239,214,.06)" stroke="rgba(61,239,214,.3)" stroke-width="1.5"/><circle r="16" fill="rgba(61,239,214,.1)" stroke="var(--teal)" stroke-width="1.5" class="mp"/><text y="4" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="var(--teal)">2×2cm</text></g></svg></div>
+<div class="bvr"><span class="bv" style="color:var(--teal)">2×2</span><span class="bu">cm</span></div>
+<div><div class="rb"><div class="rm" style="left:20%"></div></div><div class="rl"><span>Estable</span><span>Sin síntomas</span><span>Creciente</span></div></div>
+<div class="bn">Pequeño y estable. Sin impacto clínico directo por ahora. Vigilancia integrada.</div></div>
+
+<div class="bc reveal"><div class="bl"><span class="sd da"></span>CÉRVIX · ECTROPIÓN</div>
+<div class="bm"><svg viewBox="0 0 200 102" xmlns="http://www.w3.org/2000/svg"><g transform="translate(100,51)"><circle r="30" fill="rgba(255,107,91,.07)" stroke="rgba(255,107,91,.3)" stroke-width="1.5" class="mw"/><circle r="16" fill="rgba(255,107,91,.1)" stroke="var(--coral)" stroke-width="1.5"/><circle r="7" fill="rgba(255,107,91,.2)" stroke="var(--coral)" stroke-width="1" class="mp"/><text x="0" y="-36" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="var(--coral)">PAP ✓</text></g></svg></div>
+<div class="bvr"><span class="bv" style="color:var(--coral)">🔬</span><span class="bu">PAP tomado</span></div>
+<div><div class="rb"><div class="rm" style="left:60%"></div></div><div class="rl"><span>Normal</span><span>Ectropión+Hiperemia</span><span>Displasia</span></div></div>
+<div class="bn">Ectropión friable. Papanicolaou tomado — resultado pendiente. Seguimiento obligatorio.</div></div>
+
+</div>
+</div>
+</section>
+
+<!-- 03 PROTOCOLO TOP 3 -->
+<div class="sep"></div>
+<section style="background:var(--surface)">
+<div class="wrap">
+<div class="ey reveal">03 · Las 3 Acciones del 80/20</div>
+<div class="pg">
+<div class="pc reveal"><div class="pn">1</div>
+<div class="ptit">Ferranina Fol por 2 meses</div>
+<div class="pbod">El hierro bajo es la raíz de tu cansancio, palidez y anisocitosis. <strong>Ferranina Fol diario</strong> durante 2 meses para recuperar reservas, mejorar Hb y preparar el terreno para que el cuerpo responda bien al resto del plan.</div>
+<span class="ptag">INICIO INMEDIATO</span></div>
+
+<div class="pc reveal"><div class="pn">2</div>
+<div class="ptit">Tratamiento local vulvar/vaginal</div>
+<div class="pbod"><strong>Trilexa óvulos × 3 aplicaciones</strong> según esquema. <strong>Pasta de Lassar</strong> en vulva externa como barrera. Cuidado vulvar estricto: sin jabones íntimos, sin perfumes, ropa de algodón, sin tallar. El ardor tiene solución local — no invasiva.</div>
+<span class="ptag">ESTA SEMANA</span></div>
+
+<div class="pc reveal"><div class="pn">3</div>
+<div class="ptit">Terminar antibiótico + observar</div>
+<div class="pbod">Completar <strong>amoxicilina 5 días</strong> por sinusitis. Después, observar evolución de síntomas urinarios y vulvares. Si persiste ardor al orinar o dolor hipogástrico: EGO + urocultivo con antibiograma. <strong>No tomar decisiones a ciegas</strong> mientras el antibiótico puede modificar resultados.</div>
+<span class="ptag">PRIMERO TERMINAR</span></div>
+</div>
+</div>
+</section>
+<!-- 04 PLAN INTEGRAL -->
+<div class="sep"></div>
+<section>
+<div class="wrap">
+<div class="ey reveal">04 · Plan Integral</div>
+<div class="plg">
+
+<div class="plc reveal">
+<div style="display:flex;align-items:center;gap:13px"><div class="plic ic1">🩸</div><div class="plct">Ferropenia &amp; Anemia</div></div>
+<ul class="pll">
+<li><span>Ferranina Fol diario por 2 meses</span></li>
+<li><span>Tomar con vitamina C para mejor absorción</span></li>
+<li><span>Separar de café, té y lácteos al menos 1 hora</span></li>
+<li><span>Control: biometría hemática + perfil de hierro/ferritina al terminar</span></li>
+</ul>
+<div class="warn-box"><p>El objetivo es recuperar reservas y subir Hb por encima de 12.5. <strong>El hierro tarda 2 meses en reponerse</strong> — no hay atajos.</p></div>
+</div>
+
+<div class="plc reveal">
+<div style="display:flex;align-items:center;gap:13px"><div class="plic ic2">🌺</div><div class="plct">Cuidado Vulvar</div></div>
+<ul class="pll">
+<li><span>Trilexa óvulos × 3 aplicaciones según esquema</span></li>
+<li><span>Pasta de Lassar en vulva externa — barrera protectora</span></li>
+<li><span>Sin jabones íntimos, perfumes ni duchas vaginales</span></li>
+<li><span>Ropa interior de algodón exclusivamente</span></li>
+<li><span>No tallar la zona — nunca</span></li>
+<li><span>Sin toallas húmedas perfumadas</span></li>
+</ul>
+</div>
+
+<div class="plc reveal">
+<div style="display:flex;align-items:center;gap:13px"><div class="plic ic3">📋</div><div class="plct">Menorragia · Parche Evra</div></div>
+<ul class="pll">
+<li><span>Parche Evra por 2 meses para regular ciclo y reducir sangrado</span></li>
+<li><span>⚠️ PRIMERO: visto bueno de Reumatología</span></li>
+<li><span>Preguntar a reumatóloga: ¿contraindicación hormonal combinada?</span></li>
+<li><span>Evaluar riesgo tromboembólico por antecedente de púrpura</span></li>
+<li><span>Si hay riesgo: alternativas sin estrógeno</span></li>
+</ul>
+<div class="alert-box"><p><strong>⚠️ No iniciar Evra</strong> hasta tener valoración de Reumatología. El antecedente autoinmune es una bandera roja que requiere autorización explícita.</p></div>
+</div>
+
+<div class="plc reveal">
+<div style="display:flex;align-items:center;gap:13px"><div class="plic ic4">🔬</div><div class="plct">Síntomas Urinarios</div></div>
+<ul class="pll">
+<li><span>Terminar amoxicilina completa (5 días por sinusitis)</span></li>
+<li><span>Observar evolución de ardor y disuria post-antibiótico</span></li>
+<li><span>Si persiste: EGO + urocultivo con antibiograma</span></li>
+<li><span>No tratar empíricamente — confirmar con cultivo</span></li>
+</ul>
+<div class="warn-box"><p>La bacteriuria y leucocituria previas necesitan <strong>confirmación post-antibiótico</strong> para decidir si se requiere otro ciclo o si era un hallazgo transitorio.</p></div>
+</div>
+
+<div class="plc reveal">
+<div style="display:flex;align-items:center;gap:13px"><div class="plic ic5">📡</div><div class="plct">Vigilancia Ginecológica</div></div>
+<ul class="pll">
+<li><span>Ultrasonido de control en 6–8 semanas</span></li>
+<li><span>Evaluar quistes simples: ¿resueltos o persistentes?</span></li>
+<li><span>Verificar endometrio (actualmente 10 mm)</span></li>
+<li><span>Si sangrado persiste o irregular: valorar biopsia endometrial</span></li>
+<li><span>Papanicolaou: resultado pendiente — seguimiento obligatorio</span></li>
+</ul>
+</div>
+
+<div class="plc reveal">
+<div style="display:flex;align-items:center;gap:13px"><div class="plic ic6">🧠</div><div class="plct">Sistema Nervioso · Mónica Cuevas</div></div>
+<ul class="pll">
+<li><span>Entrenamiento con Psic. Mónica Cuevas Sánchez</span></li>
+<li><span>Reducir ansiedad y regulación emocional</span></li>
+<li><span>Disminuir hipervigilancia corporal y dolor amplificado</span></li>
+<li><span>Mejorar sueño y descanso</span></li>
+<li><span>Salir del modo alarma — el cuerpo lo necesita</span></li>
+</ul>
+<div class="warn-box"><p>Hay hallazgos ginecológicos reales. <strong>Pero cuando los síntomas duran meses</strong>, el sistema nervioso queda en alerta y amplifica dolor, ardor y tensión pélvica.</p></div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- 05 RITUAL SEMANAL -->
+<div class="sep"></div>
+<section style="background:var(--surface)">
+<div class="wrap">
+<div class="ey reveal">05 · Ritual Semanal</div>
+<div class="wg">
+<div class="dc reveal"><div class="dn">LUN</div><div class="de"><span class="dtg tf">hierro</span><br>Ferranina Fol con desayuno + Vit C</div><div class="dt">08:00</div><div class="de"><span class="dtg tr">cuidado</span><br>Pasta Lassar vulvar mañana y noche</div></div>
+<div class="dc reveal"><div class="dn">MAR</div><div class="de"><span class="dtg tm">antibiótico</span><br>Amoxicilina terminar ciclo completo</div><div class="dt">08:00</div><div class="de"><span class="dtg tr">higiene</span><br>Ropa algodón · Sin jabón íntimo</div></div>
+<div class="dc reveal"><div class="dn">MIÉ</div><div class="de"><span class="dtg tf">hierro</span><br>Ferranina Fol · No con café ni té</div><div class="dt">08:00</div><div class="de"><span class="dtg tr">sist. nerv.</span><br>Sesión o práctica con Mónica</div></div>
+<div class="dc reveal"><div class="dn">JUE</div><div class="de"><span class="dtg tm">óvulos</span><br>Trilexa según esquema indicado</div><div class="dt">22:00</div><div class="de"><span class="dtg tr">cuidado</span><br>Pasta Lassar aplicación nocturna</div></div>
+<div class="dc reveal"><div class="dn">VIE</div><div class="de"><span class="dtg tf">hierro</span><br>Ferranina Fol — constancia es clave</div><div class="dt">08:00</div><div class="de"><span class="dtg tr">observar</span><br>Anotar síntomas urinarios/vulvares</div></div>
+<div class="dc reveal"><div class="dn">SÁB</div><div class="de"><span class="dtg tr">reumatología</span><br>Coordinar cita con reumatóloga</div><div class="dt">Pendiente</div><div class="de"><span class="dtg tr">descanso</span><br>Ropa algodón · Sin irritantes</div></div>
+<div class="dc reveal"><div class="dn">DOM</div><div class="de"><span class="dtg tr">sist. nerv.</span><br>Práctica de regulación emocional</div><div class="dt">10:00</div><div class="de"><span class="dtg tf">registro</span><br>¿Mejoró el ardor esta semana?</div></div>
+</div>
+</div>
+</section>
+
+<!-- 06 CHECKLIST -->
+<div class="sep"></div>
+<section>
+<div class="wrap">
+<div class="ey reveal">06 · Plan de Ejecución</div>
+<div class="ckg">
+<div class="reveal">
+<div class="ckh" style="color:var(--lime)">Esta <em style="font-style:italic">semana</em></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Terminar amoxicilina completa — sin interrumpir</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Iniciar Ferranina Fol diario con desayuno + vitamina C</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Iniciar Trilexa óvulos según esquema indicado</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Aplicar Pasta de Lassar en vulva mañana y noche</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Cambiar a ropa interior de algodón exclusivamente</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Suspender jabones íntimos, perfumes y toallas húmedas</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Agendar cita con Reumatología antes de iniciar Evra</div></div>
+</div>
+<div class="reveal">
+<div class="ckh" style="color:var(--amber)">En <em style="font-style:italic">2–3 semanas</em></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Revisión con Dr. Ramírez para valorar evolución</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Resultado de Papanicolaou disponible — revisar</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Si persiste disuria: EGO + urocultivo con antibiograma</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Consultar a reumatóloga sobre riesgo hormonal combinado</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Iniciar sesiones con Psic. Mónica Cuevas</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Reportar si sangrado menstrual cambia o empeora</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Evaluar inicio de Evra si Reumatología autoriza</div></div>
+</div>
+<div class="reveal">
+<div class="ckh" style="color:var(--violet)">En <em style="font-style:italic">6–8 semanas</em></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Ultrasonido de control: quistes simples + endometrio</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Biometría hemática + perfil de hierro/ferritina</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Evaluar respuesta al tratamiento de menorragia</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Si endometrio persiste &gt;8mm + sangrado: valorar biopsia</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Confirmar mejoría de Hb (meta &gt;12.5 g/dL)</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Evaluar continuidad o ajuste de tratamiento con hierro</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Revisión integral con Dr. Ramírez</div></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 07 SEÑALES DE ALARMA -->
+<div class="sep"></div>
+<section style="background:var(--surface)">
+<div class="wrap">
+<div class="ey reveal">07 · Acudir Antes Si…</div>
+<p class="reveal" style="font-size:14px;color:var(--muted);margin-bottom:28px;max-width:660px;line-height:1.7;">Estos síntomas no esperan la cita de seguimiento. Si aparece cualquiera de estos, acude de inmediato o busca urgencias.</p>
+<div class="alarm-grid">
+<div class="alarm-card reveal"><span class="alarm-icon">🩸</span><div class="alarm-text"><strong>Sangrado muy abundante</strong><br>Más de una toalla por hora durante 2 horas seguidas</div></div>
+<div class="alarm-card reveal"><span class="alarm-icon">😵</span><div class="alarm-text"><strong>Mareo o debilidad intensa</strong><br>Especialmente si se acompaña de palidez o taquicardia</div></div>
+<div class="alarm-card reveal"><span class="alarm-icon">⚡</span><div class="alarm-text"><strong>Dolor pélvico súbito fuerte</strong><br>Diferente al habitual — intenso, agudo, que no cede</div></div>
+<div class="alarm-card reveal"><span class="alarm-icon">🌡️</span><div class="alarm-text"><strong>Fiebre</strong><br>Temperatura mayor a 38°C con cualquier síntoma pélvico</div></div>
+<div class="alarm-card reveal"><span class="alarm-icon">💧</span><div class="alarm-text"><strong>Flujo con mal olor</strong><br>Cambio de color, consistencia o olor fétido en flujo vaginal</div></div>
+<div class="alarm-card reveal"><span class="alarm-icon">🔴</span><div class="alarm-text"><strong>Sangre visible en orina</strong><br>Hematuria macroscópica — orina color rosa, rojo o café</div></div>
+<div class="alarm-card reveal"><span class="alarm-icon">🦵</span><div class="alarm-text"><strong>Dolor de pierna</strong><br>Si inicia parche hormonal: dolor, hinchazón o calor en pierna</div></div>
+<div class="alarm-card reveal"><span class="alarm-icon">💨</span><div class="alarm-text"><strong>Falta de aire o dolor torácico</strong><br>Si inicia parche hormonal: señal de alerta tromboembólica</div></div>
+</div>
+</div>
+</section>
+
+<!-- 08 PRÓXIMOS ESTUDIOS -->
+<div class="sep"></div>
+<section>
+<div class="wrap">
+<div class="ey reveal">08 · Próximos Estudios</div>
+<div class="ng">
+<div class="nc reveal"><div class="nn">Biometría Hemática</div><div class="nr">Control a 2 meses. Meta: Hb &gt;12.5 g/dL, Hto &gt;36%, RDW normalizado</div></div>
+<div class="nc reveal"><div class="nn">Perfil de Hierro + Ferritina</div><div class="nr">Verificar recuperación de reservas con Ferranina Fol. Meta: ferritina &gt;30 ng/mL</div></div>
+<div class="nc reveal"><div class="nn">EGO + Urocultivo</div><div class="nr">Solo si persiste disuria/ardor post-antibiótico. Con antibiograma para guiar manejo</div></div>
+<div class="nc reveal"><div class="nn">Papanicolaou</div><div class="nr">Resultado pendiente — seguimiento obligatorio en 2–3 semanas</div></div>
+<div class="nc reveal"><div class="nn">Ultrasonido Pélvico</div><div class="nr">Control en 6–8 semanas: quistes simples + endometrio + mioma</div></div>
+<div class="nc reveal"><div class="nn">Valoración Reumatología</div><div class="nr">Antes de iniciar Evra — descartar riesgo tromboembólico y sínd. antifosfolípidos</div></div>
+<div class="nc reveal"><div class="nn">Biopsia Endometrial</div><div class="nr">Solo si persiste sangrado + endometrio &gt;8mm en control ecográfico</div></div>
+<div class="nc reveal"><div class="nn">TSH + T4L</div><div class="nr">Evaluar función tiroidea — hipotiroidismo previo documentado, verificar control</div></div>
+</div>
+</div>
+</section>
+
+<footer>
+<div class="wrap">
+<p class="fq">"Tu cuerpo no está en tu contra.<br>Está esperando que le des <em>las condiciones correctas.</em>"</p>
+<div class="fb">Dr. Miguel Ángel Ramírez y Ramírez · MUJER 360° · Hospital Ángeles Puebla · Torre 1, Piso 10, Consultorio 1086</div>
+<div class="fd"><span class="fdl">⚠️ Aviso Educativo</span>Este dashboard es un recurso educativo y de acompañamiento clínico personalizado. Las indicaciones aquí contenidas son exclusivas para esta paciente y deben ser seguidas bajo supervisión médica directa. No sustituye la consulta presencial ni el criterio clínico del médico tratante.</div>
+</div>
+</footer>
+
+<script>
+const c=document.getElementById("pts");
+for(let i=0;i<30;i++){const p=document.createElement("div");p.classList.add("pt");p.style.cssText="position:absolute;border-radius:50%;width:"+(1+Math.random()*2)+"px;height:"+(1+Math.random()*2)+"px;left:"+Math.random()*100+"vw;bottom:-10px;animation-duration:"+(8+Math.random()*16)+"s;animation-delay:"+(Math.random()*22)+"s;animation-name:rise;animation-timing-function:linear;animation-iteration-count:infinite;";const cols=["#d4ff3a","#3defd6","#b794ff","rgba(212,255,58,0.35)","rgba(61,239,214,0.3)"];p.style.background=cols[Math.floor(Math.random()*cols.length)];c.appendChild(p);}
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add("visible");obs.unobserve(x.target);}});},{threshold:.08,rootMargin:"0px 0px -40px 0px"});
+document.querySelectorAll(".reveal").forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
