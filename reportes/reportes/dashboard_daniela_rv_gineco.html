@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard · Daniela R.V. · Dr. Ramírez</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0b10;--s1:#0d0f16;--s2:#111318;
+  --lime:#d4ff3a;--teal:#3defd6;--violet:#b794ff;
+  --coral:#ff6b5b;--amber:#ffb547;--rose:#f472b6;
+  --sage:#7ecf8e;--w:#f7f4ee;--m:rgba(247,244,238,0.48);--b:rgba(247,244,238,0.07);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--w);font-family:"Inter Tight",sans-serif;overflow-x:hidden;}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:999;mix-blend-mode:overlay;opacity:.28;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");}
+.aw{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.au{position:absolute;border-radius:50%;filter:blur(100px);animation:drift 22s ease-in-out infinite;}
+.a1{width:550px;height:550px;background:#7ecf8e;opacity:.1;top:-180px;left:-80px;}
+.a2{width:620px;height:450px;background:#3defd6;opacity:.09;top:32%;right:-180px;animation-delay:-8s;}
+.a3{width:460px;height:540px;background:#b794ff;opacity:.09;bottom:-80px;left:26%;animation-delay:-15s;}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(35px,-28px) scale(1.04);}66%{transform:translate(-28px,35px) scale(.96);}}
+.pts{position:fixed;inset:0;pointer-events:none;z-index:1;}
+.pt{position:absolute;border-radius:50%;opacity:0;animation:rise linear infinite;}
+@keyframes rise{0%{opacity:0;transform:translateY(0) scale(0);}10%{opacity:.5;}90%{opacity:.15;}100%{opacity:0;transform:translateY(-100vh) scale(1.5);}}
+.wrap{max-width:1160px;margin:0 auto;padding:0 32px;position:relative;z-index:10;}
+section{padding:76px 0;}
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .8s ease,transform .8s ease;}
+.reveal.visible{opacity:1;transform:none;}
+.sep{height:1px;background:var(--b);}
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:110px 0 76px;border-bottom:1px solid var(--b);}
+.eyebrow{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--sage);margin-bottom:28px;display:flex;align-items:center;gap:14px;}
+.eyebrow::before{content:"";display:inline-block;width:28px;height:1px;background:var(--sage);}
+.hero-title{font-family:"Fraunces",serif;font-size:clamp(44px,6.5vw,98px);font-weight:900;line-height:.95;letter-spacing:-.03em;margin-bottom:36px;}
+.acc{color:var(--sage);font-style:italic;}.acc2{color:var(--teal);}.acc3{color:var(--violet);}
+.hero-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:680px;}
+.hml{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--m);display:block;margin-bottom:3px;}
+.hmv{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--w);}
+/* EY */
+.ey{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--m);margin-bottom:40px;display:flex;align-items:center;gap:16px;}
+.ey::after{content:"";flex:1;height:1px;background:var(--b);}
+/* DIU STATUS */
+.diu-hero{background:var(--s1);border:1px solid rgba(126,207,142,.2);border-radius:20px;padding:44px;display:grid;grid-template-columns:1fr 260px;gap:48px;align-items:center;}
+.diu-title{font-family:"Fraunces",serif;font-size:clamp(24px,3vw,40px);font-weight:900;line-height:1.05;margin-bottom:14px;color:var(--w);}
+.diu-title em{color:var(--sage);font-style:italic;}
+.diu-body{font-size:14px;line-height:1.8;color:var(--m);margin-bottom:20px;}
+.diu-body strong{color:var(--w);}
+.diu-tags{display:flex;flex-wrap:wrap;gap:8px;}
+.tag-ok{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;border-radius:16px;background:rgba(126,207,142,.08);border:1px solid rgba(126,207,142,.22);color:var(--sage);}
+.tag-wa{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;border-radius:16px;background:rgba(255,181,71,.08);border:1px solid rgba(255,181,71,.2);color:var(--amber);}
+/* SEÑALES */
+.sig-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;}
+.sig{background:var(--s1);border:1px solid var(--b);border-radius:12px;padding:24px;position:relative;overflow:hidden;transition:transform .3s;color:var(--w);}
+.sig:hover{transform:translateY(-3px);}
+.sig::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;}
+.st::before{background:var(--teal);}.sa::before{background:var(--amber);}.sc::before{background:var(--coral);}.sg::before{background:var(--sage);}
+.sic{font-size:26px;margin-bottom:10px;display:block;}
+.stit{font-family:"Fraunces",serif;font-size:17px;font-weight:700;margin-bottom:8px;color:var(--w);}
+.sbod{font-size:13px;line-height:1.6;color:var(--m);}
+.sbod strong{color:var(--w);}
+/* TRAT */
+.trat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;}
+.tcard{background:var(--s1);border:1px solid var(--b);border-radius:14px;padding:26px;color:var(--w);transition:transform .3s;}
+.tcard:hover{transform:translateY(-3px);}
+.tcard-head{display:flex;align-items:center;gap:13px;margin-bottom:14px;}
+.ticon{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.ti1{background:rgba(126,207,142,.1);}.ti2{background:rgba(61,239,214,.1);}.ti3{background:rgba(244,114,182,.1);}
+.tcard-title{font-family:"Fraunces",serif;font-size:18px;font-weight:700;color:var(--w);}
+.tlist{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.tlist li{font-family:"JetBrains Mono",monospace;font-size:11px;line-height:1.6;color:var(--m);display:flex;gap:8px;align-items:flex-start;}
+.tlist li::before{content:"→";color:var(--lime);flex-shrink:0;}
+.tlist li span{color:var(--w);}
+/* SNA - SISTEMA NERVIOSO */
+.sna-card{background:var(--s1);border:1px solid rgba(183,148,255,.2);border-radius:20px;padding:44px;display:grid;grid-template-columns:1fr 280px;gap:48px;align-items:center;color:var(--w);}
+.sna-title{font-family:"Fraunces",serif;font-size:clamp(24px,3vw,40px);font-weight:900;line-height:1.05;margin-bottom:14px;color:var(--w);}
+.sna-title em{color:var(--violet);font-style:italic;}
+.sna-body{font-size:14px;line-height:1.8;color:var(--m);margin-bottom:14px;}
+.sna-body strong{color:var(--w);}
+.sna-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;}
+.vtag{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;border-radius:16px;background:rgba(183,148,255,.08);border:1px solid rgba(183,148,255,.22);color:var(--violet);}
+/* MODO ALARMA */
+.alarm-mode{background:var(--s2);border:1px solid rgba(255,107,91,.15);border-radius:16px;padding:32px;margin-top:0;color:var(--w);}
+.alarm-title{font-family:"Fraunces",serif;font-size:20px;font-weight:700;margin-bottom:14px;color:var(--coral);}
+.alarm-body{font-size:13px;line-height:1.7;color:var(--m);}
+.alarm-body strong{color:var(--w);}
+/* PATRON EMOCIONAL */
+.patron-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;}
+.patron-card{background:var(--s1);border:1px solid var(--b);border-radius:12px;padding:20px;text-align:center;color:var(--w);transition:border-color .3s,transform .3s;}
+.patron-card:hover{transform:translateY(-3px);}
+.patron-card.pv{border-color:rgba(183,148,255,.2);}
+.patron-card.pt{border-color:rgba(61,239,214,.18);}
+.patron-card.pa{border-color:rgba(255,181,71,.18);}
+.patron-card.pc{border-color:rgba(255,107,91,.18);}
+.patron-icon{font-size:32px;margin-bottom:12px;display:block;}
+.patron-title{font-family:"Fraunces",serif;font-size:16px;font-weight:700;margin-bottom:8px;}
+.pv .patron-title{color:var(--violet);}
+.pt .patron-title{color:var(--teal);}
+.pa .patron-title{color:var(--amber);}
+.pc .patron-title{color:var(--coral);}
+.patron-body{font-size:12px;line-height:1.6;color:var(--m);}
+.patron-body strong{color:var(--w);}
+/* CONEXIÓN MIRENA */
+.conexion-card{background:var(--s1);border:1px solid rgba(126,207,142,.15);border-radius:16px;padding:36px;color:var(--w);}
+.conexion-title{font-family:"Fraunces",serif;font-size:22px;font-weight:700;margin-bottom:14px;color:var(--w);}
+.conexion-title em{color:var(--sage);font-style:italic;}
+.conexion-body{font-size:14px;line-height:1.8;color:var(--m);margin-bottom:16px;}
+.conexion-body strong{color:var(--w);}
+.timeline-simple{display:flex;flex-direction:column;gap:0;}
+.tl-it{display:grid;grid-template-columns:80px 1fr;gap:20px;align-items:start;padding:20px 0;border-bottom:1px solid var(--b);}
+.tl-it:last-child{border-bottom:none;}
+.tl-n{font-family:"Fraunces",serif;font-size:44px;font-weight:900;font-style:italic;line-height:1;}
+.c1 .tl-n{color:var(--coral);}
+.c2 .tl-n{color:var(--sage);}
+.c3 .tl-n{color:var(--violet);}
+.tl-title{font-family:"Fraunces",serif;font-size:17px;font-weight:700;margin-bottom:6px;color:var(--w);}
+.tl-body{font-size:13px;line-height:1.6;color:var(--m);}
+.tl-body strong{color:var(--w);}
+/* MONICA */
+.monica-box{background:var(--s1);border:1px solid rgba(61,239,214,.2);border-radius:20px;padding:44px;display:grid;grid-template-columns:1fr 240px;gap:44px;align-items:center;color:var(--w);}
+.monica-title{font-family:"Fraunces",serif;font-size:clamp(24px,3vw,40px);font-weight:900;line-height:1.05;margin-bottom:14px;color:var(--w);}
+.monica-title em{color:var(--teal);font-style:italic;}
+.monica-body{font-size:14px;line-height:1.8;color:var(--m);margin-bottom:20px;}
+.monica-body strong{color:var(--w);}
+.monica-items{display:flex;flex-direction:column;gap:10px;}
+.mi{display:flex;gap:12px;align-items:flex-start;}
+.mi-ck{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--teal);flex-shrink:0;margin-top:2px;}
+.mi-txt{font-size:13px;line-height:1.5;color:var(--m);}
+.mi-txt strong{color:var(--w);}
+/* MEDIDAS */
+.medidas-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:11px;}
+.med{background:var(--s1);border:1px solid var(--b);border-radius:11px;padding:16px;color:var(--w);transition:border-color .3s;}
+.med:hover{border-color:rgba(126,207,142,.3);}
+.med-icon{font-size:20px;margin-bottom:7px;display:block;}
+.med-txt{font-size:13px;line-height:1.5;color:var(--m);}
+.med-txt strong{color:var(--w);}
+/* ALARM FLAGS */
+.alarm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:11px;}
+.acard{background:rgba(255,107,91,.04);border:1px solid rgba(255,107,91,.16);border-radius:11px;padding:16px;color:var(--w);transition:border-color .3s;}
+.acard:hover{border-color:rgba(255,107,91,.32);}
+.ai{font-size:20px;margin-bottom:7px;display:block;}
+.at{font-size:12px;line-height:1.5;color:var(--m);}
+.at strong{color:var(--coral);}
+/* CHECKLIST */
+.ck-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;}.ck-col{background:var(--s1);border-radius:14px;padding:24px;}
+.ckh{font-family:"Fraunces",serif;font-size:20px;font-weight:700;margin-bottom:14px;color:var(--w);}
+.cki{display:flex;align-items:flex-start;gap:11px;margin-bottom:11px;cursor:pointer;}
+.ckc{width:20px;height:20px;border-radius:50%;border:2px solid var(--b);flex-shrink:0;margin-top:2px;transition:all .3s;display:flex;align-items:center;justify-content:center;}
+.cki.checked .ckc{background:var(--sage);border-color:var(--sage);}
+.cki.checked .ckc::after{content:"✓";font-size:10px;color:var(--bg);font-weight:700;}
+.ckt{font-size:13px;line-height:1.5;color:rgba(247,244,238,.78);transition:color .3s;}
+.cki.checked .ckt{color:var(--m);text-decoration:line-through;}
+/* FOOTER */
+footer{border-top:1px solid var(--b);padding:52px 0 70px;text-align:center;}
+.fq{font-family:"Fraunces",serif;font-size:clamp(20px,3vw,34px);font-style:italic;font-weight:300;color:rgba(247,244,238,.62);max-width:680px;margin:0 auto 12px;line-height:1.4;}
+.fq em{color:var(--sage);}
+.fb{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--sage);margin-bottom:16px;}
+.fd{max-width:560px;margin:0 auto;font-size:11px;line-height:1.7;color:rgba(247,244,238,.28);padding:12px;border:1px solid rgba(255,181,71,.15);border-radius:8px;background:rgba(255,181,71,.02);}
+.fdl{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);display:block;margin-bottom:6px;}
+.mr{animation:mrot 40s linear infinite;transform-origin:center;}
+.mrs{animation:mrot 80s linear infinite;transform-origin:center;}
+.mp{animation:mpls 3s ease-in-out infinite;}
+.mw{animation:mwgl 6s ease-in-out infinite;}
+@keyframes mrot{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+@keyframes mpls{0%,100%{opacity:.5;transform:scale(1);}50%{opacity:1;transform:scale(1.08);}}
+@keyframes mwgl{0%,100%{transform:translateX(0);}25%{transform:translateX(-4px);}75%{transform:translateX(4px);}}
+@media(max-width:768px){.hero-meta,.diu-hero,.sna-card,.monica-box,.ck-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="aw"><div class="au a1"></div><div class="au a2"></div><div class="au a3"></div></div>
+<div class="pts" id="pts"></div>
+
+<!-- HERO -->
+<section class="hero">
+<div class="wrap">
+<div style="display:grid;grid-template-columns:1fr auto;gap:36px;align-items:center;">
+<div>
+<div class="eyebrow reveal">Dr. Miguel Ángel Ramírez y Ramírez · MUJER 360° · Revisión Ginecológica</div>
+<h1 class="hero-title reveal">Tu cuerpo<br>no está <span class="acc">fallando.</span><br>Está dando<br><span class="acc2">señales.</span></h1>
+<div class="hero-meta reveal">
+<div><span class="hml">Paciente</span><span class="hmv">Daniela R.V.</span></div>
+<div><span class="hml">Edad</span><span class="hmv">27 años</span></div>
+<div><span class="hml">DIU Mirena</span><span class="hmv" style="color:var(--sage)">✅ Nov 2023</span></div>
+<div><span class="hml">Enfoque</span><span class="hmv" style="color:var(--violet)">Cuerpo + SNA</span></div>
+</div>
+</div>
+<div style="opacity:.42;flex-shrink:0;">
+<svg width="170" height="170" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+<circle cx="100" cy="100" r="85" fill="none" stroke="rgba(126,207,142,.15)" stroke-width="1"/>
+<circle class="mrs" cx="100" cy="100" r="80" fill="none" stroke="rgba(126,207,142,.38)" stroke-width="1" stroke-dasharray="7 14"/>
+<circle class="mr" cx="100" cy="100" r="58" fill="none" stroke="rgba(61,239,214,.18)" stroke-width="1" stroke-dasharray="4 8"/>
+<text x="100" y="92" text-anchor="middle" font-family="Fraunces,serif" font-size="13" font-weight="900" fill="rgba(126,207,142,.7)" font-style="italic">MUJER</text>
+<text x="100" y="114" text-anchor="middle" font-family="Fraunces,serif" font-size="28" font-weight="900" fill="rgba(61,239,214,.82)" font-style="italic">360°</text>
+</svg>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 01 DIU STATUS -->
+<section>
+<div class="wrap">
+<div class="ey reveal">01 · Estado del DIU Mirena</div>
+<div class="diu-hero reveal">
+<div>
+<h2 class="diu-title">Tu DIU está<br><em>bien colocado.</em><br>Revisión tranquilizadora.</h2>
+<p class="diu-body">El Mirena está en buena posición y ha cumplido una función importante: <strong>controló la menstruación abundante y el dolor menstrual severo</strong> que presentabas antes. Ha sido una buena intervención.</p>
+<p class="diu-body">Los manchados intermitentes y la ausencia de ciclos regulares son <strong>efectos esperados y frecuentes</strong> con el DIU hormonal — no necesariamente indican algo malo.</p>
+<div class="diu-tags">
+<div class="tag-ok">✅ Bien colocado</div>
+<div class="tag-ok">✅ Desde Nov 2023</div>
+<div class="tag-ok">✅ Controla sangrado</div>
+<div class="tag-ok">✅ Controla dolor</div>
+<div class="tag-wa">🔸 Manchados normales</div>
+<div class="tag-wa">🔸 Amenorrea frecuente</div>
+<div class="tag-wa">🔸 Folículos funcionales</div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:16px;">
+<svg viewBox="0 0 200 220" width="185" height="205" xmlns="http://www.w3.org/2000/svg">
+<defs><radialGradient id="ug" cx="50%" cy="40%" r="50%"><stop offset="0%" stop-color="rgba(126,207,142,0.18)"/><stop offset="100%" stop-color="rgba(126,207,142,0.01)"/></radialGradient></defs>
+<g transform="translate(100,110)">
+<g class="mw">
+<path d="M 0,-58 Q 48,-63 58,-28 Q 63,8 48,38 Q 33,58 0,62 Q -33,58 -48,38 Q -63,8 -58,-28 Q -48,-63 0,-58 Z" fill="url(#ug)" stroke="var(--sage)" stroke-width="1.5"/>
+<path d="M -58,-28 Q -78,-38 -88,-23 Q -92,-8 -82,2" fill="none" stroke="rgba(126,207,142,.45)" stroke-width="1.5"/>
+<path d="M 58,-28 Q 78,-38 88,-23 Q 92,-8 82,2" fill="none" stroke="rgba(126,207,142,.45)" stroke-width="1.5"/>
+<ellipse cx="-83" cy="2" rx="9" ry="6" fill="rgba(183,148,255,.12)" stroke="var(--violet)" stroke-width="1" class="mp"/>
+<ellipse cx="83" cy="2" rx="9" ry="6" fill="rgba(183,148,255,.12)" stroke="var(--violet)" stroke-width="1" class="mp" style="animation-delay:1s"/>
+</g>
+<g class="mp" style="animation-duration:4s">
+<line x1="-17" y1="-9" x2="17" y2="-9" stroke="var(--sage)" stroke-width="3" stroke-linecap="round"/>
+<line x1="0" y1="-9" x2="0" y2="24" stroke="var(--sage)" stroke-width="3" stroke-linecap="round"/>
+<circle cx="0" cy="-9" r="3" fill="var(--sage)"/>
+</g>
+<line x1="-4" y1="24" x2="-6" y2="58" stroke="rgba(126,207,142,.35)" stroke-width="1"/>
+<line x1="4" y1="24" x2="6" y2="58" stroke="rgba(126,207,142,.35)" stroke-width="1"/>
+</g>
+<text x="100" y="200" text-anchor="middle" font-family="Fraunces,serif" font-size="11" font-style="italic" fill="rgba(126,207,142,.4)">Mirena · Bien posicionado</text>
+</svg>
+<div style="background:rgba(126,207,142,.05);border:1px solid rgba(126,207,142,.18);border-radius:11px;padding:15px;max-width:180px;text-align:center;color:var(--w);">
+<p style="font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);margin-bottom:6px">Duración Mirena</p>
+<p style="font-size:12px;line-height:1.6;color:var(--m)">5–8 años de protección. <strong style="color:var(--w)">Control anual</strong> con ultrasonido.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 02 SEÑALES -->
+<div class="sep"></div>
+<section style="background:var(--s1);">
+<div class="wrap">
+<div class="ey reveal">02 · Señales Observadas</div>
+<div class="sig-grid">
+<div class="sig sg reveal"><span class="sic">🔸</span><div class="stit">Manchados intermitentes</div><div class="sbod">Compatibles con Mirena. <strong>No es sangrado anormal</strong> — es el endometrio respondiendo al levonorgestrel local. Frecuente en los primeros años, puede persistir.</div></div>
+<div class="sig sg reveal"><span class="sic">🌑</span><div class="stit">Amenorrea / ciclos ausentes</div><div class="sbod"><strong>Efecto esperado del DIU hormonal.</strong> El endometrio se adelgaza tanto que no hay sangrado mensual. No significa problema — significa que el Mirena está funcionando.</div></div>
+<div class="sig sa reveal"><span class="sic">🫧</span><div class="stit">Folículos ováricos</div><div class="sbod">El Mirena actúa localmente — los ovarios siguen funcionando. <strong>Los folículos son quistes funcionales esperados</strong>, relacionados con actividad ovárica normal.</div></div>
+<div class="sig sa reveal"><span class="sic">🔥</span><div class="stit">Irritación vaginal leve</div><div class="sbod">Probablemente asociada al <strong>ambiente hormonal local y al DIU</strong>. Tratamiento local indicado con óvulos según receta. Responde bien al manejo dirigido.</div></div>
+<div class="sig sc reveal"><span class="sic">🌡️</span><div class="stit">Dermatitis por fricción</div><div class="sbod">Irritación de piel por <strong>humedad, roce o calor</strong>. Tratamiento con ungüento indicado + medidas para mantener zona seca. No es infección — es irritación mecánica.</div></div>
+<div class="sig st reveal"><span class="sic">🧠</span><div class="stit">Sistema nervioso activado</div><div class="sbod">Antecedente de <strong>disfunción ovulatoria, hiperprolactinemia y ansiedad</strong>. El SNA en modo alarma amplifica síntomas y sensibilidad corporal. La causa sigue activa.</div></div>
+</div>
+</div>
+</section>
+
+<!-- 03 EL PATRÓN EMOCIONAL -->
+<div class="sep"></div>
+<section>
+<div class="wrap">
+<div class="ey reveal">03 · Lo que Identificamos en Consulta</div>
+<p class="reveal" style="font-size:14px;color:var(--m);margin-bottom:28px;max-width:680px;line-height:1.8;">Al conversar contigo identificamos un patrón emocional que está conectado con lo que tu cuerpo expresa. <strong style="color:var(--w)">No es coincidencia — es información.</strong></p>
+<div class="patron-grid">
+<div class="patron-card pv reveal">
+<span class="patron-icon">🎯</span>
+<div class="patron-title">Perfeccionismo</div>
+<div class="patron-body">Tendencia a exigirte resultados exactos, sin margen de error. <strong>El cuerpo percibe esa presión</strong> y la traduce en tensión sostenida.</div>
+</div>
+<div class="patron-card pt reveal">
+<span class="patron-icon">⏳</span>
+<div class="patron-title">Exceso de futuro</div>
+<div class="patron-body">Vivir anticipando lo que puede salir mal. <strong>La mente en el futuro</strong> activa el sistema de alarma aunque no haya peligro real ahora.</div>
+</div>
+<div class="patron-card pa reveal">
+<span class="patron-icon">🔒</span>
+<div class="patron-title">Ansiedad de control</div>
+<div class="patron-body">Necesidad de tener todo bajo control. Cuando algo escapa, <strong>el sistema nervioso responde como si fuera emergencia.</strong></div>
+</div>
+<div class="patron-card pc reveal">
+<span class="patron-icon">⚡</span>
+<div class="patron-title">Modo supervivencia</div>
+<div class="patron-body">El sistema nervioso aprendió a estar siempre alerta. <strong>Se adaptó a la emergencia</strong> como estado base — aunque ya no haya emergencia real.</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 04 CONEXIÓN MIRENA + SNA -->
+<div class="sep"></div>
+<section style="background:var(--s1);">
+<div class="wrap">
+<div class="ey reveal">04 · La Conexión que Importa Entender</div>
+<div class="conexion-card reveal">
+<h3 class="conexion-title">El Mirena controló el síntoma.<br>La <em>causa sigue activa.</em></h3>
+<p class="conexion-body">Antes del DIU tenías <strong>menstruaciones con dolor intenso y sangrado abundante</strong> — probablemente relacionados con alteración de ovulación. Esa alteración tenía una raíz en el sistema nervioso en modo alerta permanente.</p>
+<p class="conexion-body">El Mirena hizo su trabajo: <strong>controló el sangrado y el dolor.</strong> Pero el patrón nervioso que estaba debajo sigue ahí. El cuerpo lo sigue expresando — ahora en irritación, sensibilidad, manchados, ansiedad.</p>
+<div class="timeline-simple" style="margin-top:24px;">
+<div class="tl-it c1">
+<div class="tl-n">01</div>
+<div><div class="tl-title">Antes del Mirena</div><div class="tl-body">SNA en modo alarma → <strong>disfunción ovulatoria → dolor intenso + sangrado abundante.</strong> El cuerpo gritaba.</div></div>
+</div>
+<div class="tl-it c2">
+<div class="tl-n">02</div>
+<div><div class="tl-title">Con el Mirena</div><div class="tl-body">El DIU <strong>controló el síntoma ginecológico.</strong> El sangrado y el dolor mejoraron. Pero la raíz nerviosa sigue activa.</div></div>
+</div>
+<div class="tl-it c3">
+<div class="tl-n">03</div>
+<div><div class="tl-title">El siguiente paso</div><div class="tl-body">Trabajar <strong>la causa real</strong> — entrenar el sistema nervioso para salir del modo alarma. Eso es lo que viene con Mónica.</div></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 05 SNA -->
+<div class="sep"></div>
+<section>
+<div class="wrap">
+<div class="ey reveal">05 · Tu Sistema Nervioso Autónomo</div>
+<div class="sna-card reveal">
+<div>
+<h2 class="sna-title">Aprendió a vivir<br>en <em>modo emergencia.</em><br>Se puede re-entrenar.</h2>
+<p class="sna-body">Tu sistema nervioso se adaptó a estar siempre en alerta — anticipando, controlando, exigiéndose. No es un defecto. Es una adaptación que en algún momento tuvo sentido.</p>
+<p class="sna-body">El problema es cuando ese modo se queda encendido aunque ya no haya emergencia real. El cuerpo sigue respondiendo como si todo fuera urgente. <strong>Y eso amplifica síntomas, altera ciclos y agota reservas.</strong></p>
+<p class="sna-body">La buena noticia: <strong>el sistema nervioso es plástico.</strong> Se puede entrenar. Se puede enseñar a modular — cuándo encender la alerta y cuándo apagarla.</p>
+<div class="sna-tags">
+<div class="vtag">Nervio vago</div>
+<div class="vtag">HRV · coherencia cardíaca</div>
+<div class="vtag">Respiración consciente</div>
+<div class="vtag">Regulación del SNA</div>
+<div class="vtag">Neuroplasticidad</div>
+<div class="vtag">Salir del modo alarma</div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:16px;">
+<svg viewBox="0 0 220 250" width="200" height="230" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(110,110)">
+<g class="mw">
+<path d="M 0,-60 Q 40,-65 52,-33 Q 60,-5 50,23 Q 40,46 20,56 Q 6,62 0,60 Q -6,62 -20,56 Q -40,46 -50,23 Q -60,-5 -52,-33 Q -40,-65 0,-60 Z" fill="rgba(183,148,255,.06)" stroke="var(--violet)" stroke-width="1.5"/>
+<path d="M -17,-42 Q 0,-25 17,-42" fill="none" stroke="rgba(183,148,255,.28)" stroke-width="1"/>
+<path d="M -28,-12 Q -11,5 -28,22" fill="none" stroke="rgba(183,148,255,.28)" stroke-width="1"/>
+<path d="M 28,-12 Q 11,5 28,22" fill="none" stroke="rgba(183,148,255,.28)" stroke-width="1"/>
+</g>
+<circle cx="-17" cy="-26" r="5" fill="rgba(183,148,255,.3)" stroke="var(--violet)" stroke-width="1" class="mp"/>
+<circle cx="17" cy="-26" r="5" fill="rgba(183,148,255,.3)" stroke="var(--violet)" stroke-width="1" class="mp" style="animation-delay:.5s"/>
+<circle cx="0" cy="8" r="5" fill="rgba(183,148,255,.3)" stroke="var(--violet)" stroke-width="1" class="mp" style="animation-delay:1s"/>
+<circle cx="-26" cy="8" r="4" fill="rgba(183,148,255,.2)" stroke="var(--violet)" stroke-width="1" class="mp" style="animation-delay:1.5s"/>
+<circle cx="26" cy="8" r="4" fill="rgba(183,148,255,.2)" stroke="var(--violet)" stroke-width="1" class="mp" style="animation-delay:2s"/>
+<line x1="-17" y1="-26" x2="0" y2="8" stroke="rgba(183,148,255,.15)" stroke-width="1"/>
+<line x1="17" y1="-26" x2="0" y2="8" stroke="rgba(183,148,255,.15)" stroke-width="1"/>
+<line x1="-26" y1="8" x2="0" y2="8" stroke="rgba(183,148,255,.15)" stroke-width="1"/>
+<line x1="26" y1="8" x2="0" y2="8" stroke="rgba(183,148,255,.15)" stroke-width="1"/>
+<path d="M -62,92 L -46,92 L -36,68 L -26,116 L -16,80 L -6,92 L 0,92 L 6,92 L 16,72 L 26,112 L 36,82 L 46,92 L 62,92" fill="none" stroke="var(--sage)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mw"/>
+<text x="0" y="-76" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(255,107,91,.55)">MODO ALARMA</text>
+<text x="0" y="118" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(126,207,142,.6)">HRV · COHERENCIA</text>
+</g>
+</svg>
+<div class="alarm-mode" style="max-width:220px;">
+<div class="alarm-title" style="font-size:14px;margin-bottom:8px;">El modo alarma crónico:</div>
+<div class="alarm-body" style="font-size:11px;">
+Altera ovulación · Amplifica dolor · Eleva prolactina · Aumenta sensibilidad · Agota reservas adrenales · Mantiene ansiedad activa
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 06 MÓNICA -->
+<div class="sep"></div>
+<section style="background:var(--s1);">
+<div class="wrap">
+<div class="ey reveal">06 · Entrenamiento con Psic. Mónica Cuevas</div>
+<div class="monica-box reveal">
+<div>
+<h2 class="monica-title">No es calmarse<br>para siempre.<br>Es aprender <em>cuándo sí<br>y cuándo no.</em></h2>
+<p class="monica-body">El entrenamiento con Mónica <strong>no es terapia farmacológica</strong> — es entrenamiento del sistema nervioso. Como ir al gimnasio, pero para aprender a regular la respuesta de alarma.</p>
+<p class="monica-body">No se trata de cambiar tu personalidad ni de dejar de ser exigente. Se trata de que <strong>tú decidas cuándo activar el modo alerta y cuándo bajarlo.</strong> Ahora el sistema decide por ti — automáticamente, en modo emergencia.</p>
+<div class="monica-items">
+<div class="mi"><div class="mi-ck">✓</div><div class="mi-txt"><strong>Menos reactividad corporal</strong> — el cuerpo deja de interpretar todo como amenaza</div></div>
+<div class="mi"><div class="mi-ck">✓</div><div class="mi-txt"><strong>Mejor manejo de ansiedad</strong> — herramientas concretas, no solo "relájate"</div></div>
+<div class="mi"><div class="mi-ck">✓</div><div class="mi-txt"><strong>Respiración y coherencia cardíaca</strong> — HRV como herramienta de regulación</div></div>
+<div class="mi"><div class="mi-ck">✓</div><div class="mi-txt"><strong>Mejor conexión mente-cuerpo</strong> — entender qué activa tus síntomas</div></div>
+<div class="mi"><div class="mi-ck">✓</div><div class="mi-txt"><strong>Más sensación de control y bienestar</strong> — desde adentro, no desde afuera</div></div>
+<div class="mi"><div class="mi-ck">✓</div><div class="mi-txt"><strong>Tratar la causa real</strong> — no solo el síntoma que el Mirena ya controló</div></div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:16px;">
+<svg viewBox="0 0 180 180" width="170" height="170" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(90,90)">
+<circle r="70" fill="none" stroke="rgba(61,239,214,.08)" stroke-width="1" class="mrs"/>
+<circle r="50" fill="none" stroke="rgba(61,239,214,.12)" stroke-width="1" class="mr"/>
+<circle r="30" fill="rgba(61,239,214,.06)" stroke="var(--teal)" stroke-width="1.5" class="mp"/>
+<text y="-8" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="var(--teal)">MÓNICA</text>
+<text y="6" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(61,239,214,.6)">CUEVAS</text>
+<text y="18" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6" fill="rgba(61,239,214,.4)">SNA</text>
+<circle cx="0" cy="-50" r="8" fill="rgba(61,239,214,.15)" stroke="var(--teal)" stroke-width="1" class="mp"/>
+<text x="0" y="-46" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6" fill="var(--teal)">HRV</text>
+<circle cx="48" cy="-15" r="8" fill="rgba(61,239,214,.12)" stroke="var(--teal)" stroke-width="1" class="mp" style="animation-delay:.8s"/>
+<text x="48" y="-11" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6" fill="var(--teal)">SNA</text>
+<circle cx="30" cy="40" r="8" fill="rgba(61,239,214,.12)" stroke="var(--teal)" stroke-width="1" class="mp" style="animation-delay:1.6s"/>
+<text x="30" y="44" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6" fill="var(--teal)">CBT</text>
+<circle cx="-30" cy="40" r="8" fill="rgba(61,239,214,.12)" stroke="var(--teal)" stroke-width="1" class="mp" style="animation-delay:2.4s"/>
+<text x="-30" y="44" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6" fill="var(--teal)">VNS</text>
+<circle cx="-48" cy="-15" r="8" fill="rgba(61,239,214,.12)" stroke="var(--teal)" stroke-width="1" class="mp" style="animation-delay:3.2s"/>
+<text x="-48" y="-11" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6" fill="var(--teal)">ANS</text>
+</g>
+</svg>
+<div style="background:rgba(61,239,214,.05);border:1px solid rgba(61,239,214,.18);border-radius:11px;padding:15px;max-width:170px;text-align:center;color:var(--w);">
+<p style="font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:6px">Psic. Mónica Cuevas S.</p>
+<p style="font-size:12px;line-height:1.6;color:var(--m)">Regulación del sistema nervioso autónomo · No farmacológico</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 07 TRATAMIENTO -->
+<div class="sep"></div>
+<section>
+<div class="wrap">
+<div class="ey reveal">07 · Tratamiento Indicado</div>
+<div class="trat-grid">
+<div class="tcard reveal">
+<div class="tcard-head"><div class="ticon ti1">💊</div><div class="tcard-title">Tratamiento Vaginal</div></div>
+<ul class="tlist">
+<li><span>Óvulos vaginales según receta — esquema indicado</span></li>
+<li><span>Aplicar preferentemente por la noche</span></li>
+<li><span>Completar esquema aunque mejoren los síntomas antes</span></li>
+<li><span>Sin jabones íntimos durante el tratamiento</span></li>
+<li><span>Sin automedicación — el producto es específico</span></li>
+</ul>
+</div>
+<div class="tcard reveal">
+<div class="tcard-head"><div class="ticon ti2">🧴</div><div class="tcard-title">Dermatitis por Fricción</div></div>
+<ul class="tlist">
+<li><span>Ungüento indicado en zona afectada según indicación</span></li>
+<li><span>Ropa interior de algodón exclusivamente</span></li>
+<li><span>Sin ropa ajustada ni materiales sintéticos</span></li>
+<li><span>Cambiar ropa húmeda o sudada de inmediato</span></li>
+<li><span>Sin toallas húmedas perfumadas</span></li>
+<li><span>Higiene suave — sin exceso de lavado</span></li>
+</ul>
+</div>
+<div class="tcard reveal">
+<div class="tcard-head"><div class="ticon ti3">🌿</div><div class="tcard-title">Medidas Generales</div></div>
+<ul class="tlist">
+<li><span>Evitar jabones perfumados y duchas vaginales</span></li>
+<li><span>No automedicar óvulos o cremas sin indicación</span></li>
+<li><span>Mantener buena higiene sin exceso</span></li>
+<li><span>Ropa que permita ventilación adecuada</span></li>
+<li><span>Observar y anotar evolución de síntomas</span></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 08 ALARMAS -->
+<div class="sep"></div>
+<section style="background:var(--s1);">
+<div class="wrap">
+<div class="ey reveal">08 · Vigilar y Avisar Si…</div>
+<div class="alarm-grid">
+<div class="acard reveal"><span class="ai">🩸</span><div class="at"><strong>Sangrado abundante</strong><br>Diferente al manchado habitual con Mirena</div></div>
+<div class="acard reveal"><span class="ai">⚡</span><div class="at"><strong>Dolor pélvico fuerte</strong><br>Diferente al habitual, intenso o que no cede</div></div>
+<div class="acard reveal"><span class="ai">🌡️</span><div class="at"><strong>Fiebre</strong><br>Con cualquier síntoma pélvico o vaginal</div></div>
+<div class="acard reveal"><span class="ai">💧</span><div class="at"><strong>Flujo con mal olor</strong><br>Cambio de color, consistencia o olor fétido</div></div>
+<div class="acard reveal"><span class="ai">😣</span><div class="at"><strong>Dolor durante relaciones</strong><br>Dispareunia nueva o que empeora</div></div>
+<div class="acard reveal"><span class="ai">🔥</span><div class="at"><strong>Comezón o ardor persistente</strong><br>Que no mejora con el tratamiento indicado</div></div>
+<div class="acard reveal"><span class="ai">❗</span><div class="at"><strong>Sensación de que el DIU se movió</strong><br>O expulsión parcial o total del dispositivo</div></div>
+</div>
+</div>
+</section>
+
+<!-- 09 CHECKLIST -->
+<div class="sep"></div>
+<section style="background:var(--s1);">
+<div class="wrap">
+<div class="ey reveal">09 · Plan de Acción</div>
+<div class="ck-grid">
+<div class="reveal" style="background:var(--s2);border:1px solid var(--b);border-radius:14px;padding:24px;">
+<div class="ckh" style="color:var(--sage)">Esta <em style="font-style:italic">semana</em></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Iniciar óvulos vaginales según esquema de receta</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Aplicar ungüento para dermatitis según indicación</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Cambiar a ropa interior de algodón exclusivamente</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Suspender jabones íntimos y productos perfumados</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Agendar primera sesión con Psic. Mónica Cuevas</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Observar y anotar evolución de síntomas día a día</div></div>
+</div>
+<div class="reveal" style="background:var(--s2);border:1px solid var(--b);border-radius:14px;padding:24px;">
+<div class="ckh" style="color:var(--violet)">Próximas <em style="font-style:italic">semanas</em></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Revisión con Dr. Ramírez para evaluar respuesta</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Continuar sesiones con Mónica Cuevas</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Ultrasonido de control anual para DIU</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Control de prolactina y TSH según evolución</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Evaluar si mejoró irritación vaginal y dermatitis</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Notar cambios en reactividad y ansiedad con el entrenamiento</div></div>
+</div>
+</div>
+</div>
+</section>
+
+<footer>
+<div class="wrap">
+<p class="fq">"El cuerpo no está fallando.<br>Está dando señales.<br>Y cuando las escuchamos a tiempo,<br>el camino se vuelve <em>mucho más claro.</em>"</p>
+<div class="fb" style="margin-top:24px;">Dr. Miguel Ángel Ramírez y Ramírez · MUJER 360° · Hospital Ángeles Puebla · Torre 1, Piso 10, Consultorio 1086</div>
+<div class="fd"><span class="fdl">⚠️ Aviso Educativo</span>Este dashboard es un recurso educativo y de acompañamiento clínico personalizado. Las indicaciones aquí contenidas son exclusivas para esta paciente y deben seguirse bajo supervisión médica directa. No sustituye la consulta presencial ni el criterio clínico del médico tratante.</div>
+</div>
+</footer>
+
+<script>
+const c=document.getElementById("pts");
+for(let i=0;i<30;i++){const p=document.createElement("div");p.classList.add("pt");p.style.cssText="position:absolute;border-radius:50%;width:"+(1+Math.random()*2)+"px;height:"+(1+Math.random()*2)+"px;left:"+Math.random()*100+"vw;bottom:-10px;animation-duration:"+(8+Math.random()*16)+"s;animation-delay:"+(Math.random()*22)+"s;animation-name:rise;animation-timing-function:linear;animation-iteration-count:infinite;";const cols=["#7ecf8e","#3defd6","#b794ff","rgba(126,207,142,0.35)","rgba(61,239,214,0.3)"];p.style.background=cols[Math.floor(Math.random()*cols.length)];c.appendChild(p);}
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add("visible");obs.unobserve(x.target);}});},{threshold:.08,rootMargin:"0px 0px -40px 0px"});
+document.querySelectorAll(".reveal").forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
