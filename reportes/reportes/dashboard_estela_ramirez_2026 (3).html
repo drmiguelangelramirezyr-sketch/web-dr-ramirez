@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard · Estela Ramírez · Dr. Ramírez</title>
+
+<style>@import url("data:text/css,");</style>
+
+<style>
+:root{
+  --bg:#0a0b10;--s1:#0d0f16;--s2:#111318;
+  --lime:#d4ff3a;--teal:#3defd6;--violet:#b794ff;
+  --coral:#ff6b5b;--amber:#ffb547;--rose:#f472b6;
+  --gold:#F5C98A;--sky:#7eb8cf;
+  --w:#f7f4ee;--m:rgba(247,244,238,0.48);--b:rgba(247,244,238,0.07);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--w);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden;}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:999;mix-blend-mode:overlay;opacity:.28;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");}
+.aw{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.au{position:absolute;border-radius:50%;filter:blur(100px);animation:drift 22s ease-in-out infinite;}
+.a1{width:600px;height:600px;background:#7eb8cf;opacity:.1;top:-180px;left:-100px;}
+.a2{width:650px;height:480px;background:#b794ff;opacity:.09;top:32%;right:-180px;animation-delay:-8s;}
+.a3{width:480px;height:560px;background:#F5C98A;opacity:.08;bottom:-80px;left:26%;animation-delay:-15s;}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(35px,-28px) scale(1.04);}66%{transform:translate(-28px,35px) scale(.96);}}
+.pts{position:fixed;inset:0;pointer-events:none;z-index:1;}
+.pt{position:absolute;border-radius:50%;opacity:0;animation:rise linear infinite;}
+@keyframes rise{0%{opacity:0;transform:translateY(0) scale(0);}10%{opacity:.5;}90%{opacity:.15;}100%{opacity:0;transform:translateY(-100vh) scale(1.5);}}
+.wrap{max-width:1160px;margin:0 auto;padding:0 32px;position:relative;z-index:10;}
+section{padding:76px 0;}
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .8s ease,transform .8s ease;}
+.reveal.visible{opacity:1;transform:none;}
+.sep{height:1px;background:var(--b);}
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:110px 0 76px;border-bottom:1px solid var(--b);}
+.eyebrow{font-family:"Courier New",Courier,monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--sky);margin-bottom:28px;display:flex;align-items:center;gap:14px;}
+.eyebrow::before{content:"";display:inline-block;width:28px;height:1px;background:var(--sky);}
+.hero-title{font-family:Georgia,serif;font-size:clamp(44px,6.5vw,98px);font-weight:900;line-height:.95;letter-spacing:-.03em;margin-bottom:36px;}
+.acc{color:var(--sky);font-style:italic;}.acc2{color:var(--gold);}.acc3{color:var(--violet);}
+.hero-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:680px;}
+.hml{font-family:"Courier New",Courier,monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--m);display:block;margin-bottom:3px;}
+.hmv{font-family:"Courier New",Courier,monospace;font-size:12px;color:var(--w);}
+/* EY */
+.ey{font-family:"Courier New",Courier,monospace;font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--m);margin-bottom:40px;display:flex;align-items:center;gap:16px;}
+.ey::after{content:"";flex:1;height:1px;background:var(--b);}
+/* COMP HEADER */
+.comp-hdr{display:grid;grid-template-columns:1fr auto 1fr;gap:22px;align-items:center;margin-bottom:32px;}
+.ch-box{background:var(--s1);border:1px solid var(--b);border-radius:14px;padding:18px 22px;color:var(--w);}
+.ch-box-sky{background:var(--s1);border:1px solid rgba(126,184,207,.2);border-radius:14px;padding:18px 22px;border-top:3px solid rgba(126,184,207,.5);color:var(--w);}
+.ch-box-gold{background:var(--s1);border:1px solid rgba(245,201,138,.2);border-radius:14px;padding:18px 22px;border-top:3px solid rgba(245,201,138,.5);color:var(--w);}
+.ch-date{font-family:"Courier New",Courier,monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:5px;}
+.ch-box-sky .ch-date{color:var(--sky);}
+.ch-box-gold .ch-date{color:var(--gold);}
+.ch-lbl{font-family:Georgia,serif;font-size:16px;font-weight:700;color:var(--w);}
+.ch-sub{font-size:12px;color:var(--m);margin-top:3px;}
+.ch-arr{font-family:Georgia,serif;font-size:32px;font-weight:900;color:var(--gold);text-align:center;opacity:.5;}
+/* METRIC CARDS */
+.metric-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;margin-bottom:44px;}
+.mcard{background:var(--s1);border:1px solid var(--b);border-radius:14px;padding:20px;color:var(--w);transition:transform .3s;}
+.mcard:hover{transform:translateY(-3px);}
+.mcard-lbl{font-family:"Courier New",Courier,monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--m);margin-bottom:10px;}
+.mvals{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-bottom:8px;}
+.mv{text-align:center;}
+.mv-num{font-family:Georgia,serif;font-size:32px;font-weight:900;line-height:1;}
+.mv-unit{font-family:"Courier New",Courier,monospace;font-size:9px;color:var(--m);display:block;margin-top:2px;}
+.mv-yr{font-family:"Courier New",Courier,monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;margin-top:3px;}
+.mv-sky .mv-num{color:var(--sky);}.mv-sky .mv-yr{color:var(--sky);}
+.mv-gold .mv-num{color:var(--gold);}.mv-gold .mv-yr{color:var(--gold);}
+.mdelta{text-align:center;}
+.mdelta-n{font-family:"Courier New",Courier,monospace;font-size:15px;font-weight:500;}
+.du{color:var(--coral);}.dd{color:var(--teal);}.deq{color:var(--m);}
+.rbar{height:5px;border-radius:3px;background:linear-gradient(to right,#ff6b5b 0%,#ffb547 15%,#3defd6 30%,#d4ff3a 50%,#3defd6 70%,#ffb547 85%,#ff6b5b 100%);position:relative;margin-bottom:6px;}
+.rmk1{position:absolute;top:-4px;width:12px;height:12px;border-radius:50%;background:var(--sky);transform:translateX(-50%);border:2px solid var(--bg);animation:pmk 2s ease-in-out infinite;}
+.rmk2{position:absolute;top:-4px;width:12px;height:12px;border-radius:50%;background:var(--gold);transform:translateX(-50%);border:2px solid var(--bg);animation:pmk 2s ease-in-out infinite .5s;}
+@keyframes pmk{0%,100%{box-shadow:0 0 5px rgba(255,255,255,.4);}50%{box-shadow:0 0 12px rgba(255,255,255,.8);}}
+.rl{display:flex;justify-content:space-between;font-family:"Courier New",Courier,monospace;font-size:8px;color:var(--m);}
+.mcard-note{font-family:Georgia,serif;font-style:italic;font-size:11px;color:var(--m);border-top:1px solid var(--b);padding-top:8px;margin-top:4px;}
+/* CHART */
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+.chart-card{background:var(--s1);border:1px solid var(--b);border-radius:14px;padding:26px;color:var(--w);}
+.ct{font-family:Georgia,serif;font-size:19px;font-weight:700;margin-bottom:5px;color:var(--w);}
+.cs{font-family:"Courier New",Courier,monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--m);margin-bottom:18px;}
+.ch{position:relative;height:230px;}
+/* DIAGNÓSTICOS */
+.diag-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;}
+.dcard{background:var(--s1);border:1px solid var(--b);border-radius:12px;padding:22px;color:var(--w);position:relative;overflow:hidden;transition:transform .3s;}
+.dcard:hover{transform:translateY(-3px);}
+.dcard::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;}
+.dsky::before{background:var(--sky);}.dgold::before{background:var(--gold);}.dviolet::before{background:var(--violet);}.damber::before{background:var(--amber);}.dcoral::before{background:var(--coral);}
+.dcard-icon{font-size:26px;margin-bottom:10px;display:block;}
+.dcard-title{font-family:Georgia,serif;font-size:17px;font-weight:700;margin-bottom:7px;color:var(--w);}
+.dsky .dcard-title{color:var(--sky);}.dgold .dcard-title{color:var(--gold);}.dviolet .dcard-title{color:var(--violet);}.damber .dcard-title{color:var(--amber);}.dcoral .dcard-title{color:var(--coral);}
+.dcard-body{font-size:13px;line-height:1.6;color:var(--m);}
+.dcard-body strong{color:var(--w);}
+/* PLAN */
+.plan-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+.pcard{background:var(--s1);border:1px solid var(--b);border-radius:14px;padding:24px;color:var(--w);display:flex;flex-direction:column;gap:14px;}
+.pcard-head{display:flex;align-items:center;gap:12px;}
+.picon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;}
+.pi1{background:rgba(126,184,207,.1);}.pi2{background:rgba(183,148,255,.1);}.pi3{background:rgba(245,201,138,.1);}.pi4{background:rgba(61,239,214,.1);}
+.pcard-title{font-family:Georgia,serif;font-size:18px;font-weight:700;color:var(--w);}
+.plist{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.plist li{font-family:"Courier New",Courier,monospace;font-size:11px;line-height:1.6;color:var(--m);display:flex;gap:8px;align-items:flex-start;}
+.plist li::before{content:"→";color:var(--lime);flex-shrink:0;}
+.plist li span{color:var(--w);}
+.info-box{background:var(--s2);border:1px solid rgba(126,184,207,.15);border-radius:10px;padding:13px 15px;}
+.info-box p{font-size:12px;line-height:1.6;color:var(--m);}
+.info-box strong{color:var(--sky);}
+/* DUELO */
+.duelo-card{background:var(--s1);border:1px solid rgba(245,201,138,.18);border-radius:20px;padding:44px;color:var(--w);}
+.duelo-title{font-family:Georgia,serif;font-size:clamp(24px,3vw,42px);font-weight:900;line-height:1.05;margin-bottom:16px;color:var(--w);}
+.duelo-title em{color:var(--gold);font-style:italic;}
+.duelo-body{font-size:14px;line-height:1.8;color:var(--m);margin-bottom:18px;}
+.duelo-body strong{color:var(--w);}
+.duelo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px;}
+.duelo-item{background:var(--s2);border:1px solid rgba(245,201,138,.12);border-radius:12px;padding:20px;text-align:center;}
+.duelo-num{font-family:Georgia,serif;font-size:44px;font-weight:900;font-style:italic;color:var(--gold);line-height:1;opacity:.6;margin-bottom:8px;}
+.duelo-item-title{font-family:Georgia,serif;font-size:15px;font-weight:700;margin-bottom:7px;color:var(--gold);}
+.duelo-item-body{font-size:12px;line-height:1.5;color:var(--m);}
+.duelo-item-body strong{color:var(--w);}
+/* MONICA */
+.monica-box{background:var(--s1);border:1px solid rgba(61,239,214,.18);border-radius:20px;padding:44px;display:grid;grid-template-columns:1fr 240px;gap:44px;align-items:center;color:var(--w);}
+.monica-title{font-family:Georgia,serif;font-size:clamp(22px,2.8vw,38px);font-weight:900;line-height:1.05;margin-bottom:14px;color:var(--w);}
+.monica-title em{color:var(--teal);font-style:italic;}
+.monica-body{font-size:14px;line-height:1.8;color:var(--m);margin-bottom:20px;}
+.monica-body strong{color:var(--w);}
+.mtags{display:flex;flex-wrap:wrap;gap:8px;}
+.mtag{font-family:"Courier New",Courier,monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;border-radius:16px;background:rgba(61,239,214,.07);border:1px solid rgba(61,239,214,.2);color:var(--teal);}
+/* ESTUDIOS */
+.est-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:11px;}
+.ecard{background:var(--s1);border:1px solid var(--b);border-radius:11px;padding:16px;color:var(--w);transition:border-color .3s;}
+.ecard:hover{border-color:rgba(183,148,255,.3);}
+.en{font-family:"Courier New",Courier,monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--violet);margin-bottom:6px;}
+.er{font-size:12px;line-height:1.5;color:var(--m);}
+/* CHECKLIST */
+.ck-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+.ckh{font-family:Georgia,serif;font-size:20px;font-weight:700;margin-bottom:14px;color:var(--w);}
+.cki{display:flex;align-items:flex-start;gap:11px;margin-bottom:11px;cursor:pointer;}
+.ckc{width:20px;height:20px;border-radius:50%;border:2px solid var(--b);flex-shrink:0;margin-top:2px;transition:all .3s;display:flex;align-items:center;justify-content:center;}
+.cki.checked .ckc{background:var(--sky);border-color:var(--sky);}
+.cki.checked .ckc::after{content:"✓";font-size:10px;color:var(--bg);font-weight:700;}
+.ckt{font-size:13px;line-height:1.5;color:rgba(247,244,238,.78);transition:color .3s;}
+.cki.checked .ckt{color:var(--m);text-decoration:line-through;}
+/* FOOTER */
+footer{border-top:1px solid var(--b);padding:52px 0 70px;text-align:center;}
+.fq{font-family:Georgia,serif;font-size:clamp(20px,3vw,34px);font-style:italic;font-weight:300;color:rgba(247,244,238,.62);max-width:700px;margin:0 auto 12px;line-height:1.5;}
+.fq em{color:var(--gold);}
+.fq2{font-family:Georgia,serif;font-size:15px;font-style:italic;color:rgba(247,244,238,.35);margin-bottom:26px;}
+.fb{font-family:"Courier New",Courier,monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--sky);margin-bottom:16px;}
+.fd{max-width:560px;margin:0 auto;font-size:11px;line-height:1.7;color:rgba(247,244,238,.28);padding:12px;border:1px solid rgba(255,181,71,.15);border-radius:8px;background:rgba(255,181,71,.02);}
+.fdl{font-family:"Courier New",Courier,monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);display:block;margin-bottom:6px;}
+.mr{animation:mrot 40s linear infinite;transform-origin:center;}
+.mrs{animation:mrot 80s linear infinite;transform-origin:center;}
+.mp{animation:mpls 3s ease-in-out infinite;}
+.mw{animation:mwgl 6s ease-in-out infinite;}
+@keyframes mrot{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+@keyframes mpls{0%,100%{opacity:.5;transform:scale(1);}50%{opacity:1;transform:scale(1.08);}}
+@keyframes mwgl{0%,100%{transform:translateX(0);}25%{transform:translateX(-4px);}75%{transform:translateX(4px);}}
+@media(max-width:768px){.comp-hdr,.chart-grid,.plan-grid,.duelo-grid,.monica-box,.ck-grid{grid-template-columns:1fr;}.ch-arr{display:none;}.hero-meta{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+<div class="aw"><div class="au a1"></div><div class="au a2"></div><div class="au a3"></div></div>
+<div class="pts" id="pts"></div>
+
+<!-- HERO -->
+<section class="hero">
+<div class="wrap">
+<div style="display:grid;grid-template-columns:1fr auto;gap:36px;align-items:center;">
+<div>
+<div class="eyebrow reveal">Dr. Miguel Ángel Ramírez y Ramírez · MUJER 360° · Seguimiento Integral</div>
+<h1 class="hero-title reveal">Dos años<br>de <span class="acc">datos.</span><br>Un camino<br><span class="acc2">más claro.</span></h1>
+<div class="hero-meta reveal">
+<div><span class="hml">Paciente</span><span class="hmv">Estela R.R.</span></div>
+<div><span class="hml">Edad</span><span class="hmv">59 años</span></div>
+<div><span class="hml">Talla</span><span class="hmv">157 cm</span></div>
+<div><span class="hml">Mediciones</span><span class="hmv" style="color:var(--sky)">Abr 24 → Jun 26</span></div>
+</div>
+</div>
+<div style="opacity:.42;flex-shrink:0;">
+<svg width="170" height="170" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+<circle cx="100" cy="100" r="85" fill="none" stroke="rgba(126,184,207,.15)" stroke-width="1"/>
+<circle class="mrs" cx="100" cy="100" r="80" fill="none" stroke="rgba(126,184,207,.38)" stroke-width="1" stroke-dasharray="7 14"/>
+<circle class="mr" cx="100" cy="100" r="58" fill="none" stroke="rgba(245,201,138,.18)" stroke-width="1" stroke-dasharray="4 8"/>
+<text x="100" y="92" text-anchor="middle" font-family="Fraunces,serif" font-size="13" font-weight="900" fill="rgba(126,184,207,.7)" font-style="italic">MUJER</text>
+<text x="100" y="114" text-anchor="middle" font-family="Fraunces,serif" font-size="28" font-weight="900" fill="rgba(245,201,138,.82)" font-style="italic">360°</text>
+</svg>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 01 COMPARATIVO ACCUNIQ -->
+<section>
+<div class="wrap">
+<div class="ey reveal">01 · Comparativo ACCUNIQ · Abr 2024 → Jun 2026</div>
+<div class="comp-hdr reveal">
+<div class="ch-box-sky">
+<div class="ch-date">Abril 2024 · Medición 1</div>
+<div class="ch-lbl">Línea base · 57 años</div>
+<div class="ch-sub">Peso 67.5 kg · IMC 27.4 · Grasa 36.0%</div>
+</div>
+<div class="ch-arr">→</div>
+<div class="ch-box-gold">
+<div class="ch-date">Junio 2026 · Medición 2</div>
+<div class="ch-lbl">Control · 59 años</div>
+<div class="ch-sub">Peso 68.4 kg · IMC 27.7 · Grasa 36.4%</div>
+</div>
+</div>
+
+<div class="metric-grid">
+<div class="mcard reveal">
+<div class="mcard-lbl">PESO CORPORAL</div>
+<div class="mvals">
+<div class="mv mv-sky"><div class="mv-num">67.5</div><span class="mv-unit">kg</span><div class="mv-yr">Abr 2024</div></div>
+<div class="mdelta"><div class="mdelta-n du">+0.9</div><div style="font-family:JetBrains Mono,monospace;font-size:8px;color:var(--m)">kg</div></div>
+<div class="mv mv-gold"><div class="mv-num">68.4</div><span class="mv-unit">kg</span><div class="mv-yr">Jun 2026</div></div>
+</div>
+<div class="rbar"><div class="rmk1" style="left:70%"></div><div class="rmk2" style="left:72%"></div></div>
+<div class="rl"><span>46.1</span><span>Rango normal</span><span>62.4</span></div>
+<div class="mcard-note">Peso estable en 2 años. +0.9 kg — cambio mínimo. El trabajo es calidad, no solo número.</div>
+</div>
+
+<div class="mcard reveal">
+<div class="mcard-lbl">IMC</div>
+<div class="mvals">
+<div class="mv mv-sky"><div class="mv-num">27.4</div><span class="mv-unit">kg/m²</span><div class="mv-yr">Abr 2024</div></div>
+<div class="mdelta"><div class="mdelta-n du">+0.3</div><div style="font-family:JetBrains Mono,monospace;font-size:8px;color:var(--m)">kg/m²</div></div>
+<div class="mv mv-gold"><div class="mv-num">27.7</div><span class="mv-unit">kg/m²</span><div class="mv-yr">Jun 2026</div></div>
+</div>
+<div class="rbar"><div class="rmk1" style="left:65%"></div><div class="rmk2" style="left:67%"></div></div>
+<div class="rl"><span>18.5</span><span>Sobrepeso 25–29.9</span><span>30+</span></div>
+<div class="mcard-note">Sobrepeso estable. La meta no es bajar de categoría en 2 años — es no escalar a obesidad.</div>
+</div>
+
+<div class="mcard reveal">
+<div class="mcard-lbl">MASA MUSCULAR (SMM)</div>
+<div class="mvals">
+<div class="mv mv-sky"><div class="mv-num">23.8</div><span class="mv-unit">kg</span><div class="mv-yr">Abr 2024</div></div>
+<div class="mdelta"><div class="mdelta-n du">+0.2</div><div style="font-family:JetBrains Mono,monospace;font-size:8px;color:var(--m)">kg</div></div>
+<div class="mv mv-gold"><div class="mv-num">24.0</div><span class="mv-unit">kg</span><div class="mv-yr">Jun 2026</div></div>
+</div>
+<div class="rbar"><div class="rmk1" style="left:48%"></div><div class="rmk2" style="left:50%"></div></div>
+<div class="rl"><span>Bajo</span><span>Normal</span><span>Alto</span></div>
+<div class="mcard-note">Músculo mantenido en 2 años. A los 59 años esto es un logro — sin ejercicio activo se pierde.</div>
+</div>
+
+<div class="mcard reveal">
+<div class="mcard-lbl">GRASA CORPORAL</div>
+<div class="mvals">
+<div class="mv mv-sky"><div class="mv-num">24.3</div><span class="mv-unit">kg</span><div class="mv-yr">Abr 2024</div></div>
+<div class="mdelta"><div class="mdelta-n du">+0.6</div><div style="font-family:JetBrains Mono,monospace;font-size:8px;color:var(--m)">kg</div></div>
+<div class="mv mv-gold"><div class="mv-num">24.9</div><span class="mv-unit">kg</span><div class="mv-yr">Jun 2026</div></div>
+</div>
+<div class="rbar"><div class="rmk1" style="left:78%"></div><div class="rmk2" style="left:80%"></div></div>
+<div class="rl"><span>10.9</span><span>Normal &lt;16.3</span><span>16.3+</span></div>
+<div class="mcard-note">Grasa por encima del rango. La intervención hormonal y tiroidea puede ayudar a moverla.</div>
+</div>
+
+<div class="mcard reveal">
+<div class="mcard-lbl">% GRASA (PBF)</div>
+<div class="mvals">
+<div class="mv mv-sky"><div class="mv-num">36.0</div><span class="mv-unit">%</span><div class="mv-yr">Abr 2024</div></div>
+<div class="mdelta"><div class="mdelta-n du">+0.4</div><div style="font-family:JetBrains Mono,monospace;font-size:8px;color:var(--m)">%</div></div>
+<div class="mv mv-gold"><div class="mv-num">36.4</div><span class="mv-unit">%</span><div class="mv-yr">Jun 2026</div></div>
+</div>
+<div class="rbar"><div class="rmk1" style="left:76%"></div><div class="rmk2" style="left:78%"></div></div>
+<div class="rl"><span>10%</span><span>Normal 20–30%</span><span>65%</span></div>
+<div class="mcard-note">Clasificación obesa por PBF. El hipotiroidismo no tratado contribuye directamente a esto.</div>
+</div>
+
+<div class="mcard reveal">
+<div class="mcard-lbl">WHR · CINTURA/CADERA</div>
+<div class="mvals">
+<div class="mv mv-sky"><div class="mv-num">0.88</div><span class="mv-unit">ratio</span><div class="mv-yr">Abr 2024</div></div>
+<div class="mdelta"><div class="mdelta-n deq">±0</div><div style="font-family:JetBrains Mono,monospace;font-size:8px;color:var(--m)"></div></div>
+<div class="mv mv-gold"><div class="mv-num">0.88</div><span class="mv-unit">ratio</span><div class="mv-yr">Jun 2026</div></div>
+</div>
+<div class="rbar"><div class="rmk1" style="left:72%"></div><div class="rmk2" style="left:72%"></div></div>
+<div class="rl"><span>0.70</span><span>Límite 0.85</span><span>1.0+</span></div>
+<div class="mcard-note">WHR estable pero por encima del límite femenino. Cintura 84.5–85.2 cm — zona de vigilancia.</div>
+</div>
+
+<div class="mcard reveal">
+<div class="mcard-lbl">MASA LIBRE DE GRASA</div>
+<div class="mvals">
+<div class="mv mv-sky"><div class="mv-num">43.2</div><span class="mv-unit">kg</span><div class="mv-yr">Abr 2024</div></div>
+<div class="mdelta"><div class="mdelta-n du">+0.3</div><div style="font-family:JetBrains Mono,monospace;font-size:8px;color:var(--m)">kg</div></div>
+<div class="mv mv-gold"><div class="mv-num">43.5</div><span class="mv-unit">kg</span><div class="mv-yr">Jun 2026</div></div>
+</div>
+<div class="rbar"><div class="rmk1" style="left:72%"></div><div class="rmk2" style="left:73%"></div></div>
+<div class="rl"><span>33.8</span><span>Normal</span><span>41.4</span></div>
+<div class="mcard-note">Masa magra ligeramente por encima. Estructura corporal sólida — la base está bien.</div>
+</div>
+
+<div class="mcard reveal">
+<div class="mcard-lbl">METABOLISMO BASAL (BMR)</div>
+<div class="mvals">
+<div class="mv mv-sky"><div class="mv-num">1304</div><span class="mv-unit">kcal</span><div class="mv-yr">Abr 2024</div></div>
+<div class="mdelta"><div class="mdelta-n du">+7</div><div style="font-family:JetBrains Mono,monospace;font-size:8px;color:var(--m)">kcal</div></div>
+<div class="mv mv-gold"><div class="mv-num">1311</div><span class="mv-unit">kcal</span><div class="mv-yr">Jun 2026</div></div>
+</div>
+<div class="rbar"><div class="rmk1" style="left:48%"></div><div class="rmk2" style="left:49%"></div></div>
+<div class="rl"><span>Bajo</span><span>Normal</span><span>Alto</span></div>
+<div class="mcard-note">Metabolismo basal estable. El hipotiroidismo lo frena — el tratamiento correcto lo mejorará.</div>
+</div>
+</div>
+
+<!-- CHARTS -->
+<div class="chart-grid">
+<div class="chart-card reveal">
+<div class="ct">Composición Corporal</div>
+<div class="cs">kg · Abr 2024 vs Jun 2026</div>
+<div class="ch"><canvas id="compChart"></canvas></div>
+</div>
+<div class="chart-card reveal">
+<div class="ct">Masa Magra Segmentaria</div>
+<div class="cs">kg por segmento · comparativo</div>
+<div class="ch"><canvas id="segChart"></canvas></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 02 DIAGNÓSTICOS -->
+<div class="sep"></div>
+<section style="background:var(--s1);">
+<div class="wrap">
+<div class="ey reveal">02 · Diagnósticos Activos</div>
+<div class="diag-grid">
+<div class="dcard dsky reveal"><span class="dcard-icon">🦋</span><div class="dcard-title">Hipotiroidismo</div><div class="dcard-body">Diagnosticado desde <strong>2019 — 7 años sin tratamiento consistente</strong>. Intolerancia o uso irregular de levotiroxina. El hipotiroidismo no controlado explica cansancio, sobrepeso, colesterol alto y lentitud metabólica. <strong>El perfil tiroideo aclarará si la dosis actual es suficiente.</strong></div></div>
+<div class="dcard dgold reveal"><span class="dcard-icon">🌿</span><div class="dcard-title">Síndrome Climatérico Moderado</div><div class="dcard-body">15 años de amenorrea — posmenopausia establecida. Los síntomas climatéricos en curso (síndrome climatérico moderado) pueden incluir <strong>sofocos, sueño alterado, sequedad, cambios de ánimo</strong> y sensibilidad aumentada.</div></div>
+<div class="dcard dviolet reveal"><span class="dcard-icon">🧠</span><div class="dcard-title">Ansiedad</div><div class="dcard-body">Presente como componente activo. El hipotiroidismo y la posmenopausia <strong>amplifican la respuesta ansiosa</strong>. El duelo reciente por la pérdida del padre suma carga emocional. El sistema nervioso necesita atención específica.</div></div>
+<div class="dcard damber reveal"><span class="dcard-icon">⚖️</span><div class="dcard-title">Sobrepeso</div><div class="dcard-body">IMC 27.7, PBF 36.4% — clasificación <strong>obesa por porcentaje de grasa</strong>. Estable en 2 años. Directamente relacionado con hipotiroidismo no controlado y posmenopausia. El abordaje hormonal es el primer paso.</div></div>
+<div class="dcard dsky reveal"><span class="dcard-icon">🌺</span><div class="dcard-title">Atrofia Genitourinaria</div><div class="dcard-body">Síntoma frecuente en posmenopausia de larga evolución. <strong>Se indica tratamiento local con óvulos y ungüento de progesterona</strong> — protocolo 3x/semana por 2 semanas, luego 1x/semana sin suspender. Mantener la zona conectada para prevenir infecciones urinarias.</div></div>
+</div>
+</div>
+</section>
+
+<!-- 03 PLAN -->
+<div class="sep"></div>
+<section>
+<div class="wrap">
+<div class="ey reveal">03 · Plan de Tratamiento</div>
+<div class="plan-grid">
+<div class="pcard reveal">
+<div class="pcard-head"><div class="picon pi1">🦋</div><div class="pcard-title">Tiroides</div></div>
+<ul class="plist">
+<li><span>Perfil tiroideo completo (TSH + T4L + T3L) solicitado</span></li>
+<li><span>Ajuste de dosis de levotiroxina según resultado</span></li>
+<li><span>Tomar en ayuno, esperar 30–60 min antes de desayunar</span></li>
+<li><span>Separar de calcio, hierro, magnesio por 4 horas</span></li>
+<li><span>No omitir dosis — el hipotiroidismo no tiene síntomas de alarma inmediata pero sí daño acumulado</span></li>
+</ul>
+<div class="info-box" style="margin-top:10px;"><p>7 años sin control adecuado es tiempo suficiente para que el metabolismo, el peso y el colesterol se vean afectados. <strong>El tratamiento correcto los mejora.</strong></p></div>
+</div>
+
+<div class="pcard reveal">
+<div class="pcard-head"><div class="picon pi2">🌺</div><div class="pcard-title">Atrofia Genitourinaria</div></div>
+<ul class="plist">
+<li><span>Óvulos vaginales según indicación — protocolo escalonado</span></li>
+<li><span>Semanas 1–2: aplicar 3 veces por semana</span></li>
+<li><span>Semana 3 en adelante: 1 vez por semana sin suspender</span></li>
+<li><span>Ungüento de progesterona local según esquema</span></li>
+<li><span>Sin interrumpir — la continuidad previene infecciones urinarias recurrentes</span></li>
+</ul>
+<div class="info-box" style="margin-top:10px;"><p>Mantener la zona <strong>conectada y tratada</strong> es prevención activa. La atrofia no tratada facilita cistitis recurrentes.</p></div>
+</div>
+
+<div class="pcard reveal">
+<div class="pcard-head"><div class="picon pi3">🔬</div><div class="pcard-title">Estudios Solicitados</div></div>
+<ul class="plist">
+<li><span>Perfil tiroideo: TSH + T4 libre + T3 libre</span></li>
+<li><span>Hemoglobina glucosilada (HbA1c)</span></li>
+<li><span>Perfil de lípidos completo</span></li>
+<li><span>Mastografía de actualización</span></li>
+</ul>
+<div class="info-box" style="margin-top:10px;"><p>La exploración clínica de mamas fue <strong>normal</strong>. La mastografía es prevención — no urgencia.</p></div>
+</div>
+
+<div class="pcard reveal">
+<div class="pcard-head"><div class="picon pi4">🧠</div><div class="pcard-title">Sistema Nervioso · Mónica</div></div>
+<ul class="plist">
+<li><span>Entrenamiento con Psic. Mónica Cuevas Sánchez</span></li>
+<li><span>Regulación del sistema nervioso autónomo</span></li>
+<li><span>Herramientas para el duelo y la ansiedad</span></li>
+<li><span>Respiración, coherencia cardíaca, autorregulación</span></li>
+<li><span>Si te interesa: pídeme los datos de contacto</span></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 04 EL DUELO -->
+<div class="sep"></div>
+<section style="background:var(--s1);">
+<div class="wrap">
+<div class="ey reveal">04 · El Duelo y las Pérdidas</div>
+<div class="duelo-card reveal">
+<h2 class="duelo-title">No se trata de olvidar.<br>Se trata de <em>transformar</em><br>lo que se vivió.</h2>
+<p class="duelo-body">Hablamos hoy de algo importante. La muerte de tu papá te ha afectado — y es natural que así sea. El duelo no es una enfermedad ni una debilidad. Es el precio de haber amado.</p>
+<p class="duelo-body">Lo que no ayuda es <strong>negar la pérdida</strong> o intentar "superarla" como si el tiempo por sí solo lo resolviera todo. Lo que sí ayuda es encontrar una manera de <strong>mantener vivo el recuerdo sin que ese recuerdo nos lastime.</strong></p>
+<p class="duelo-body">También hablamos de algo más amplio: las pérdidas que inevitablemente vienen en la vida — personas, etapas, versiones de nosotros mismos. Aprender a navegar esas pérdidas desde la aceptación, no desde la negación, cambia la experiencia completa.</p>
+<div class="duelo-grid">
+<div class="duelo-item">
+<div class="duelo-num">1</div>
+<div class="duelo-item-title">Aceptar el evento</div>
+<div class="duelo-item-body">No negar lo que ocurrió. <strong>Lo que se niega no sana</strong> — solo se pospone. Aceptar no significa estar de acuerdo. Significa reconocer la realidad para poder moverte desde ahí.</div>
+</div>
+<div class="duelo-item">
+<div class="duelo-num">2</div>
+<div class="duelo-item-title">Mantener el recuerdo vivo</div>
+<div class="duelo-item-body">Encontrar maneras de <strong>honrar a quien ya no está</strong> sin que su ausencia sea solo dolor. El recuerdo puede ser refugio, no solo herida.</div>
+</div>
+<div class="duelo-item">
+<div class="duelo-num">3</div>
+<div class="duelo-item-title">Construir un significado</div>
+<div class="duelo-item-body">¿Qué aprendiste con esa persona? ¿Qué dejó en ti? <strong>Transformar la pérdida en significado</strong> es lo que permite seguir, sin olvidar y sin paralizarse.</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 05 MONICA -->
+<div class="sep"></div>
+<section>
+<div class="wrap">
+<div class="ey reveal">05 · Entrenamiento con Psic. Mónica Cuevas</div>
+<div class="monica-box reveal">
+<div>
+<h2 class="monica-title">Para el duelo,<br>la ansiedad y<br>aprender a <em>regular<br>el sistema nervioso.</em></h2>
+<p class="monica-body">El entrenamiento con Mónica no es terapia tradicional — es entrenamiento activo del sistema nervioso autónomo. Herramientas concretas para salir del modo alarma, procesar emociones difíciles y recuperar sensación de calma y control.</p>
+<p class="monica-body">Especialmente relevante para ti porque el duelo reciente, la ansiedad y el hipotiroidismo <strong>convergen en el sistema nervioso.</strong> Tratar solo con medicamento deja la mitad de la ecuación sin atender.</p>
+<p class="monica-body" style="color:var(--w);font-style:italic;">Si te interesa conocer más — pídeme los datos de contacto de Mónica y te los comparto.</p>
+<div class="mtags">
+<div class="mtag">Duelo y pérdidas</div>
+<div class="mtag">Regulación de ansiedad</div>
+<div class="mtag">Respiración consciente</div>
+<div class="mtag">Coherencia cardíaca HRV</div>
+<div class="mtag">Sistema nervioso autónomo</div>
+<div class="mtag">Herramientas no farmacológicas</div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:16px;">
+<svg viewBox="0 0 180 200" width="170" height="190" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(90,90)">
+<circle r="68" fill="none" stroke="rgba(61,239,214,.06)" stroke-width="1" class="mrs"/>
+<circle r="48" fill="none" stroke="rgba(61,239,214,.1)" stroke-width="1" class="mr"/>
+<circle r="28" fill="rgba(61,239,214,.06)" stroke="var(--teal)" stroke-width="1.5" class="mp"/>
+<text y="-5" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="var(--teal)">MÓNICA</text>
+<text y="8" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6" fill="rgba(61,239,214,.5)">CUEVAS S.</text>
+<circle cx="0" cy="-48" r="7" fill="rgba(61,239,214,.12)" stroke="var(--teal)" stroke-width="1" class="mp"/>
+<text x="0" y="-44" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6" fill="var(--teal)">HRV</text>
+<circle cx="46" cy="-14" r="7" fill="rgba(61,239,214,.1)" stroke="var(--teal)" stroke-width="1" class="mp" style="animation-delay:.8s"/>
+<text x="46" y="-10" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6" fill="var(--teal)">SNA</text>
+<circle cx="28" cy="38" r="7" fill="rgba(61,239,214,.1)" stroke="var(--teal)" stroke-width="1" class="mp" style="animation-delay:1.6s"/>
+<text x="28" y="42" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6" fill="var(--teal)">DUELO</text>
+<circle cx="-28" cy="38" r="7" fill="rgba(61,239,214,.1)" stroke="var(--teal)" stroke-width="1" class="mp" style="animation-delay:2.4s"/>
+<text x="-28" y="42" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6" fill="var(--teal)">ANS</text>
+<circle cx="-46" cy="-14" r="7" fill="rgba(61,239,214,.1)" stroke="var(--teal)" stroke-width="1" class="mp" style="animation-delay:3.2s"/>
+<text x="-46" y="-10" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="6" fill="var(--teal)">CBT</text>
+</g>
+<text x="90" y="185" text-anchor="middle" font-family="Fraunces,serif" font-size="11" font-style="italic" fill="rgba(61,239,214,.38)">Pide los datos de contacto</text>
+</svg>
+<div style="background:rgba(61,239,214,.05);border:1px solid rgba(61,239,214,.16);border-radius:11px;padding:14px;max-width:170px;text-align:center;color:var(--w);">
+<p style="font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:6px">Psic. Mónica Cuevas S.</p>
+<p style="font-size:12px;line-height:1.6;color:var(--m)">Regulación del SNA · Duelo · Ansiedad · No farmacológico</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 06 PRÓXIMOS ESTUDIOS -->
+<div class="sep"></div>
+<section style="background:var(--s1);">
+<div class="wrap">
+<div class="ey reveal">06 · Estudios Solicitados</div>
+<div class="est-grid">
+<div class="ecard reveal"><div class="en">TSH</div><div class="er">Función tiroidea principal. Ver si dosis actual es suficiente</div></div>
+<div class="ecard reveal"><div class="en">T4 Libre</div><div class="er">Evaluar conversión y producción hormonal real</div></div>
+<div class="ecard reveal"><div class="en">T3 Libre</div><div class="er">Hormona activa — completa el perfil tiroideo funcional</div></div>
+<div class="ecard reveal"><div class="en">HbA1c</div><div class="er">Hemoglobina glucosilada — metabolismo de glucosa en 3 meses</div></div>
+<div class="ecard reveal"><div class="en">Perfil de Lípidos</div><div class="er">Colesterol, HDL, LDL, TG. El hipotiroidismo eleva colesterol</div></div>
+<div class="ecard reveal"><div class="en">Mastografía</div><div class="er">Actualización preventiva. Exploración clínica fue normal</div></div>
+</div>
+</div>
+</section>
+
+<!-- 07 CHECKLIST -->
+<div class="sep"></div>
+<section>
+<div class="wrap">
+<div class="ey reveal">07 · Plan de Acción</div>
+<div class="ck-grid">
+<div class="reveal" style="background:var(--s2);border:1px solid var(--b);border-radius:14px;padding:22px;">
+<div class="ckh" style="color:var(--sky)">Esta <em style="font-style:italic">semana</em></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Iniciar óvulos según protocolo: 3x/semana las primeras 2 semanas</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Aplicar ungüento de progesterona local según indicación</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Tomar levotiroxina diario en ayuno — sin omitir</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Realizar estudios de laboratorio en ayuno</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Agendar mastografía de actualización</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Si te interesa Mónica Cuevas — pedirme los datos</div></div>
+</div>
+<div class="reveal" style="background:var(--s2);border:1px solid var(--b);border-radius:14px;padding:22px;">
+<div class="ckh" style="color:var(--gold)">Con <em style="font-style:italic">resultados</em></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Revisión con Dr. Ramírez con perfil tiroideo y lípidos</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Ajustar dosis de levotiroxina si TSH lo indica</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Continuar protocolo vaginal — pasar a 1x/semana sin suspender</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Evaluar si se requiere terapia hormonal sistémica</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Revisar resultado de mastografía</div></div>
+<div class="cki" onclick="this.classList.toggle('checked')"><div class="ckc"></div><div class="ckt">Próxima medición ACCUNIQ en 6 meses</div></div>
+</div>
+</div>
+</div>
+</section>
+
+<footer>
+<div class="wrap">
+<p class="fq">"No se trata de olvidar a quien ya no está.<br>Se trata de encontrar la manera de<br>que su recuerdo sea <em>refugio, no solo herida.</em>"</p>
+<p class="fq2">Dr. Miguel Ángel Ramírez y Ramírez · Consulta del día</p>
+<div class="fb">Dr. Miguel Ángel Ramírez y Ramírez · MUJER 360° · Hospital Ángeles Puebla · Torre 1, Piso 10, Consultorio 1086</div>
+<div class="fd"><span class="fdl">⚠️ Aviso Educativo</span>Este dashboard es un recurso educativo y de acompañamiento clínico personalizado. Las indicaciones aquí contenidas son exclusivas para esta paciente y deben seguirse bajo supervisión médica directa. No sustituye la consulta presencial ni el criterio clínico del médico tratante.</div>
+</div>
+</footer>
+
+
+</body>
+</html>
